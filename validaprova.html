@@ -10,34 +10,15 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header para mobile -->
-        <div class="mobile-header">
-            <h1>Google Script App</h1>
-            <button class="mobile-menu-button" onclick="toggleMenu()">☰</button>
-        </div>
+    
         
         <!-- Container do iframe -->
         <div class="iframe-container">
             <iframe src="https://script.google.com/macros/s/AKfycbw1pMEKORYNbUjcxSiDUcAikEaV2YiBsd9l4VL1L2JTs1GjqmseDetvs6bGDWOPDbcQmA/exec"></iframe>
         </div>
         
-        <!-- Botão para alternar tela cheia -->
-        <button class="fullscreen-toggle" onclick="toggleFullscreen()">⛶</button>
-        
-        <!-- Menu lateral para mobile -->
-        <div class="mobile-menu" id="mobileMenu">
-            <div class="menu-header">
-                <h2>Menu</h2>
-                <button class="close-menu" onclick="toggleMenu()">×</button>
-            </div>
-            <a href="#" class="menu-item" onclick="toggleMenu()">Início</a>
-            <a href="#" class="menu-item" onclick="toggleMenu()">Configurações</a>
-            <a href="#" class="menu-item" onclick="toggleMenu()">Ajuda</a>
-            <a href="#" class="menu-item" onclick="toggleFullscreen(); toggleMenu();">Tela Cheia</a>
-        </div>
-        
-        <!-- Overlay para fechar o menu -->
-        <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+            
+       
     </div>
 
    
