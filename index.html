@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -40,6 +40,7 @@
                     },
                     boxShadow: {
                         'glow': '0 0 20px rgba(0, 230, 118, 0.3)',
+                        'paper': '0 10px 30px -5px rgba(0, 0, 0, 0.3)', // Sombra para o PDF
                     }
                 }
             }
@@ -57,11 +58,18 @@
         }
         .btn-pulse { animation: pulse-glow 2s infinite; }
         
-        /* Gradiente de Texto */
-        .text-gradient {
-            background: linear-gradient(90deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Estilo para simular Folha A4 */
+        .a4-paper {
+            aspect-ratio: 210/297;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Padrão de fundo sutil para a área de preview */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
         }
     </style>
 </head>
@@ -75,7 +83,7 @@
     <!-- NAVBAR -->
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200 shadow-sm">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
                 <div class="bg-navy-900 text-white w-8 h-8 rounded flex items-center justify-center text-lg font-bold">
                     <i class="fa-solid fa-gavel"></i>
                 </div>
@@ -84,6 +92,7 @@
             
             <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
                 <a href="#risco" class="hover:text-blue-600 transition">O Risco</a>
+                <a href="#preview" class="hover:text-blue-600 transition font-bold text-blue-600"><i class="fa-solid fa-eye mr-1"></i> Ver Modelo</a>
                 <a href="#comparativo" class="hover:text-blue-600 transition">Comparativo</a>
                 <a href="#faq" class="hover:text-blue-600 transition">Dúvidas</a>
             </div>
@@ -97,7 +106,7 @@
     <!-- HERO SECTION (TOPO) -->
     <header class="relative bg-navy-900 text-white overflow-hidden pt-20 pb-24 lg:pt-32 lg:pb-40">
         <!-- Elementos de Fundo -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10 pointer-events-none">
             <i class="fa-brands fa-whatsapp absolute top-10 right-10 text-9xl text-white"></i>
             <i class="fa-solid fa-scale-balanced absolute bottom-20 left-20 text-9xl text-white"></i>
         </div>
@@ -125,21 +134,23 @@
                             <span>BLINDAR MINHA PROVA</span>
                             <span class="text-xs font-bold opacity-80 mt-1 uppercase">Por apenas R$ 49,90</span>
                         </a>
-                        <div class="flex items-center gap-4 px-4">
-                            <div class="text-left">
-                                <div class="flex text-gold-500 text-sm">
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                </div>
-                                <p class="text-xs text-slate-400 mt-1">Validado por Perito Forense</p>
-                            </div>
+                        <a href="#preview" class="px-8 py-4 rounded-xl border border-slate-600 hover:bg-navy-800 text-slate-300 font-semibold text-center transition flex items-center justify-center gap-2">
+                             <i class="fa-solid fa-file-pdf"></i> Ver Exemplo PDF
+                        </a>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 px-1 pt-2">
+                        <div class="flex text-gold-500 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         </div>
+                        <p class="text-xs text-slate-400">Validado por Perito Forense</p>
                     </div>
                 </div>
 
-                <!-- Mockup Visual -->
-                <div class="lg:w-2/5 relative w-full max-w-md mx-auto">
+                <!-- Mockup Visual Hero -->
+                <div class="lg:w-2/5 relative w-full max-w-md mx-auto hidden lg:block">
                     <!-- Card de "Print Rejeitado" -->
-                    <div class="absolute -left-12 bottom-10 bg-white text-navy-900 p-4 rounded-lg shadow-xl w-48 transform -rotate-6 border-2 border-red-500 z-20 hidden md:block">
+                    <div class="absolute -left-12 bottom-10 bg-white text-navy-900 p-4 rounded-lg shadow-xl w-48 transform -rotate-6 border-2 border-red-500 z-20">
                         <div class="text-red-600 font-black text-xl uppercase border-2 border-red-600 p-2 text-center transform -rotate-12 opacity-80">
                             IMPUGNADO
                         </div>
@@ -179,15 +190,13 @@
 
     <!-- SEÇÃO DE RISCO (MEDO) -->
     <section id="risco" class="py-20 bg-white">
-        <div class="container mx-auto px-6">
-            <div class="max-w-3xl mx-auto text-center mb-16">
-                <h2 class="text-3xl font-black text-navy-900 mb-4 font-serif">Por que prints não são mais aceitos?</h2>
-                <p class="text-lg text-slate-600">
-                    A tecnologia evoluiu, e a fraude também. Hoje, um "Print Screen" não prova autoria nem integridade.
-                </p>
-            </div>
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-black text-navy-900 mb-4 font-serif">O problema do "Print Screen"</h2>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-12">
+                A tecnologia evoluiu, e a fraude também. Hoje, um "Print Screen" não prova autoria nem integridade.
+            </p>
 
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-3 gap-8 text-left">
                 <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-red-200 transition group">
                     <div class="w-14 h-14 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
                         <i class="fa-solid fa-masks-theater"></i>
@@ -218,6 +227,178 @@
             </div>
         </div>
     </section>
+
+    <!-- ======================================================= -->
+    <!-- NOVA SEÇÃO: PREVIEW DO PDF (INSERIDA AQUI) -->
+    <!-- ======================================================= -->
+    <section id="preview" class="py-24 bg-slate-100 border-y border-slate-200 overflow-hidden relative">
+        <!-- Padrão de fundo pontilhado -->
+        <div class="absolute inset-0 bg-grid-pattern opacity-[0.05] pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                
+                <!-- Lado Esquerdo: Explicação -->
+                <div class="lg:w-1/3 space-y-8">
+                    <div class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wide mb-2">
+                        <i class="fa-solid fa-eye mr-1"></i> O que você recebe
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black text-navy-900 font-serif leading-tight">
+                        Não compre no escuro. <br>Veja a anatomia da prova perfeita.
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        O Laudo ValidaProva foi desenhado para facilitar a leitura do juiz e blindar tecnicamente a evidência. Veja os detalhes que fazem a diferença:
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex gap-4 group">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-navy-900 text-navy-900 flex items-center justify-center font-bold shrink-0 group-hover:bg-navy-900 group-hover:text-white transition-colors">1</div>
+                            <div>
+                                <h4 class="font-bold text-navy-900">Hash SHA-256 em Destaque</h4>
+                                <p class="text-xs text-slate-600 mt-1">O "DNA" matemático do arquivo, garantindo que ele não foi alterado. Presente em todas as páginas.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 group">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-navy-900 text-navy-900 flex items-center justify-center font-bold shrink-0 group-hover:bg-navy-900 group-hover:text-white transition-colors">2</div>
+                            <div>
+                                <h4 class="font-bold text-navy-900">Cronologia Linear</h4>
+                                <p class="text-xs text-slate-600 mt-1">Transformamos a bagunça dos prints em um diálogo linear, numerado e fácil de auditar.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 group">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-navy-900 text-navy-900 flex items-center justify-center font-bold shrink-0 group-hover:bg-navy-900 group-hover:text-white transition-colors">3</div>
+                            <div>
+                                <h4 class="font-bold text-navy-900">Carimbo de Tempo (Timestamp)</h4>
+                                <p class="text-xs text-slate-600 mt-1">Registro UTC preciso da extração, fundamental para linha do tempo do processo.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botão Simulado de Download (Link para PDF exemplo) -->
+                    <a href="#" onclick="alert('Aqui você linka para um PDF real hospedado no Google Drive/Dropbox!')" class="inline-flex items-center gap-2 text-blue-700 font-bold hover:text-blue-900 hover:underline mt-4 transition">
+                        <i class="fa-solid fa-download"></i> Baixar modelo completo em PDF
+                    </a>
+                </div>
+
+                <!-- Lado Direito: Visualização do PDF (CSS Only - Leve e Rápido) -->
+                <div class="lg:w-2/3 w-full relative flex justify-center lg:justify-end">
+                    <!-- Elemento decorativo de fundo (Glow) -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-[100px] opacity-20 transform scale-75 pointer-events-none"></div>
+                    
+                    <!-- Grid de Páginas -->
+                    <div class="relative flex flex-col md:flex-row gap-6 items-start">
+                        
+                        <!-- Página 1: Capa Técnica -->
+                        <div class="w-full md:w-[280px] bg-white shadow-paper rounded-sm p-6 text-[9px] text-slate-800 a4-paper transform md:-rotate-3 transition-all duration-500 hover:rotate-0 hover:z-20 hover:scale-110 border border-slate-200">
+                            <!-- Cabeçalho Folha -->
+                            <div class="border-b-2 border-navy-900 pb-2 mb-4 flex justify-between items-end">
+                                <div>
+                                    <h3 class="font-bold text-xs text-navy-900 uppercase tracking-wider">Laudo Técnico Pericial</h3>
+                                    <p class="text-slate-500 text-[8px]">Preservação de Prova Digital</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center text-slate-300 mb-1 ml-auto"><i class="fa-solid fa-qrcode"></i></div>
+                                    <p class="font-mono text-slate-400 text-[7px]">Ref: #2024-8842</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Conteúdo Folha 1 -->
+                            <div class="space-y-4">
+                                <div class="bg-slate-50 p-3 border border-slate-200 rounded-lg">
+                                    <p class="font-bold uppercase text-slate-500 mb-1 text-[7px]">Objeto da Perícia</p>
+                                    <p class="leading-relaxed">Conversa de WhatsApp exportada em formato TXT referente ao processo de divórcio litigioso (Autos nº 0000-00).</p>
+                                </div>
+
+                                <div class="bg-slate-50 p-3 border border-slate-200 rounded-lg relative overflow-hidden">
+                                    <div class="absolute right-0 top-0 bg-green-100 text-green-700 px-2 py-0.5 rounded-bl text-[7px] font-bold">VERIFICADO</div>
+                                    <p class="font-bold uppercase text-slate-500 mb-1 text-[7px]">Cadeia de Custódia (Hash)</p>
+                                    <p class="font-mono break-all bg-white p-2 border border-slate-100 text-[7px] text-slate-600 mb-1">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</p>
+                                    <div class="flex items-center gap-1 mt-1 text-green-600 font-bold text-[7px]">
+                                        <i class="fa-solid fa-circle-check"></i> Integridade Confirmada
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-slate-50 p-2 border border-slate-200 rounded">
+                                        <p class="font-bold text-slate-500 text-[7px]">Data da Coleta</p>
+                                        <p>12/05/2024</p>
+                                    </div>
+                                    <div class="bg-slate-50 p-2 border border-slate-200 rounded">
+                                        <p class="font-bold text-slate-500 text-[7px]">Tamanho</p>
+                                        <p>1.2 MB</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center pt-8 opacity-30">
+                                    <i class="fa-solid fa-fingerprint text-5xl text-navy-900"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Rodapé Folha -->
+                            <div class="absolute bottom-4 left-6 right-6 border-t pt-2 flex justify-between text-[7px] text-slate-400">
+                                <span>Página 1 de 5</span>
+                                <span>ValidaProva Forense</span>
+                            </div>
+                        </div>
+
+                        <!-- Página 2: Conversas -->
+                        <div class="w-full md:w-[280px] bg-white shadow-paper rounded-sm p-6 text-[9px] text-slate-800 a4-paper transform md:rotate-3 transition-all duration-500 hover:rotate-0 hover:z-20 hover:scale-110 border border-slate-200">
+                            <!-- Cabeçalho Folha -->
+                            <div class="border-b pb-2 mb-4 flex justify-between items-center text-slate-400">
+                                <span class="uppercase font-bold text-[7px]">Extração de Dados</span>
+                                <span class="font-mono text-[7px]">Hash: e3b0...b855</span>
+                            </div>
+
+                            <!-- Conteúdo Chat -->
+                            <div class="space-y-3 font-sans">
+                                <!-- Msg 1 -->
+                                <div class="flex flex-col">
+                                    <div class="bg-slate-100 p-2 rounded-lg rounded-tl-none max-w-[85%] self-start border border-slate-200 relative">
+                                        <p class="font-bold text-blue-800 mb-1 text-[8px]">Investigado (11) 99999-0000</p>
+                                        <p>Eu não vou pagar nada. Pode ir na justiça se quiser, não tenho medo.</p>
+                                    </div>
+                                    <span class="text-[7px] text-slate-400 mt-0.5 ml-1 font-mono">12/05/2024 14:02:22 UTC</span>
+                                </div>
+
+                                <!-- Msg 2 -->
+                                <div class="flex flex-col items-end">
+                                    <div class="bg-green-50 p-2 rounded-lg rounded-tr-none max-w-[85%] self-end border border-green-100">
+                                        <p class="font-bold text-green-800 mb-1 text-[8px]">Cliente</p>
+                                        <p>Isso é descumprimento do acordo...</p>
+                                    </div>
+                                    <span class="text-[7px] text-slate-400 mt-0.5 mr-1 font-mono">12/05/2024 14:03:10 UTC</span>
+                                </div>
+                                
+                                <!-- Msg 3 -->
+                                <div class="flex flex-col">
+                                    <div class="bg-slate-100 p-2 rounded-lg rounded-tl-none max-w-[85%] self-start border border-slate-200">
+                                        <p class="font-bold text-blue-800 mb-1 text-[8px]">Investigado (11) 99999-0000</p>
+                                        <p>Azar o seu. <span class="bg-yellow-100 text-yellow-700 px-1 rounded border border-yellow-200 italic">[Mensagem Apagada Recuperada]</span></p>
+                                    </div>
+                                    <span class="text-[7px] text-slate-400 mt-0.5 ml-1 font-mono">12/05/2024 14:04:05 UTC</span>
+                                </div>
+                            </div>
+
+                            <!-- Carimbo Digital -->
+                            <div class="absolute bottom-16 right-6">
+                                <div class="border-2 border-blue-600 text-blue-600 p-1 px-2 rounded opacity-40 transform -rotate-12 font-black text-lg uppercase mix-blend-multiply">
+                                    VALIDADO
+                                </div>
+                            </div>
+
+                            <!-- Rodapé Folha -->
+                            <div class="absolute bottom-4 left-6 right-6 border-t pt-2 flex justify-between text-[7px] text-slate-400">
+                                <span>Página 2 de 5</span>
+                                <span>ValidaProva Forense</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <!-- COMPARATIVO (ANCORAGEM DE PREÇO) -->
     <section id="comparativo" class="py-20 bg-navy-900 text-white relative">
