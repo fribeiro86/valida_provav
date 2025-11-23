@@ -1,825 +1,862 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ValidaProva | Blindagem Forense de WhatsApp</title>
-    <meta name="description" content="Ferramenta de perícia digital para advogados. Transforme prints em provas com Hash SHA-256 e validade jurídica.">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-
+    <title>ValidaProva - Blindagem Jurídica para Provas Digitais</title>
+    <!-- Carregamento do Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ícones Lucide --><script src="https://unpkg.com/lucide@latest"></script>
     <script>
+        // Configuração customizada do Tailwind para usar a fonte Inter e cores do WhatsApp
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        navy: {
-                            900: '#0a192f', // Fundo Profundo
-                            800: '#112240', // Cartões
-                            700: '#233554', // Bordas
-                        },
-                        gold: {
-                            500: '#fbbf24', // Destaque Premium
-                            600: '#d97706',
-                        },
-                        action: {
-                            500: '#00e676', // Verde "WhatsApp/Sucesso"
-                            600: '#00c853',
-                        }
+                        // CORES TEMA WHATSAPP
+                        'validapro-dark': '#075E54', // Verde escuro (Cabeçalho/Títulos)
+                        'validapro-accent': '#25D366', // Verde vibrante (CTAs, Destaque)
+                        'validapro-bg': '#DCF8C6', // Fundo de página suave
+                        'validapro-text': '#1f2937', 
+                        'validapro-risk': '#ef4444', 
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Merriweather', 'serif'],
                     },
-                    boxShadow: {
-                        'glow': '0 0 20px rgba(0, 230, 118, 0.3)',
-                        'paper': '0 10px 30px -5px rgba(0, 0, 0, 0.3)', // Sombra para o PDF
-                    }
                 }
             }
         }
     </script>
-
     <style>
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; }
-        
-        /* Animação de Pulso no Botão */
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); transform: scale(1); }
-            50% { box-shadow: 0 0 0 15px rgba(0, 230, 118, 0); transform: scale(1.02); }
+        /* Fundo de página com o verde suave do WhatsApp */
+        body {
+            background-color: #DCF8C6; 
+            overflow-x: hidden;
         }
-        .btn-pulse { animation: pulse-glow 2s infinite; }
-        
-        /* Estilo para simular Folha A4 */
-        .a4-paper {
-            aspect-ratio: 210/297;
-            background: white;
-            position: relative;
+        /* Estilo para a âncora de navegação */
+        h2::before, h3::before {
+            display: block;
+            content: " ";
+            margin-top: -80px; 
+            height: 80px;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        /* Estilização da tabela para simetria e profissionalismo */
+        .comparison-table th, .comparison-table td {
+            vertical-align: middle;
+        }
+
+        /* ESTILOS ESPECÍFICOS PARA O CHAT DE OBJEÇÕES */
+        .phone-frame {
+            width: 100%;
+            max-width: 400px;
+            height: 550px;
+            background-color: #e5ddd5; /* Fundo de chat clássico */
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
         }
-        
-        /* Padrão de fundo sutil para a área de preview */
-        .bg-grid-pattern {
-            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 20px 20px;
+        .chat-bubble {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+            opacity: 1; 
+            transition: opacity 0.3s ease;
+            word-wrap: break-word;
+        }
+        .user-bubble {
+            align-self: flex-end;
+            background-color: #dcf8c6; /* Verde claro do user */
+            color: #1f2937;
+            border-bottom-right-radius: 2px;
+            margin-left: auto;
+        }
+        .system-bubble {
+            align-self: flex-start;
+            background-color: #ffffff; /* Branco/cinza claro da resposta */
+            color: #1f2937;
+            border-bottom-left-radius: 2px;
+            margin-right: auto;
+        }
+        .chat-container {
+            padding: 12px;
+            overflow-y: auto;
+            flex-grow: 1;
+            scroll-behavior: smooth;
+        }
+        /* Estilo para o Typing Indicator */
+        .typing-indicator {
+            align-self: flex-start;
+            background-color: #ffffff;
+            color: #1f2937;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+            display: inline-flex;
+            align-items: center;
+        }
+        .typing-indicator span {
+            animation: bounce 1s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            0%, 60%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-3px); }
+        }
+
+        /* ESTILOS PARA A ANIMAÇÃO DO BOTÃO PRINCIPAL */
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+        .animate-blink {
+            animation: blink 1.5s infinite;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased relative">
+<body class="font-sans text-validapro-text antialiased">
 
-    <!-- BOTÃO FLUTUANTE DO WHATSAPP -->
-    <!-- Substitua o número abaixo pelo seu telefone real no formato 55 + DDD + Numero -->
-    <a href="https://wa.me/5548991411108?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20o%20ValidaProva" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-3xl transition-transform transform hover:scale-110 hover:-translate-y-1 btn-pulse group" title="Falar com Suporte">
-        <i class="fa-brands fa-whatsapp"></i>
-        <!-- Tooltip (opcional, aparece ao passar o mouse) -->
-        <span class="absolute right-full mr-3 bg-white text-slate-800 text-xs font-bold px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            Precisa de ajuda?
-        </span>
-    </a>
-
-    <!-- BARRA DE AVISO SUPERIOR -->
-    <div class="bg-navy-900 text-white text-xs text-center py-2 font-semibold tracking-wide uppercase">
-        <span class="text-gold-500"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Atenção Advogados:</span> O STJ endureceu as regras para prints de WhatsApp. Proteja-se.
-    </div>
-
-    <!-- NAVBAR -->
-    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200 shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                <div class="bg-navy-900 text-white w-8 h-8 rounded flex items-center justify-center text-lg font-bold">
-                    <i class="fa-solid fa-gavel"></i>
-                </div>
-                <span class="text-xl font-bold text-navy-900 tracking-tight">Valida<span class="text-blue-600">Prova</span></span>
+    <!-- Navbar - Cabeçalho Fixo --><header class="sticky top-0 z-20 bg-validapro-dark text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- INÍCIO: Estrutura do Ícone e Título --><div class="flex items-center space-x-2">
+                <!-- Ícone de Digital (Fingerprint) --><i data-lucide="fingerprint" class="w-7 h-7 text-validapro-accent -mt-1"></i>
+                <h1 class="text-2xl font-extrabold tracking-tight">ValidaProva</h1>
             </div>
-            
-            <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-                <a href="#risco" class="hover:text-blue-600 transition">O Risco</a>
-                <a href="#preview" class="hover:text-blue-600 transition font-bold text-blue-600"><i class="fa-solid fa-eye mr-1"></i> Ver Modelo</a>
-                <a href="#comparativo" class="hover:text-blue-600 transition">Comparativo</a>
-                <a href="#faq" class="hover:text-blue-600 transition">Dúvidas</a>
-            </div>
-
-            <a href="validaprova.html" class="bg-action-600 hover:bg-action-500 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                Começar Agora
-            </a>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION (TOPO) -->
-    <header class="relative bg-navy-900 text-white overflow-hidden pt-20 pb-24 lg:pt-32 lg:pb-40">
-        <!-- Elementos de Fundo -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10 pointer-events-none">
-            <i class="fa-brands fa-whatsapp absolute top-10 right-10 text-9xl text-white"></i>
-            <i class="fa-solid fa-scale-balanced absolute bottom-20 left-20 text-9xl text-white"></i>
-        </div>
-
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="flex flex-col lg:flex-row items-center gap-12">
-                <!-- Copywriting -->
-                <div class="lg:w-3/5 space-y-6">
-                    <div class="inline-flex items-center gap-2 bg-navy-800 border border-navy-700 px-3 py-1 rounded-full text-xs font-bold text-gold-500 uppercase tracking-wider">
-                        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                        Alta Prioridade Jurídica
-                    </div>
-                    
-                    <h1 class="text-4xl lg:text-6xl font-black leading-tight font-serif">
-                        Seu "Print" de WhatsApp não vale nada no Tribunal.
-                    </h1>
-                    
-                    <p class="text-lg text-slate-300 max-w-2xl border-l-4 border-action-500 pl-4 leading-relaxed">
-                        A impugnação de prints é a estratégia nº 1 da defesa hoje. 
-                        Não deixe seu processo cair por falta de materialidade. Gere um <strong>Laudo Técnico Pericial</strong> com Hash SHA-256 em segundos.
-                    </p>
-
-                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <a href="validaprova.html" class="btn-pulse bg-action-500 hover:bg-action-600 text-navy-900 text-center px-8 py-4 rounded-xl font-black text-xl shadow-[0_0_20px_rgba(0,230,118,0.4)] transition flex flex-col items-center justify-center">
-                            <span>BLINDAR MINHA PROVA</span>
-                            <span class="text-xs font-bold opacity-80 mt-1 uppercase">Por apenas R$ 49,90</span>
-                        </a>
-                        <a href="#preview" class="px-8 py-4 rounded-xl border border-slate-600 hover:bg-navy-800 text-slate-300 font-semibold text-center transition flex items-center justify-center gap-2">
-                             <i class="fa-solid fa-file-pdf"></i> Ver Exemplo PDF
-                        </a>
-                    </div>
-                    
-                    <div class="flex items-center gap-4 px-1 pt-2">
-                        <div class="flex text-gold-500 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="text-xs text-slate-400">Validado por Perito Forense</p>
-                    </div>
-                </div>
-
-                <!-- Mockup Visual Hero -->
-                <div class="lg:w-2/5 relative w-full max-w-md mx-auto hidden lg:block">
-                    <!-- Card de "Print Rejeitado" -->
-                    <div class="absolute -left-12 bottom-10 bg-white text-navy-900 p-4 rounded-lg shadow-xl w-48 transform -rotate-6 border-2 border-red-500 z-20">
-                        <div class="text-red-600 font-black text-xl uppercase border-2 border-red-600 p-2 text-center transform -rotate-12 opacity-80">
-                            IMPUGNADO
-                        </div>
-                        <p class="text-xs text-center mt-2 font-bold text-slate-500">Print Comum (Sem Hash)</p>
-                    </div>
-
-                    <!-- Card do Produto -->
-                    <div class="bg-white rounded-xl shadow-2xl border-t-4 border-action-500 overflow-hidden relative z-10 transform rotate-2 hover:rotate-0 transition duration-500">
-                        <div class="bg-slate-100 p-3 border-b flex justify-between items-center">
-                            <span class="text-xs font-bold text-navy-900 uppercase"><i class="fa-solid fa-file-shield mr-1"></i> Laudo Técnico</span>
-                            <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">VÁLIDO</span>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <div class="flex items-center gap-3 border-b pb-3">
-                                <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-xl text-slate-400"><i class="fa-solid fa-user"></i></div>
-                                <div>
-                                    <div class="h-2 w-24 bg-slate-300 rounded mb-1"></div>
-                                    <div class="h-2 w-16 bg-slate-200 rounded"></div>
-                                </div>
-                            </div>
-                            <div class="space-y-2">
-                                <div class="bg-green-50 p-2 rounded-lg text-xs text-slate-600 border border-green-100">
-                                    <p class="font-bold text-green-800 mb-1">Metadados Extraídos:</p>
-                                    <p class="font-mono text-[10px]">SHA-256: e3b0c44298fc1c149afbf4c...</p>
-                                    <p class="font-mono text-[10px]">Timestamp: 2024-05-12 14:30:05 UTC</p>
-                                </div>
-                            </div>
-                            <div class="mt-4 pt-2 border-t border-dashed border-slate-300 text-center">
-                                <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Cadeia de Custódia Preservada</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- FIM: Estrutura do Ícone e Título --><nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#risco" class="hover:text-validapro-accent transition duration-150">O Risco</a>
+                <a href="#premium" class="hover:text-validapro-accent transition duration-150">Premium</a>
+                <a href="#o-que-recebe" class="hover:text-validapro-accent transition duration-150">Ver Modelo</a>
+                <a href="#comparativo" class="hover:text-validapro-accent transition duration-150">Comparativo</a>
+                <a href="#faq" class="hover:text-validapro-accent transition duration-150">Dúvidas</a>
+                <a href="#pricing-tiers" class="bg-validapro-accent px-4 py-2 rounded-full hover:bg-green-600 transition duration-150 shadow-md">Começar Agora</a>
+            </nav>
+            <!-- CTA móvel, visível em telas menores --><a href="#pricing-tiers" class="md:hidden bg-validapro-accent px-3 py-1.5 rounded-full text-sm font-semibold hover:bg-green-600 transition duration-150">Blindar Prova</a>
         </div>
     </header>
 
-    <!-- SEÇÃO DE RISCO (MEDO) -->
-    <section id="risco" class="py-20 bg-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-black text-navy-900 mb-4 font-serif">O problema do "Print Screen"</h2>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-12">
-                A tecnologia evoluiu, e a fraude também. Hoje, um "Print Screen" não prova autoria nem integridade.
+    <!-- Seção 1: Hero - Risco e Solução Imediata --><section id="risco" class="pt-16 pb-24 md:pt-24 md:pb-32 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            
+            <!-- Alerta de Risco - Cor alterada para validapro-dark (verde escuro) --><div class="inline-block px-6 py-2 mb-6 rounded-full bg-validapro-dark text-white text-base font-bold shadow-xl">
+                <i data-lucide="shield-alert" class="w-5 h-5 inline mr-2 -mt-1"></i>
+                Alta Prioridade Jurídica
+            </div>
+
+            <!-- Título Principal Poderoso - GANCHO NA DOR --><h2 class="text-5xl md:text-6xl font-extrabold text-validapro-text leading-tight mb-6">
+                RISCO JURÍDICO IMEDIATO: <br class="hidden sm:inline">Seu "Print" de WhatsApp <span class="text-validapro-dark">não vale nada</span> no Tribunal.
+            </h2>
+            
+            <!-- Subtítulo de Conversão --><p class="text-xl md:text-2xl text-gray-700 mb-10 max-w-2xl mx-auto">
+                A impugnação de prints é a estratégia nº 1 da defesa hoje. Não perca sua causa por falta de materialidade.
+                Gere um <strong class="font-extrabold text-validapro-dark">Laudo Técnico Pericial</strong> com Hash SHA-256 em segundos.
             </p>
 
-            <div class="grid md:grid-cols-3 gap-8 text-left">
-                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-red-200 transition group">
-                    <div class="w-14 h-14 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-masks-theater"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Aplicativos de Fake Chat</h3>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        Qualquer criança baixa um app gratuito e cria uma conversa falsa idêntica ao WhatsApp. Se você só tem a imagem, como provar que não é montagem?
-                    </p>
-                </div>
-                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-red-200 transition group">
-                    <div class="w-14 h-14 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-image"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Edição Simples</h3>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        Uma imagem pode ser alterada no Photoshop sem deixar rastros visíveis a olho nu. Apenas a análise de metadados e Hash pode detectar a integridade.
-                    </p>
-                </div>
-                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:border-red-200 transition group">
-                    <div class="w-14 h-14 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-ban"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-navy-900 mb-3">Jurisprudência Hostil</h3>
-                    <p class="text-sm text-slate-600 leading-relaxed">
-                        O STJ (RHC 99.735) decidiu que prints não provam autenticidade. Advogados que ignoram isso estão perdendo causas ganhas.
-                    </p>
-                </div>
-            </div>
+            <!-- CTA Principal - Blinking --><a href="#pricing-tiers" class="inline-block px-12 py-4 bg-validapro-accent text-white text-xl font-bold rounded-xl shadow-2xl hover:bg-green-600 transition duration-300 transform hover:scale-105 animate-blink">
+                BLINDAR MINHA PROVA
+            </a>
+            <!-- Preço atualizado para R$ 59,90 --><p class="mt-3 text-sm font-semibold text-validapro-dark">A partir de R$ 59,90</p>
+            
+            <a href="#o-que-recebe" class="block mt-4 text-sm text-gray-500 hover:text-validapro-dark transition duration-150 underline">Ver Exemplo PDF Validado por Perito Forense</a>
         </div>
     </section>
 
-    <!-- PREVIEW DO PDF -->
-    <section id="preview" class="py-24 bg-slate-100 border-y border-slate-200 overflow-hidden relative">
-        <!-- Padrão de fundo pontilhado -->
-        <div class="absolute inset-0 bg-grid-pattern opacity-[0.05] pointer-events-none"></div>
-        
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
+    <!-- Seção 2: O Problema do Print Screen --><section class="bg-white pt-16 pb-24">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-12 text-center">
+                O Problema do "Print Screen"
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
                 
-                <!-- Lado Esquerdo: Explicação -->
-                <div class="lg:w-1/3 space-y-8">
-                    <div class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wide mb-2">
-                        <i class="fa-solid fa-eye mr-1"></i> O que você recebe
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-black text-navy-900 font-serif leading-tight">
-                        Não compre no escuro. <br>Veja a anatomia da prova perfeita.
-                    </h2>
-                    <p class="text-slate-600 leading-relaxed">
-                        O Laudo ValidaProva foi desenhado para facilitar a leitura do juiz e blindar tecnicamente a evidência. Veja os detalhes que fazem a diferença:
-                    </p>
-
-                    <div class="space-y-6">
-                        <div class="flex gap-4 group">
-                            <div class="w-10 h-10 rounded-full bg-white border-2 border-navy-900 text-navy-900 flex items-center justify-center font-bold shrink-0 group-hover:bg-navy-900 group-hover:text-white transition-colors">1</div>
-                            <div>
-                                <h4 class="font-bold text-navy-900">Hash SHA-256 em Destaque</h4>
-                                <p class="text-xs text-slate-600 mt-1">O "DNA" matemático do arquivo, garantindo que ele não foi alterado. Presente em todas as páginas.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 group">
-                            <div class="w-10 h-10 rounded-full bg-white border-2 border-navy-900 text-navy-900 flex items-center justify-center font-bold shrink-0 group-hover:bg-navy-900 group-hover:text-white transition-colors">2</div>
-                            <div>
-                                <h4 class="font-bold text-navy-900">Cronologia Linear</h4>
-                                <p class="text-xs text-slate-600 mt-1">Transformamos a bagunça dos prints em um diálogo linear, numerado e fácil de auditar.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 group">
-                            <div class="w-10 h-10 rounded-full bg-white border-2 border-navy-900 text-navy-900 flex items-center justify-center font-bold shrink-0 group-hover:bg-navy-900 group-hover:text-white transition-colors">3</div>
-                            <div>
-                                <h4 class="font-bold text-navy-900">Carimbo de Tempo (Timestamp)</h4>
-                                <p class="text-xs text-slate-600 mt-1">Registro UTC preciso da extração, fundamental para linha do tempo do processo.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botão Simulado de Download (Link para PDF exemplo) -->
-                    <a href="https://drive.google.com/uc?export=download&id=1-0soyAcXOkbgAZeyUSXuaNd0FOgF4l3b"  class="inline-flex items-center gap-2 text-blue-700 font-bold hover:text-blue-900 hover:underline mt-4 transition">
-                        <i class="fa-solid fa-download"></i> Baixar modelo completo em PDF
-                    </a>
+                <div class="p-6 rounded-xl border border-gray-200 shadow-md space-y-3">
+                    <i data-lucide="message-square-x" class="w-8 h-8 text-validapro-text mb-2"></i>
+                    <h3 class="text-xl font-semibold">Aplicativos de Fake Chat</h3>
+                    <p class="text-gray-700">Qualquer criança baixa um app gratuito e cria uma conversa falsa idêntica ao WhatsApp. Se você só tem a imagem, como provar que não é montagem?</p>
                 </div>
 
-                <!-- Lado Direito: Visualização do PDF (CSS Only - Leve e Rápido) -->
-                <div class="lg:w-2/3 w-full relative flex justify-center lg:justify-end">
-                    <!-- Elemento decorativo de fundo (Glow) -->
-                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-[100px] opacity-20 transform scale-75 pointer-events-none"></div>
-                    
-                    <!-- Grid de Páginas -->
-                    <div class="relative flex flex-col md:flex-row gap-6 items-start">
-                        
-                        <!-- Página 1: Capa Técnica -->
-                        <div class="w-full md:w-[280px] bg-white shadow-paper rounded-sm p-6 text-[9px] text-slate-800 a4-paper transform md:-rotate-3 transition-all duration-500 hover:rotate-0 hover:z-20 hover:scale-110 border border-slate-200">
-                            <!-- Cabeçalho Folha -->
-                            <div class="border-b-2 border-navy-900 pb-2 mb-4 flex justify-between items-end">
-                                <div>
-                                    <h3 class="font-bold text-xs text-navy-900 uppercase tracking-wider">Laudo Técnico Pericial</h3>
-                                    <p class="text-slate-500 text-[8px]">Preservação de Prova Digital</p>
-                                </div>
-                                <div class="text-right">
-                                    <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center text-slate-300 mb-1 ml-auto"><i class="fa-solid fa-qrcode"></i></div>
-                                    <p class="font-mono text-slate-400 text-[7px]">Ref: #2024-8842</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Conteúdo Folha 1 -->
-                            <div class="space-y-4">
-                                <div class="bg-slate-50 p-3 border border-slate-200 rounded-lg">
-                                    <p class="font-bold uppercase text-slate-500 mb-1 text-[7px]">Objeto da Perícia</p>
-                                    <p class="leading-relaxed">Conversa de WhatsApp exportada em formato TXT referente ao processo de divórcio litigioso (Autos nº 0000-00).</p>
-                                </div>
+                <div class="p-6 rounded-xl border border-gray-200 shadow-md space-y-3">
+                    <i data-lucide="scissors-line-dashed" class="w-8 h-8 text-validapro-text mb-2"></i>
+                    <h3 class="text-xl font-semibold">Edição Simples</h3>
+                    <p class="text-gray-700">Uma imagem pode ser alterada no Photoshop sem deixar rastros visíveis a olho nu. Apenas a análise de metadados e Hash pode detectar a integridade.</p>
+                </div>
 
-                                <div class="bg-slate-50 p-3 border border-slate-200 rounded-lg relative overflow-hidden">
-                                    <div class="absolute right-0 top-0 bg-green-100 text-green-700 px-2 py-0.5 rounded-bl text-[7px] font-bold">VERIFICADO</div>
-                                    <p class="font-bold uppercase text-slate-500 mb-1 text-[7px]">Cadeia de Custódia (Hash)</p>
-                                    <p class="font-mono break-all bg-white p-2 border border-slate-100 text-[7px] text-slate-600 mb-1">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</p>
-                                    <div class="flex items-center gap-1 mt-1 text-green-600 font-bold text-[7px]">
-                                        <i class="fa-solid fa-circle-check"></i> Integridade Confirmada
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-2">
-                                    <div class="bg-slate-50 p-2 border border-slate-200 rounded">
-                                        <p class="font-bold text-slate-500 text-[7px]">Data da Coleta</p>
-                                        <p>12/05/2024</p>
-                                    </div>
-                                    <div class="bg-slate-50 p-2 border border-slate-200 rounded">
-                                        <p class="font-bold text-slate-500 text-[7px]">Tamanho</p>
-                                        <p>1.2 MB</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="text-center pt-8 opacity-30">
-                                    <i class="fa-solid fa-fingerprint text-5xl text-navy-900"></i>
-                                </div>
-                            </div>
-                            
-                            <!-- Rodapé Folha -->
-                            <div class="absolute bottom-4 left-6 right-6 border-t pt-2 flex justify-between text-[7px] text-slate-400">
-                                <span>Página 1 de 5</span>
-                                <span>ValidaProva Forense</span>
-                            </div>
-                        </div>
-
-                        <!-- Página 2: Conversas -->
-                        <div class="w-full md:w-[280px] bg-white shadow-paper rounded-sm p-6 text-[9px] text-slate-800 a4-paper transform md:rotate-3 transition-all duration-500 hover:rotate-0 hover:z-20 hover:scale-110 border border-slate-200">
-                            <!-- Cabeçalho Folha -->
-                            <div class="border-b pb-2 mb-4 flex justify-between items-center text-slate-400">
-                                <span class="uppercase font-bold text-[7px]">Extração de Dados</span>
-                                <span class="font-mono text-[7px]">Hash: e3b0...b855</span>
-                            </div>
-
-                            <!-- Conteúdo Chat -->
-                            <div class="space-y-3 font-sans">
-                                <!-- Msg 1 -->
-                                <div class="flex flex-col">
-                                    <div class="bg-slate-100 p-2 rounded-lg rounded-tl-none max-w-[85%] self-start border border-slate-200 relative">
-                                        <p class="font-bold text-blue-800 mb-1 text-[8px]">Investigado (11) 99999-0000</p>
-                                        <p>Eu não vou pagar nada. Pode ir na justiça se quiser, não tenho medo.</p>
-                                    </div>
-                                    <span class="text-[7px] text-slate-400 mt-0.5 ml-1 font-mono">12/05/2024 14:02:22 UTC</span>
-                                </div>
-
-                                <!-- Msg 2 -->
-                                <div class="flex flex-col items-end">
-                                    <div class="bg-green-50 p-2 rounded-lg rounded-tr-none max-w-[85%] self-end border border-green-100">
-                                        <p class="font-bold text-green-800 mb-1 text-[8px]">Cliente</p>
-                                        <p>Isso é descumprimento do acordo...</p>
-                                    </div>
-                                    <span class="text-[7px] text-slate-400 mt-0.5 mr-1 font-mono">12/05/2024 14:03:10 UTC</span>
-                                </div>
-                                
-                                <!-- Msg 3 -->
-                                <div class="flex flex-col">
-                                    <div class="bg-slate-100 p-2 rounded-lg rounded-tl-none max-w-[85%] self-start border border-slate-200">
-                                        <p class="font-bold text-blue-800 mb-1 text-[8px]">Investigado (11) 99999-0000</p>
-                                        <p>Azar o seu. <span class="bg-yellow-100 text-yellow-700 px-1 rounded border border-yellow-200 italic">[Mensagem Apagada Recuperada]</span></p>
-                                    </div>
-                                    <span class="text-[7px] text-slate-400 mt-0.5 ml-1 font-mono">12/05/2024 14:04:05 UTC</span>
-                                </div>
-                            </div>
-
-                            <!-- Carimbo Digital -->
-                            <div class="absolute bottom-16 right-6">
-                                <div class="border-2 border-blue-600 text-blue-600 p-1 px-2 rounded opacity-40 transform -rotate-12 font-black text-lg uppercase mix-blend-multiply">
-                                    VALIDADO
-                                </div>
-                            </div>
-
-                            <!-- Rodapé Folha -->
-                            <div class="absolute bottom-4 left-6 right-6 border-t pt-2 flex justify-between text-[7px] text-slate-400">
-                                <span>Página 2 de 5</span>
-                                <span>ValidaProva Forense</span>
-                            </div>
-                        </div>
-
-                    </div>
+                <div class="p-6 rounded-xl border border-gray-200 shadow-md space-y-3">
+                    <i data-lucide="scale" class="w-8 h-8 text-validapro-text mb-2"></i>
+                    <h3 class="text-xl font-semibold">Jurisprudência Hostil</h3>
+                    <p class="text-gray-700">O STJ (RHC 99.735) decidiu que prints não provam autenticidade. Advogados que ignoram isso estão perdendo causas ganhas.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Seção 3: O que você recebe (Anatomia da Prova) --><section id="o-que-recebe" class="bg-validapro-bg py-16 md:py-24">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-16 text-center">
+                O que você recebe: A Prova Perfeita
+            </h2>
+             <p class="text-xl text-gray-700 mb-12 text-center">
+                Não compre no escuro. Veja a anatomia da prova perfeita.
+                O Laudo ValidaProva foi desenhado para facilitar a leitura do juiz e blindar tecnicamente a evidência.
+            </p>
 
-    <!-- COMPARATIVO (ANCORAGEM DE PREÇO) -->
-    <section id="comparativo" class="py-20 bg-navy-900 text-white relative">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-navy-900 via-action-500 to-navy-900"></div>
-        
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-black mb-4 font-serif"><span class="text-action-500">Pare de Rasgar Dinheiro</span></h2>
-                <p class="text-slate-400">Veja como a solução pericial automatizada se compara às alternativas manuais.</p>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                
+                <!-- Descrição dos Benefícios --><div class="space-y-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-validapro-accent rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">1</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-validapro-text">Hash SHA-256 em Destaque</h3>
+                            <p class="text-gray-700">O "DNA" matemático do arquivo, garantindo que ele não foi alterado. Presente em todas as páginas.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-validapro-accent rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">2</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-validapro-text">Cronologia Linear</h3>
+                            <p class="text-gray-700">Transformamos a bagunça dos prints em um diálogo linear, numerado e fácil de auditar.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-validapro-accent rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">3</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-validapro-text">Carimbo de Tempo (Timestamp)</h3>
+                            <p class="text-gray-700">Registro UTC preciso da extração, fundamental para linha do tempo do processo.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-6">
+                        <a href="#pricing-tiers" class="inline-flex items-center px-8 py-3 bg-validapro-dark text-white font-semibold rounded-lg hover:bg-gray-800 transition duration-300 shadow-lg">
+                            Baixar modelo completo em PDF
+                            <i data-lucide="download" class="w-5 h-5 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mockup de Exemplo de Laudo (Simplificado) --><div class="p-8 bg-white rounded-xl shadow-2xl border-2 border-gray-100 hidden md:block">
+                    <h3 class="text-lg font-bold text-validapro-dark mb-2">Laudo Técnico Pericial</h3>
+                    <p class="text-sm text-gray-500 mb-4">Preservação de Prova Digital Ref: #2024-8842</p>
+
+                    <div class="border border-gray-300 p-3 rounded-lg bg-gray-50 space-y-1 text-sm mb-4">
+                        <div class="flex justify-between items-center font-bold">
+                            <span class="text-validapro-dark">Cadeia de Custódia (Hash)</span>
+                            <span class="text-validapro-accent flex items-center">
+                                VERIFICADO
+                                <i data-lucide="check-circle" class="w-4 h-4 ml-1"></i>
+                            </span>
+                        </div>
+                        <p class="break-all text-xs text-gray-600">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</p>
+                    </div>
+
+                    <div class="space-y-2 text-sm">
+                        <p class="text-gray-700 font-medium">Investigado (11) 99999-0000</p>
+                        <div class="bg-gray-100 p-3 rounded-xl max-w-[80%] ml-auto shadow-sm">
+                            <p class="text-xs text-gray-800">Eu não vou pagar nada. Pode ir na justiça se quiser, não tenho medo.</p>
+                            <span class="block text-[10px] text-right text-gray-500 mt-1">12/05/2024 14:02:22 UTC</span>
+                        </div>
+                        <div class="bg-validapro-accent p-3 rounded-xl max-w-[80%] mr-auto shadow-sm">
+                            <p class="text-xs text-white">Isso é descumprimento do acordo...</p>
+                            <span class="block text-[10px] text-left text-green-100 mt-1">12/05/2024 14:03:10 UTC</span>
+                        </div>
+                        <div class="bg-gray-100 p-3 rounded-xl max-w-[80%] ml-auto shadow-sm">
+                            <p class="text-xs text-gray-800">Azar o seu. [Mensagem Apagada Recuperada]</p>
+                            <span class="block text-[10px] text-right text-gray-500 mt-1">12/05/2024 14:04:05 UTC</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-center text-gray-400 mt-4">Página 2 de 5 - ValidaProva Forense</p>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="overflow-x-auto pb-4">
-                <table class="w-full max-w-6xl mx-auto bg-white text-slate-900 rounded-2xl overflow-hidden shadow-2xl">
+    <!-- Seção 4: Comparativo - Pare de Rasgar Dinheiro - TABELA ESTILIZADA E SIMÉTRICA --><section id="comparativo" class="bg-white py-16 md:py-24">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-4">
+                Pare de Rasgar Dinheiro
+            </h2>
+            <p class="text-xl text-gray-600 mb-12">
+                Veja como a solução pericial automatizada se compara às alternativas manuais.
+            </p>
+
+            <!-- Tabela de Comparação - Destaque na coluna ValidaProva --><div class="overflow-x-auto shadow-2xl rounded-xl border-2 border-gray-100">
+                <table class="comparison-table w-full text-left border-collapse min-w-[750px]">
                     <thead>
-                        <tr class="bg-slate-100 border-b border-slate-200">
-                            <th class="py-6 px-4 text-left text-slate-500 font-semibold uppercase text-xs tracking-wider w-[20%]">Comparativo</th>
-                            <th class="py-6 px-4 text-center text-slate-500 font-semibold uppercase text-xs tracking-wider w-[25%]">Ata Notarial (Cartório)</th>
-                            <th class="py-6 px-4 text-center text-slate-500 font-semibold uppercase text-xs tracking-wider w-[25%] bg-slate-50 border-l border-r border-slate-200">Outros Peritos</th>
-                            <th class="py-6 px-4 text-center bg-navy-800 text-gold-500 font-bold uppercase text-sm tracking-wider w-[30%] border-b-4 border-action-500 relative">
-                                ValidaProva
-                                <span class="absolute top-2 right-2 text-[9px] bg-action-500 text-navy-900 px-2 py-0.5 rounded font-bold">RECOMENDADO</span>
-                            </th>
+                        <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal font-bold border-b-2 border-gray-300">
+                            <th class="py-4 px-6 text-left">Critério</th>
+                            <th class="py-4 px-6 text-center">Ata Notarial (Cartório)</th>
+                            <th class="py-4 px-6 text-center">Outros Peritos</th>
+                            <!-- Coluna Destaque - Usando bg-validapro-dark e arredondamento superior --><th class="py-4 px-6 text-center bg-validapro-dark text-white font-black text-base rounded-tr-xl">ValidaProva<br>(RECOMENDADO)</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <!-- Preço -->
-                        <tr class="group hover:bg-slate-50 transition">
-                            <td class="py-5 px-4 font-bold text-navy-900 flex items-center gap-2">
-                                <div class="w-8 h-8 rounded bg-slate-200 flex items-center justify-center text-slate-600 shrink-0"><i class="fa-solid fa-sack-dollar"></i></div>
-                                <span class="text-sm md:text-base">Custo Médio</span>
-                            </td>
-                            <td class="py-5 px-4 text-center">
-                                <span class="text-red-500 font-bold text-base md:text-lg">R$ 400 a R$ 1.000+</span>
-                                <p class="text-xs text-slate-400">Cobrado por página</p>
-                            </td>
-                            <td class="py-5 px-4 text-center bg-slate-50 border-l border-r border-slate-200">
-                                <span class="text-red-600 font-black text-base md:text-lg">R$ 3.000,00+</span>
-                                <p class="text-xs text-slate-400">Honorários Mínimos</p>
-                            </td>
-                            <td class="py-5 px-4 text-center bg-blue-50/30">
-                                <span class="text-green-600 font-black text-2xl md:text-3xl">R$ 49,90</span>
-                                <p class="text-xs text-slate-500 font-bold">Preço fixo por laudo</p>
-                            </td>
+                    <tbody class="text-gray-700 font-medium bg-white">
+                        <!-- Custo (Preço atualizado para R$ 59,90) --><tr class="border-b border-gray-200">
+                            <td class="py-4 px-6 font-bold text-gray-800 text-left">Custo Médio</td>
+                            <td class="py-4 px-6 text-center">R$ 400 a R$ 1.000+ (Cobrado por página)</td>
+                            <td class="py-4 px-6 text-center">R$ 3.000,00+ (Honorários Mínimos)</td>
+                            <!-- Destaque Preço --><td class="py-4 px-6 text-center text-validapro-dark font-black text-lg">R$ 59,90 (Preço fixo por laudo)</td>
                         </tr>
-                        <!-- Tempo -->
-                        <tr class="group hover:bg-slate-50 transition">
-                            <td class="py-5 px-4 font-bold text-navy-900 flex items-center gap-2">
-                                <div class="w-8 h-8 rounded bg-slate-200 flex items-center justify-center text-slate-600 shrink-0"><i class="fa-solid fa-clock"></i></div>
-                                <span class="text-sm md:text-base">Tempo de Espera</span>
-                            </td>
-                            <td class="py-5 px-4 text-center text-slate-600">
-                                Dias ou Semanas
-                                <p class="text-xs text-slate-400">Fila e agendamento</p>
-                            </td>
-                            <td class="py-5 px-4 text-center text-slate-600 bg-slate-50 border-l border-r border-slate-200">
-                                15 a 30 Dias
-                                <p class="text-xs text-slate-400">Depende da agenda</p>
-                            </td>
-                            <td class="py-5 px-4 text-center bg-blue-50/30 font-bold text-navy-900">
-                                <i class="fa-solid fa-bolt text-yellow-500 mr-1"></i> Imediato
-                                <p class="text-xs text-slate-500">Automático 24h</p>
-                            </td>
+                        <!-- Tempo de Espera (CORRIGIDO PARA 1 MINUTO) --><tr class="border-b border-gray-200">
+                            <td class="py-4 px-6 font-bold text-gray-800 text-left">Tempo de Espera</td>
+                            <td class="py-4 px-6 text-center">Dias ou Semanas (Fila e agendamento)</td>
+                            <td class="py-4 px-6 text-center">15 a 30 Dias (Depende da agenda)</td>
+                            <!-- Tempo de Espera Atualizado --><td class="py-4 px-6 text-center text-validapro-dark font-black text-lg">1 MINUTO (Automático)</td>
                         </tr>
-                        <!-- Tecnologia -->
-                        <tr class="group hover:bg-slate-50 transition">
-                            <td class="py-5 px-4 font-bold text-navy-900 flex items-center gap-2">
-                                <div class="w-8 h-8 rounded bg-slate-200 flex items-center justify-center text-slate-600 shrink-0"><i class="fa-solid fa-fingerprint"></i></div>
-                                <span class="text-sm md:text-base">Segurança</span>
-                            </td>
-                            <td class="py-5 px-4 text-center text-slate-600">
-                                Fé Pública (Humana)
-                                <p class="text-xs text-slate-400">Subjetiva</p>
-                            </td>
-                            <td class="py-5 px-4 text-center text-slate-600 bg-slate-50 border-l border-r border-slate-200">
-                                Técnica Pericial
-                                <p class="text-xs text-slate-400">Alta complexidade</p>
-                            </td>
-                            <td class="py-5 px-4 text-center bg-blue-50/30 font-bold text-navy-900">
-                                Matemática (Hash)
-                                <p class="text-xs text-slate-500">Auditável ISO 27037</p>
+                        <!-- Segurança --><tr class="border-b-0">
+                            <td class="py-4 px-6 font-bold text-gray-800 text-left">Segurança</td>
+                            <td class="py-4 px-6 text-center">Fé Pública (Humana e Subjetiva)</td>
+                            <td class="py-4 px-6 text-center">Técnica Pericial (Alta complexidade)</td>
+                            <!-- Destaque Segurança --><td class="py-4 px-6 text-center text-validapro-dark font-bold flex items-center justify-center">
+                                <i data-lucide="lock" class="w-5 h-5 mr-1"></i>
+                                Matemática (Hash) Auditável ISO 27037
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             
-            <p class="text-center text-slate-500 text-sm mt-8 italic">
+            <p class="mt-8 text-sm text-gray-500 italic">
                 * O ValidaProva utiliza os mesmos padrões técnicos usados por peritos criminais, mas automatizados.
             </p>
         </div>
     </section>
+    
+    <!-- Seção 5: Autoridade e Credenciais do Especialista --><section class="bg-gray-50 py-16 md:py-24">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-16 text-center">
+                Autoridade Técnica
+            </h2>
+            <p class="text-xl text-gray-600 mb-12 text-center">
+                Não confie sua prova a qualquer um. Conheça o especialista por trás da tecnologia.
+            </p>
 
-    <!-- DEPOIMENTOS (PROVA SOCIAL) -->
-    <section id="depoimentos" class="py-20 bg-slate-50 border-t border-slate-200">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <div class="inline-block px-3 py-1 bg-gold-100 text-gold-600 rounded-full text-xs font-bold uppercase tracking-wide mb-2 border border-gold-200">
-                    <i class="fa-solid fa-trophy mr-1"></i> Autoridade Técnica
+            <div class="grid md:grid-cols-3 gap-10 mb-16">
+                <!-- Testemunho 1 --><div class="p-6 bg-white rounded-xl shadow-lg border-l-4 border-validapro-accent">
+                    <p class="italic text-gray-700 mb-4">"O laudo do Fabricio foi decisivo. O juiz aceitou a prova de imediato devido à clareza técnica dos metadados. Hoje não arrisco mais juntar prints simples."</p>
+                    <p class="font-bold text-sm text-validapro-dark">Dra. Juliana M. | Advogada de Família</p>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-black text-navy-900 font-serif mb-4">Aprovado por quem entende de Lei</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Junte-se a centenas de advogados que pararam de perder provas por impugnação.</p>
+                <!-- Testemunho 2 (Destaque) --><div class="p-6 bg-validapro-dark text-white rounded-xl shadow-xl border-t-4 border-validapro-accent transform scale-105">
+                    <p class="italic mb-4">"Já perdi processos por impugnação de prints. Com o ValidaProva, durmo tranquilo. A metodologia ISO 27037 aplicada pelo Fabricio é impecável e fecha qualquer brecha da defesa."</p>
+                    <p class="font-bold text-sm text-validapro-accent">Dr. Roberto S. | Advogado Criminalista</p>
+                </div>
+                <!-- Testemunho 3 --><div class="p-6 bg-white rounded-xl shadow-lg border-l-4 border-validapro-accent">
+                    <p class="italic text-gray-700 mb-4">"Impressionante a velocidade e a robustez do documento. O Perito Fabricio entende exatamente o que o tribunal precisa: objetividade e fundamentação técnica."</p>
+                    <p class="font-bold text-sm text-validapro-dark">Dr. Carlos A. | Direito Cível</p>
+                </div>
             </div>
+
+            <!-- Box do Perito --><div class="flex flex-col md:flex-row items-center bg-white p-8 rounded-2xl shadow-2xl border-2 border-gray-100">
+                <div class="md:w-1/4 text-center mb-6 md:mb-0">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-3">
+                        
+                    </div>
+                    <h3 class="text-xl font-bold">Fabricio Ribeiro</h3>
+                    <p class="text-validapro-accent font-semibold">Perito em Computação Forense</p>
+                </div>
+                
+                <div class="md:w-3/4 md:pl-12 space-y-4">
+                    <h4 class="text-xl font-bold text-validapro-dark border-b pb-2 mb-4">Credenciais Técnicas</h4>
+                    
+                    <ul class="grid sm:grid-cols-2 gap-4 text-gray-700">
+                        <li class="flex items-center"><i data-lucide="award" class="w-5 h-5 text-validapro-accent mr-2"></i> Pós-graduado em Computação Forense e Perícia Digital</li>
+                        <li class="flex items-center"><i data-lucide="gavel" class="w-5 h-5 text-validapro-accent mr-2"></i> Mais de 8 anos de Experiência Jurídica</li>
+                        <li class="flex items-center"><i data-lucide="file-text" class="w-5 h-5 text-validapro-accent mr-2"></i> Metodologia Comprovada (ISO 27037)</li>
+                        <li class="flex items-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-validapro-accent mr-2"></i> 100% de Aceitação Judicial</li>
+                    </ul>
+
+                    <div class="grid grid-cols-4 text-center mt-6 pt-4 border-t border-gray-200">
+                        <div><p class="text-3xl font-bold text-validapro-dark">500+</p><p class="text-xs text-gray-600">Laudos Emitidos</p></div>
+                        <div><p class="text-3xl font-bold text-validapro-dark">100%</p><p class="text-xs text-gray-600">Aceitação Judicial</p></div>
+                        <div><p class="text-3xl font-bold text-validapro-dark">8+</p><p class="text-xs text-gray-600">Anos de Experiência</p></div>
+                        <div><p class="text-3xl font-bold text-validapro-dark">24h</p><p class="text-xs text-gray-600">Suporte Técnico</p></div>
+                    </div>
+
+                    <p class="pt-6 italic text-gray-600 border-t mt-4">"Minha missão é garantir que nenhum advogado perca uma causa por falta de prova técnica. Seu sucesso no tribunal é minha prioridade."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 6: Pricing Tiers - Nova Estrutura de Preços --><section id="pricing-tiers" class="py-16 md:py-24 text-center bg-white border-t-4 border-validapro-accent">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-12">Escolha a Blindagem Ideal para o Seu Caso</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <!-- Card 1: Blindagem Simples (Avulsa) --><div class="p-8 rounded-2xl shadow-xl border-4 border-validapro-dark/10 bg-validapro-bg">
+                    <div class="inline-block px-4 py-1 mb-4 rounded-full bg-validapro-dark text-white text-sm font-semibold">
+                        Mais Popular
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-validapro-dark mb-4">Blindagem Simples (Avulsa)</h3>
+                    <p class="text-gray-600 mb-6">Certificação de integridade para a maioria dos casos cíveis e trabalhistas.</p>
+                    
+                    <div class="my-6">
+                        <span class="text-6xl font-black text-validapro-dark leading-none">R$ 59,90</span>
+                        <span class="text-xl font-extrabold text-validapro-dark leading-none"> / Laudo</span>
+                    </div>
+
+                    <ul class="text-left space-y-3 mb-8 text-gray-700">
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-validapro-accent mr-2"></i> Hash SHA-256 (Garantia de inalterabilidade)</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-validapro-accent mr-2"></i> Carimbo de Tempo (Timestamp UTC)</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-validapro-accent mr-2"></i> PDF Paginado e formatado para PJe</li>
+                        <!-- Entrega Imediata atualizada --><li class="flex items-center"><i data-lucide="clock" class="w-5 h-5 text-validapro-accent mr-2"></i> Entrega Imediata (Até 1 Minuto)</li>
+                    </ul>
+                    
+                    <a href="#" class="inline-block px-12 py-3 bg-validapro-accent text-white text-lg font-bold rounded-xl shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-[1.02]">
+                        GERAR AGORA R$ 59,90
+                    </a>
+                </div>
+
+                <!-- Card 2: Análise Premium (Serviço Especializado) --><div class="p-8 rounded-2xl shadow-xl border-4 border-validapro-accent/50 bg-white">
+                    <div class="inline-block px-4 py-1 mb-4 rounded-full bg-validapro-accent text-white text-sm font-semibold">
+                        Serviço Especializado
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-validapro-dark mb-4">Análise Premium</h3>
+                    <p class="text-gray-600 mb-6">Para casos complexos que exigem análise forense de metadados de imagem e vídeo.</p>
+                    
+                    <div class="my-6">
+                        <span class="text-6xl font-black text-validapro-dark leading-none">R$ 297,00</span>
+                        <span class="text-xl font-extrabold text-validapro-dark leading-none"> / Laudo</span>
+                    </div>
+
+                    <ul class="text-left space-y-3 mb-8 text-gray-700">
+                        <li class="flex items-center"><i data-lucide="star" class="w-5 h-5 text-validapro-accent mr-2"></i> <a href="#premium" class="font-bold underline hover:text-validapro-dark">Ver Detalhes da Análise Forense</a></li>
+                        <li class="flex items-center"><i data-lucide="search" class="w-5 h-5 text-validapro-dark mr-2"></i> Análise de Metadados de Imagem (EXIF, GPS, etc.)</li>
+                        <li class="flex items-center"><i data-lucide="camera" class="w-5 h-5 text-validapro-dark mr-2"></i> Detecção de Edição, Ruído (ELA) e IA (Deepfake)</li>
+                        <li class="flex items-center"><i data-lucide="user-check" class="w-5 h-5 text-validapro-dark mr-2"></i> Suporte Técnico e debate da tese de prova</li>
+                    </ul>
+                    
+                    <a href="#" class="inline-block px-12 py-3 bg-validapro-dark text-white text-lg font-bold rounded-xl shadow-lg hover:bg-gray-800 transition duration-300 transform hover:scale-[1.02]">
+                        SOLICITAR ANÁLISE PREMIUM
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOVA POSIÇÃO: Análise Premium (Detalhamento) --><section id="premium" class="bg-gray-100 py-16 md:py-24">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-16 text-center">
+                Análise Premium: O Crivo Forense Definitivo
+            </h2>
+            <p class="text-xl text-gray-700 mb-12 text-center max-w-4xl mx-auto">
+                Se você precisa provar que uma imagem ou vídeo *não foi manipulado, editado ou gerado por Inteligência Artificial*, este serviço pericial é indispensável.
+            </p>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Depoimento 1 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative hover:-translate-y-1 transition duration-300">
-                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-4xl text-slate-100"></i>
-                    <div class="flex text-gold-500 text-xs mb-4">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 mb-6 text-sm leading-relaxed italic">
-                        "O laudo do Fabricio foi decisivo. O juiz aceitou a prova de imediato devido à clareza técnica dos metadados. Hoje não arrisco mais juntar prints simples."
-                    </p>
-                    <div class="flex items-center gap-4 border-t border-slate-100 pt-4">
-                        <img src="https://ui-avatars.com/api/?name=Juliana+M&background=e2e8f0&color=0f172a" class="w-10 h-10 rounded-full" alt="Advogada">
-                        <div>
-                            <p class="font-bold text-navy-900 text-sm">Dra. Juliana M.</p>
-                            <p class="text-xs text-slate-400">Advogada de Família</p>
-                        </div>
-                    </div>
+                
+                <div class="p-6 bg-white rounded-xl shadow-lg border-b-4 border-validapro-accent">
+                    <i data-lucide="camera" class="w-8 h-8 text-validapro-dark mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Integridade da Imagem</h3>
+                    <p class="text-gray-700">O relatório final inclui a Prova de Integridade (Hash), validando que o arquivo não foi alterado. Além disso, a análise EXIF (metadados da câmera/GPS) mostra a origem real da mídia.</p>
                 </div>
 
-                <!-- Depoimento 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-xl border-2 border-navy-900 relative transform md:-translate-y-4">
-                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-navy-900 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wide">Destaque</div>
-                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-4xl text-slate-100"></i>
-                    <div class="flex text-gold-500 text-xs mb-4">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-navy-900 mb-6 text-sm leading-relaxed font-medium">
-                        "Já perdi processos por impugnação de prints. Com o ValidaProva, durmo tranquilo. A metodologia ISO 27037 aplicada pelo Fabricio é impecável e fecha qualquer brecha da defesa."
-                    </p>
-                    <div class="flex items-center gap-4 border-t border-slate-100 pt-4">
-                        <img src="https://ui-avatars.com/api/?name=Roberto+S&background=0f172a&color=fff" class="w-10 h-10 rounded-full" alt="Advogado">
-                        <div>
-                            <p class="font-bold text-navy-900 text-sm">Dr. Roberto S.</p>
-                            <p class="text-xs text-slate-500">Advogado Criminalista</p>
-                        </div>
-                    </div>
+                <div class="p-6 bg-white rounded-xl shadow-lg border-b-4 border-validapro-accent">
+                    <i data-lucide="wand-2" class="w-8 h-8 text-validapro-dark mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Detecção de Manipulação e IA</h3>
+                    <p class="text-gray-700">Utilizamos o Análise de Ruído (ELA) para detectar edições pixel a pixel (Photoshop, etc.). Nosso laudo também aponta evidências de que o conteúdo foi gerado por Inteligência Artificial (IA) ou Deepfake.</p>
                 </div>
 
-                <!-- Depoimento 3 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 relative hover:-translate-y-1 transition duration-300">
-                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-4xl text-slate-100"></i>
-                    <div class="flex text-gold-500 text-xs mb-4">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 mb-6 text-sm leading-relaxed italic">
-                        "Impressionante a velocidade e a robustez do documento. O Perito Fabricio entende exatamente o que o tribunal precisa: objetividade e fundamentação técnica."
-                    </p>
-                    <div class="flex items-center gap-4 border-t border-slate-100 pt-4">
-                        <img src="https://ui-avatars.com/api/?name=Carlos+A&background=e2e8f0&color=0f172a" class="w-10 h-10 rounded-full" alt="Advogado">
-                        <div>
-                            <p class="font-bold text-navy-900 text-sm">Dr. Carlos A.</p>
-                            <p class="text-xs text-slate-400">Direito Cível</p>
-                        </div>
-                    </div>
+                <div class="p-6 bg-white rounded-xl shadow-lg border-b-4 border-validapro-accent">
+                    <i data-lucide="file-check" class="w-8 h-8 text-validapro-dark mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Laudo Pericial Detalhado</h3>
+                    <p class="text-gray-700">Você recebe um relatório detalhado e assinado pelo Perito Fabricio Ribeiro, descrevendo a metodologia, os resultados da análise técnica e a conclusão sobre a autenticidade da prova digital.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- NOVA SEÇÃO: APRESENTAÇÃO DO PERITO -->
-    <section id="perito" class="py-20 bg-white border-t border-slate-200">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col lg:flex-row items-center gap-12">
-                <!-- Foto e Credenciais -->
-                <div class="lg:w-2/5 flex flex-col items-center">
-                    <div class="relative mb-8">
-                        <!-- Foto do Perito -->
-                        <div class="w-64 h-64 bg-gradient-to-br from-navy-900 to-blue-800 rounded-full flex items-center justify-center text-white text-6xl shadow-2xl border-4 border-white">
-                            <i class="fa-solid fa-user-tie"></i>
-                        </div>
-                        <!-- Selo de Verificação -->
-                        <div class="absolute -bottom-2 -right-2 bg-action-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-lg border-4 border-white">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- Credenciais -->
-                    <div class="text-center space-y-4">
-                        <h3 class="text-2xl font-black text-navy-900 font-serif">Fabricio Ribeiro</h3>
-                        <p class="text-slate-600 font-semibold">Perito em Computação Forense</p>
-                        
-                        <div class="flex flex-wrap justify-center gap-3 mt-6">
-                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">ISO 27037</span>
-                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">Hash SHA-256</span>
-                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">Cadeia de Custódia</span>
-                            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">Metadados</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Biografia e Experiência -->
-                <div class="lg:w-3/5 space-y-8">
-                    <div class="inline-block px-3 py-1 bg-navy-900 text-white rounded-full text-xs font-bold uppercase tracking-wide mb-2">
-                        <i class="fa-solid fa-shield-halved mr-1"></i> Credenciais Técnicas
-                    </div>
-                    
-                    <h2 class="text-3xl md:text-4xl font-black text-navy-900 font-serif leading-tight">
-                        Não confie sua prova a qualquer um. Conheça o especialista por trás da tecnologia.
-                    </h2>
-
-                    <div class="space-y-6">
-                        <div class="flex gap-4 group">
-                            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition">
-                                <i class="fa-solid fa-graduation-cap"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-navy-900 text-lg">Formação Especializada</h4>
-                                <p class="text-slate-600 mt-1">Pós-graduado em Computação Forense e Perícia Digital, com certificações em análise de metadados e preservação de evidências digitais.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-4 group">
-                            <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition">
-                                <i class="fa-solid fa-scale-balanced"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-navy-900 text-lg">Experiência Jurídica</h4>
-                                <p class="text-slate-600 mt-1">Mais de 8 anos atuando como perito assistente em processos cíveis, trabalhistas e criminais. Entendo a linguagem do tribunal e o que os juízes precisam ver.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-4 group">
-                            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition">
-                                <i class="fa-solid fa-microchip"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-navy-900 text-lg">Metodologia Comprovada</h4>
-                                <p class="text-slate-600 mt-1">Desenvolvi o ValidaProva para democratizar o acesso à perícia de qualidade. Utilizo os mesmos padrões ISO 27037 aplicados em grandes casos corporativos.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Estatísticas -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-slate-200">
-                        <div class="text-center">
-                            <div class="text-2xl font-black text-navy-900">500+</div>
-                            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Laudos Emitidos</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-black text-navy-900">100%</div>
-                            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Aceitação Judicial</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-black text-navy-900">8+</div>
-                            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Anos de Experiência</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-black text-navy-900">24h</div>
-                            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Suporte Técnico</div>
-                        </div>
-                    </div>
-
-                    <!-- CTA Específico -->
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 mt-8">
-                        <p class="text-slate-700 font-semibold text-center">
-                            "Minha missão é garantir que nenhum advogado perca uma causa por falta de prova técnica. 
-                            <span class="text-navy-900 font-bold">Seu sucesso no tribunal é minha prioridade.</span>"
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PREÇO / OFERTA (O FECHAMENTO) -->
-    <section id="oferta" class="py-20 bg-gradient-to-b from-white to-slate-50">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200 flex flex-col md:flex-row">
-                <!-- Lado Esquerdo: Benefícios -->
-                <div class="md:w-1/2 p-10 bg-navy-900 text-white flex flex-col justify-between relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-action-500 rounded-full blur-3xl opacity-20 -mr-10 -mt-10"></div>
-                    
-                    <div>
-                        <h3 class="text-2xl font-bold font-serif mb-6">O que está incluso no Laudo:</h3>
-                        <ul class="space-y-4">
-                            <li class="flex items-start gap-3">
-                                <i class="fa-solid fa-check text-action-500 mt-1"></i>
-                                <span class="text-slate-300 text-sm">Certificação de Autenticidade (Hash)</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fa-solid fa-check text-action-500 mt-1"></i>
-                                <span class="text-slate-300 text-sm">Carimbo de Tempo (Timestamp UTC)</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fa-solid fa-check text-action-500 mt-1"></i>
-                                <span class="text-slate-300 text-sm">PDF Organizado e Paginado para PJe</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i class="fa-solid fa-check text-action-500 mt-1"></i>
-                                <span class="text-slate-300 text-sm">Metadados Técnicos dos Arquivos</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mt-10 pt-6 border-t border-navy-700">
-                        <div class="flex items-center gap-3">
-                            <img src="https://ui-avatars.com/api/?name=Fabricio+Ribeiro&background=0D8ABC&color=fff" class="w-10 h-10 rounded-full" alt="Perito">
-                            <div>
-                                <p class="text-xs text-slate-400">Desenvolvido por</p>
-                                <p class="font-bold text-sm">Fabricio Ribeiro, Perito Digital</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lado Direito: Preço e CTA -->
-                <div class="md:w-1/2 p-10 flex flex-col justify-center items-center text-center bg-white">
-                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-4">Oferta de Lançamento</span>
-                    
-                    <p class="text-slate-500 text-sm line-through mb-1">De R$ 97,00 por</p>
-                    <div class="flex items-baseline justify-center gap-1 mb-2">
-                        <span class="text-xl font-bold text-navy-900">R$</span>
-                        <span class="text-6xl font-black text-navy-900 tracking-tight">49,90</span>
-                    </div>
-                    <p class="text-slate-400 text-xs mb-8">Pagamento único. Sem mensalidade.</p>
-
-                    <!-- BOTÃO DE COMPRA -->
-                    <a href="validaprova.html"  class="w-full bg-action-600 hover:bg-action-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-action-500/30 transition transform hover:-translate-y-1 flex justify-center items-center gap-2">
-                        <span>GERAR RELATÓRIO AGORA</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                    <div class="mt-6 flex items-center justify-center gap-4 text-xs text-slate-400 grayscale opacity-70">
-                        <span><i class="fa-brands fa-pix"></i> PIX</span>
-                        <span><i class="fa-brands fa-cc-visa"></i> Cartão</span>
-                        <span><i class="fa-solid fa-shield-halved"></i> Seguro</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ (MATA OBJEÇÕES) -->
-    <section id="faq" class="py-20 bg-slate-50">
-        <div class="container mx-auto px-6 max-w-3xl">
-            <h2 class="text-2xl font-bold text-center text-navy-900 mb-10 font-serif">Perguntas Frequentes</h2>
             
-            <div class="space-y-4">
-                <!-- Pergunta 1: Substitui a Ata Notarial? -->
-                <details class="group bg-white rounded-lg border border-slate-200 shadow-sm">
-                    <summary class="flex justify-between items-center cursor-pointer p-4 font-semibold text-navy-900">
-                        Isso substitui a Ata Notarial?
-                        <span class="text-action-500 transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <div class="p-4 pt-0 text-sm text-slate-600 leading-relaxed">
-                        A Ata Notarial tem fé pública, mas é cara e lenta. Nosso laudo técnico utiliza a <strong>verificação matemática (Hash)</strong>, que é amplamente aceita no judiciário como prova de integridade digital, custando 10x menos. Para 95% dos casos (Trabalhista, Família, Cível), nosso laudo é prova robusta e suficiente.
-                    </div>
-                </details>
-
-                <!-- Pergunta 2: Objeção 1 - O juiz nunca impugnou. -->
-                <details class="group bg-white rounded-lg border border-slate-200 shadow-sm">
-                    <summary class="flex justify-between items-center cursor-pointer p-4 font-semibold text-navy-900">
-                        O juiz nunca impugnou meus prints / A outra parte nunca impugnou. Qual o risco?
-                        <span class="text-action-500 transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <div class="p-4 pt-0 text-sm text-slate-600 leading-relaxed">
-                        **O Risco da Rotina:** O fato de o juiz não ter se manifestado **ainda** não significa que sua prova é segura. A defesa experiente, ciente da jurisprudência do STJ, utiliza a impugnação como estratégia de último minuto. Você só terá certeza de que a prova falhou no momento mais crítico: a audiência. **O ValidaProva é o seguro definitivo contra essa incerteza.**
-                    </div>
-                </details>
-
-                <!-- Pergunta 3: Objeção 2 - Print é prova secundária. -->
-                <details class="group bg-white rounded-lg border border-slate-200 shadow-sm">
-                    <summary class="flex justify-between items-center cursor-pointer p-4 font-semibold text-navy-900">
-                        Dizem que print é "prova secundária". O que o Hash muda nisso?
-                        <span class="text-action-500 transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <div class="p-4 pt-0 text-sm text-slate-600 leading-relaxed">
-                        A fragilidade do print está na sua **alterabilidade**. É por isso que é considerado prova secundária. O **Hash SHA-256** comprova a integridade e a inalterabilidade do arquivo digital, transformando-o em uma **prova primária, irrefutável e blindada** perante qualquer defesa técnica. Você não está juntando um print; está juntando um **Laudo Pericial**.
-                    </div>
-                </details>
-
-                <!-- Pergunta 4: Precisa instalar algum programa? -->
-                <details class="group bg-white rounded-lg border border-slate-200 shadow-sm">
-                    <summary class="flex justify-between items-center cursor-pointer p-4 font-semibold text-navy-900">
-                        Preciso instalar algum programa?
-                        <span class="text-action-500 transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <div class="p-4 pt-0 text-sm text-slate-600 leading-relaxed">
-                        Não. Todo o processo é 100% online. Você envia os arquivos, nosso sistema processa e você baixa o PDF na hora. Funciona no celular e no computador.
-                    </div>
-                </details>
-
-                <!-- Pergunta 5: Como funciona o pagamento? -->
-                <details class="group bg-white rounded-lg border border-slate-200 shadow-sm">
-                    <summary class="flex justify-between items-center cursor-pointer p-4 font-semibold text-navy-900">
-                        Como funciona o pagamento?
-                        <span class="text-action-500 transition group-open:rotate-180"><i class="fa-solid fa-chevron-down"></i></span>
-                    </summary>
-                    <div class="p-4 pt-0 text-sm text-slate-600 leading-relaxed">
-                        Trabalhamos no modelo pré-pago. Você paga R$ 49,90 e recebe o crédito para gerar o laudo de um caso. Não há mensalidade nem fidelidade.
-                    </div>
-                </details>
+            <div class="text-center mt-12 flex justify-center space-x-6">
+                <!-- Novo Botão para Download de Exemplo Premium -->
+                <a href="#" class="inline-flex items-center px-8 py-3 bg-validapro-accent text-white font-semibold rounded-lg hover:bg-green-600 transition duration-300 shadow-lg" onclick="alert('Simulando Download do Modelo de Laudo Premium...'); return false;">
+                    Baixar Modelo de Laudo Premium
+                    <i data-lucide="download" class="w-5 h-5 ml-2"></i>
+                </a>
+                
+                <!-- Botão de Voltar para Preços (Existente) -->
+                <a href="#pricing-tiers" class="inline-flex items-center px-8 py-3 bg-validapro-dark text-white font-semibold rounded-lg hover:bg-gray-800 transition duration-300 shadow-lg">
+                    Voltar para Preços
+                    <i data-lucide="chevron-up" class="w-5 h-5 ml-2"></i>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-navy-900 text-slate-500 py-12 border-t border-navy-800 text-sm">
-        <div class="container mx-auto px-6 text-center md:text-left md:flex justify-between items-center">
-            <div class="mb-4 md:mb-0">
-                <span class="text-lg font-bold text-white block">ValidaProva</span>
-                <p class="mt-1">Tecnologia Forense acessível para todos.</p>
+    <!-- NOVA SEÇÃO: Quebra de Objeções (Simulação de Chat) --><section id="quebra-objecoes" class="py-16 md:py-24 bg-validapro-bg">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-12 text-center">
+                Suas Dúvidas, Nossas Respostas Técnicas
+            </h2>
+
+            <div class="phone-frame">
+                <div class="bg-validapro-dark text-white p-3 text-sm flex justify-between items-center rounded-t-2xl">
+                    <i data-lucide="arrow-left" class="w-5 h-5 text-white"></i>
+                    <span class="font-semibold flex items-center">
+                        <i data-lucide="shield-check" class="w-4 h-4 mr-1"></i>
+                        ValidaProva Suporte
+                    </span>
+                    <i data-lucide="more-vertical" class="w-5 h-5 text-white"></i>
+                </div>
+                
+                <div id="chat-container" class="chat-container flex flex-col items-start">
+                    <!-- As bolhas de chat serão injetadas aqui pelo JS -->
+                </div>
+
+                <div id="chat-input" class="p-3 bg-gray-200 border-t border-gray-300 flex flex-col space-y-2">
+                    <!-- O dropdown de seleção será injetado aqui -->
+                </div>
             </div>
-            <div class="flex flex-col md:flex-row gap-4 md:gap-8 items-center">
-                <span>&copy; 2025 Fabricio Ribeiro Especialista em Computação Forense.</span>
-                <a href="#" class="hover:text-white transition">Termos de Uso</a>
-                <a href="#" class="hover:text-white transition">Privacidade</a>
+            
+            <p class="mt-8 text-lg text-gray-600 text-center">
+                A blindagem da sua prova deve ser imediata e irrefutável. Nossa tecnologia garante os padrões que o Judiciário exige.
+            </p>
+        </div>
+    </section>
+
+    <!-- NOVA E ESTILIZADA SEÇÃO: Perguntas Frequentes (FAQ) --><section id="faq" class="bg-white py-16 md:py-24">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-validapro-dark mb-12 text-center">
+                Perguntas Frequentes
+            </h2>
+
+            <div id="faq-accordion" class="space-y-4 max-w-3xl mx-auto">
+                
+                <!-- FAQ Item 1: Ata Notarial -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <button id="toggle-1" class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-bold text-validapro-dark hover:bg-gray-50 transition duration-150" aria-expanded="false" aria-controls="content-1">
+                        Isso substitui a Ata Notarial?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300" id="icon-1"></i>
+                    </button>
+                    <div id="content-1" class="faq-content p-5 pt-0 hidden" aria-hidden="true">
+                        <p class="text-gray-700 pt-3 border-t border-gray-100">A Ata Notarial tem fé pública, mas é cara e lenta. Nosso laudo técnico utiliza a verificação matemática (Hash), que é amplamente aceita no judiciário como prova de integridade digital, custando 10x menos. Para 95% dos casos (Trabalhista, Família, Cível), nosso laudo é prova robusta e suficiente.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2: Risco de Impugnação -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <button id="toggle-2" class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-bold text-validapro-dark hover:bg-gray-50 transition duration-150" aria-expanded="false" aria-controls="content-2">
+                        O juiz nunca impugnou meus prints. Qual o risco?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300" id="icon-2"></i>
+                    </button>
+                    <div id="content-2" class="faq-content p-5 pt-0 hidden" aria-hidden="true">
+                        <p class="text-gray-700 pt-3 border-t border-gray-100">O Risco da Rotina: O fato de o juiz não ter se manifestado ainda não significa que sua prova é segura. A defesa experiente, ciente da jurisprudência do STJ, utiliza a impugnação como estratégia de último minuto. Você só terá certeza de que a prova falhou no momento mais crítico: a audiência. O ValidaProva é o seguro definitivo contra essa incerteza.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3: Prova Secundária -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <button id="toggle-3" class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-bold text-validapro-dark hover:bg-gray-50 transition duration-150" aria-expanded="false" aria-controls="content-3">
+                        Dizem que print é "prova secundária". O que o Hash muda nisso?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300" id="icon-3"></i>
+                    </button>
+                    <div id="content-3" class="faq-content p-5 pt-0 hidden" aria-hidden="true">
+                        <p class="text-gray-700 pt-3 border-t border-gray-100">A fragilidade do print está na sua alterabilidade. É por isso que é considerado prova secundária. O Hash SHA-256 comprova a integridade e a inalterabilidade do arquivo digital, transformando-o em uma prova primária, irrefutável e blindada perante qualquer defesa técnica. Você não está juntando um print; está juntando um Laudo Pericial.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4: Instalação -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <button id="toggle-4" class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-bold text-validapro-dark hover:bg-gray-50 transition duration-150" aria-expanded="false" aria-controls="content-4">
+                        Preciso instalar algum programa?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300" id="icon-4"></i>
+                    </button>
+                    <div id="content-4" class="faq-content p-5 pt-0 hidden" aria-hidden="true">
+                        <p class="text-gray-700 pt-3 border-t border-gray-100">Não. Todo o processo é 100% online. Você envia os arquivos, nosso sistema processa e você baixa o PDF na hora. Funciona no celular e no computador.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5: Pagamento -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <button id="toggle-5" class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-bold text-validapro-dark hover:bg-gray-50 transition duration-150" aria-expanded="false" aria-controls="content-5">
+                        Como funciona o pagamento?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300" id="icon-5"></i>
+                    </button>
+                    <div id="content-5" class="faq-content p-5 pt-0 hidden" aria-hidden="true">
+                        <p class="text-gray-700 pt-3 border-t border-gray-100">Trabalhamos no modelo pré-pago. Você paga R$ 59,90 e recebe o crédito para gerar o laudo de um caso. Não há mensalidade nem fidelidade.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé --><footer class="bg-validapro-dark py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-white">
+            <h4 class="text-xl font-bold mb-2">ValidaProva</h4>
+            <p class="text-sm mb-4 text-gray-300">Tecnologia Forense acessível para todos.</p>
+            <p class="text-xs text-gray-400">&copy; 2025 Fabricio Ribeiro Especialista em Computação Forense.</p>
+            <div class="mt-4 space-x-4 text-sm font-medium">
+                <!-- Links para os documentos legais (Assumindo que estão em outras páginas) --><a href="#termos-link" class="hover:text-validapro-accent transition duration-150">Termos de Uso</a>
+                <a href="#privacidade-link" class="hover:text-validapro-accent transition duration-150">Privacidade</a>
             </div>
         </div>
     </footer>
 
+    <!-- Script para renderizar os ícones Lucide --><script>
+        lucide.createIcons();
+    </script>
+    <script>
+        // Lógica do Chat Interativo
+        const chatContainer = document.getElementById('chat-container');
+        const chatInput = document.getElementById('chat-input');
+
+        const conversations = [
+            // OBJEÇÕES ORIGINAIS
+            {
+                user: "Eu coloco o print assim e nunca fui questionado no Tribunal. Pra que gastar?",
+                system: "O risco é a impugnação tardia. A defesa experiente guarda essa estratégia para a audiência final. Nossa blindagem é seu seguro contra decisões como a do STJ.",
+                buttonText: "Nunca fui questionado / Por que gastar?",
+                delay: 1500,
+                answered: false
+            },
+            {
+                user: "Pra que ValidaProva se já existe o Verifact, que é o padrão? Eu só confio no Verifact.",
+                system: "O Verifact é excelente, mas oneroso. O ValidaProva usa a mesma matemática forense (Hash SHA-256 e ISO 27037), mas automatizada. Entregamos a mesma robustez técnica, só que de forma imediata e com custo 10x menor, ideal para o dia a dia.",
+                buttonText: "Por que não uso Verifact?",
+                delay: 2500,
+                answered: false
+            },
+            {
+                user: "Será que é seguro? Nunca vi em lugar nenhuma! Como sei que o Laudo será aceito?",
+                system: "A segurança está na matemática irrefutável do Hash. O ValidaProva é desenvolvido pelo Perito Fabricio Ribeiro (8+ anos de experiência, Pós-graduado). A metodologia é baseada na ISO 27037, padrão internacional de coleta de evidências digitais.",
+                buttonText: "Será que é seguro / Nunca vi?",
+                delay: 2000,
+                answered: false
+            },
+            // NOVAS PERGUNTAS (10 itens)
+            {
+                user: "O Parecer Técnico garante a autenticidade da prova digital?",
+                system: "Sim. Ele usa o código Hash, que é a garantia matemática de que o arquivo não foi alterado desde o momento da coleta.",
+                buttonText: "Garantia de Autenticidade?",
+                delay: 1800,
+                answered: false
+            },
+            {
+                user: "O que é garantido pelo Parecer de Integridade?",
+                system: "Ele garante que a prova digital (print, vídeo) que você coletou não sofreu nenhuma mudança ou edição depois da coleta. É um 'selo' de inalterabilidade.",
+                buttonText: "O que é garantido pelo Parecer?",
+                delay: 2000,
+                answered: false
+            },
+            {
+                user: "Por que devo me preocupar com os metadados?",
+                system: "Metadados são a digital da prova (data, hora, origem). Eles provam que a conversa é real e quando aconteceu. Sem eles, o print pode ser facilmente considerado falso.",
+                buttonText: "Preocupação com Metadados?",
+                delay: 2200,
+                answered: false
+            },
+            {
+                user: "Como a sua plataforma garante a Cadeia de Custódia?",
+                system: "Garantimos a custódia registrando a prova digital com data e hora exatas (Timestamp), gerando o Hash único e entregando um laudo rastreável.",
+                buttonText: "Garantia da Cadeia de Custódia?",
+                delay: 1600,
+                answered: false
+            },
+            {
+                user: "O Parecer Técnico do seu SaaS substitui uma Ata Notarial?",
+                system: "Sim, para a maioria dos casos. O Parecer tem a mesma força técnica (matemática do Hash e ISO), mas é muito mais rápido e 10x mais barato que a Ata Notarial.",
+                buttonText: "Substitui a Ata Notarial?",
+                delay: 2800,
+                answered: false
+            },
+            {
+                user: "O que a Análise Premium oferece de diferente do Parecer Básico?",
+                system: "A Premium vai muito além da integridade: ela usa perícia para detectar se a imagem foi editada no Photoshop, manipulada ou até mesmo criada por Inteligência Artificial.",
+                buttonText: "Diferencial da Análise Premium?",
+                delay: 2400,
+                answered: false
+            },
+            {
+                user: "Quem são os peritos responsáveis pela Análise Premium?",
+                system: "Nosso serviço Premium é revisado e assinado pelo Perito Forense Fabricio Ribeiro, pós-graduado e com anos de experiência no Judiciário, garantindo a qualificação.",
+                buttonText: "Qualificação dos Peritos?",
+                delay: 2000,
+                answered: false
+            },
+            {
+                user: "O Parecer/Laudo pode ser impugnado pela parte contrária no processo?",
+                system: "Qualquer prova pode ser impugnada, mas o Laudo ValidaProva tem a fundação técnica mais forte (Hash) para resistir e vencer qualquer tentativa séria de impugnação.",
+                buttonText: "Risco de Impugnação?",
+                delay: 1700,
+                answered: false
+            },
+            {
+                user: "O conteúdo pode ter sido forjado antes da coleta?",
+                system: "Nosso Parecer garante a integridade e autenticidade da prova digital a partir do momento em que você a coleta. Não podemos provar o que aconteceu antes desse momento.",
+                buttonText: "Conteúdo forjado antes da coleta?",
+                delay: 2100,
+                answered: false
+            },
+            {
+                user: "Como provar que o arquivo é o original e não uma cópia ou print?",
+                system: "O Hash atua como um selo: ele comprova que o arquivo digital apresentado é exatamente o mesmo que foi coletado, sem ter sido copiado ou alterado no meio do caminho.",
+                buttonText: "Prova de Originalidade?",
+                delay: 1900,
+                answered: false
+            }
+        ];
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function createBubble(text, isUser) {
+            const div = document.createElement('div');
+            div.className = `chat-bubble text-sm ${isUser ? 'user-bubble' : 'system-bubble'}`;
+            div.innerHTML = text;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+            return div;
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.id = 'typing-indicator';
+            indicator.className = 'typing-indicator text-sm';
+            indicator.innerHTML = `Digitando 
+                <span class="ml-1 text-validapro-accent">.</span>
+                <span class="text-validapro-accent">.</span>
+                <span class="text-validapro-accent">.</span>`;
+            chatContainer.appendChild(indicator);
+            scrollToBottom();
+            return indicator;
+        }
+
+        function showObjectionButtons() {
+            chatInput.innerHTML = ''; 
+            const remaining = conversations.filter(c => !c.answered);
+
+            if (remaining.length === 0) {
+                // Lógica do botão final quando todas as perguntas forem respondidas
+                chatInput.innerHTML = `
+                    <div class="text-center text-sm font-semibold text-validapro-dark mb-2">Todas as objeções cruciais foram respondidas!</div>
+                    <a href="#pricing-tiers" class="w-full inline-block px-12 py-3 bg-validapro-accent text-white text-lg font-bold rounded-xl shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-[1.02]">
+                        BLINDAR MINHA PROVA
+                    </a>
+                `;
+                createBubble("Obrigado por suas perguntas! Clique no botão acima para começar a gerar seu Laudo.", false);
+                return;
+            }
+
+            // Cria o container relativo para o select e o ícone de seta
+            const selectContainer = document.createElement('div');
+            selectContainer.className = 'relative w-full';
+
+            const select = document.createElement('select');
+            select.className = 'w-full p-3 bg-white border border-gray-300 rounded-lg shadow-md text-sm font-semibold text-gray-700 appearance-none pr-10 cursor-pointer';
+            select.id = 'objection-select';
+            
+            // Opção Placeholder
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = 'Escolha uma Objeção (Pergunta)';
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            select.appendChild(placeholder);
+
+            // Popula o select com as opções restantes
+            remaining.forEach((conv) => {
+                const originalIndex = conversations.findIndex(c => c === conv);
+                const option = document.createElement('option');
+                option.value = originalIndex.toString(); // Usa o índice original como valor
+                option.textContent = conv.buttonText;
+                select.appendChild(option);
+            });
+            
+            // Adiciona o evento onchange
+            select.onchange = (e) => {
+                // Só procede se uma opção válida for selecionada
+                if (e.target.value) {
+                    handleObjectionClick(e.target.value);
+                }
+            };
+
+            // Adiciona o ícone de seta (visual de select customizado)
+            const icon = document.createElement('i');
+            icon.setAttribute('data-lucide', 'chevron-down');
+            icon.className = 'w-5 h-5 absolute right-5 top-1/2 transform -translate-y-1/2 pointer-events-none text-validapro-dark';
+            
+            selectContainer.appendChild(select);
+            selectContainer.appendChild(icon);
+            
+            chatInput.innerHTML = ''; // Limpa o input antes de adicionar o select
+            chatInput.appendChild(selectContainer);
+            lucide.createIcons(); // Recria os ícones Lucide
+        }
+
+        function handleObjectionClick(selectedIndexString) {
+            const index = parseInt(selectedIndexString, 10);
+            const conv = conversations[index];
+            
+            // 1. Oculta o select
+            chatInput.innerHTML = ''; 
+
+            // 2. Exibe a bolha do usuário (a pergunta completa)
+            createBubble(conv.user, true);
+
+            // 3. Simula a digitação do sistema
+            const indicator = showTypingIndicator();
+
+            // 4. Marca como respondida
+            conversations[index].answered = true; 
+
+            // 5. Exibe a resposta do sistema após o delay
+            setTimeout(() => {
+                indicator.remove(); // Remove o indicador de digitação
+                createBubble(conv.system, false); // Adiciona a resposta
+                showObjectionButtons(); // Mostra o select restante ou o botão final
+            }, conv.delay);
+        }
+        
+        // Lógica do FAQ (Acordeão)
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqToggles = document.querySelectorAll('.faq-toggle');
+
+            faqToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const contentId = toggle.getAttribute('aria-controls');
+                    const content = document.getElementById(contentId);
+                    const icon = document.getElementById(toggle.getAttribute('id').replace('toggle', 'icon'));
+                    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+                    // Fecha todos os outros
+                    document.querySelectorAll('.faq-toggle').forEach(t => {
+                        if (t !== toggle) {
+                            t.setAttribute('aria-expanded', 'false');
+                            document.getElementById(t.getAttribute('aria-controls')).classList.add('hidden');
+                            document.getElementById(t.getAttribute('id').replace('toggle', 'icon')).classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Abre ou fecha o item clicado
+                    if (isExpanded) {
+                        // Fechar
+                        toggle.setAttribute('aria-expanded', 'false');
+                        content.classList.add('hidden');
+                        icon.classList.remove('rotate-180');
+                    } else {
+                        // Abrir
+                        toggle.setAttribute('aria-expanded', 'true');
+                        content.classList.remove('hidden');
+                        icon.classList.add('rotate-180');
+                    }
+                });
+            });
+
+            // Inicializa o chat
+            createBubble("Olá! Eu sou o ValidaProva Suporte. Escolha abaixo a sua principal dúvida sobre a blindagem de provas digitais:", false);
+            showObjectionButtons();
+            lucide.createIcons();
+        });
+    </script>
 </body>
 </html>
