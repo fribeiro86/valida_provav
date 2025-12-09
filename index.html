@@ -17,7 +17,7 @@
             --gold-light: #fceabb;
             --gold-mid: #d4af37;
             --text-light: #e9edef;
-            --text-gray: #b0b0b0; /* Levemente mais claro para contraste */
+            --text-gray: #b0b0b0; 
             --whatsapp-green: #005c4b;
             --whatsapp-incoming: #202c33;
             --font-heading: 'Playfair Display', serif;
@@ -30,9 +30,9 @@
             font-family: var(--font-body);
             background-color: var(--primary-dark);
             color: var(--text-light);
-            line-height: 1.7; /* Aumentei levemente para elegância */
+            line-height: 1.7;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; /* Melhora renderização de fonte */
+            -webkit-font-smoothing: antialiased; 
         }
 
         /* --- TIPOGRAFIA DE IMPACTO (DESKTOP) --- */
@@ -43,14 +43,14 @@
             line-height: 1.2;
         }
 
-        h1 { font-size: 3.5rem; font-weight: 900; } /* Bem maior no desktop */
+        h1 { font-size: 3.5rem; font-weight: 900; } 
         h2 { font-size: 2.5rem; font-weight: 700; }
         h3 { font-size: 1.5rem; font-weight: 600; }
 
-        p { font-size: 1.1rem; } /* Base do texto maior */
+        p { font-size: 1.1rem; } 
 
         .container {
-            max-width: 1280px; /* Mais largo para telas modernas */
+            max-width: 1280px; 
             margin: 0 auto;
             padding: 0 30px;
         }
@@ -67,14 +67,14 @@
             position: relative;
             background: linear-gradient(135deg, #eecda3 0%, #d4af37 100%);
             color: #050505;
-            padding: 20px 45px; /* Botão maior */
+            padding: 20px 45px; 
             font-weight: 800;
             text-transform: uppercase;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             display: inline-block;
-            font-size: 1.1rem; /* Texto do botão maior */
+            font-size: 1.1rem; 
             text-decoration: none;
             letter-spacing: 1px;
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
@@ -98,22 +98,22 @@
         
         .hero-grid {
             display: grid;
-            grid-template-columns: 1.2fr 1fr; /* Texto ocupa um pouco mais de espaço */
+            grid-template-columns: 1.2fr 1fr; 
             gap: 80px;
             align-items: center;
         }
 
         .hero-text p {
-            font-size: 1.25rem; /* Texto de apoio grande */
+            font-size: 1.25rem; 
             color: var(--text-gray);
             margin-bottom: 40px;
             max-width: 90%;
         }
-
-        /* CELULAR ANIMADO WHATSAPP */
+        
+        /* CELULAR ANIMADO WHATSAPP (VERTICAL) */
         .phone-wrapper {
             position: relative;
-            width: 300px; /* Levemente maior no desktop */
+            width: 300px; 
             height: 620px;
             background: #000;
             border: 12px solid #222;
@@ -121,7 +121,6 @@
             margin: 0 auto;
             box-shadow: 0 30px 60px rgba(0,0,0,0.9);
             overflow: hidden;
-            transform: rotate(-2deg); /* Charme visual */
         }
 
         .phone-screen {
@@ -175,13 +174,14 @@
             flex: 1; background: #2a3942; height: 40px; border-radius: 20px; padding: 0 20px; display: flex; align-items: center; font-size: 0.95rem; color: #8696a0;
         }
 
-        /* Notificação Pix */
+        /* Notificação Pix (DELAY AJUSTADO) */
         .pix-notification {
             position: absolute; top: 90px; left: 15px; right: 15px;
             background: rgba(255,255,255,0.95); border-radius: 12px; padding: 15px;
             display: flex; align-items: center; gap: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.6);
             opacity: 0; transform: translateY(-50px);
-            animation: slideDownPix 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: 5s; z-index: 10;
+            animation: slideDownPix 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: 6.5s; 
+            z-index: 10; 
         }
         .pix-icon { width: 40px; height: 40px; background: #32BCAD; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
 
@@ -196,12 +196,36 @@
 
         /* --- STORYTELLING SECTION --- */
         .story-section { padding: 100px 0; background: #0F0F0F; border-bottom: 1px solid #222; }
-        .story-content { max-width: 900px; margin: 0 auto; } /* Conteúdo mais largo */
+        .story-content { max-width: 900px; margin: 0 auto; } 
         .story-block { border-left: 4px solid var(--gold-mid); padding-left: 35px; margin-bottom: 50px; }
         .story-block h3 { font-size: 1.8rem; margin-bottom: 15px; }
         .story-block p { font-size: 1.15rem; color: var(--text-gray); }
         .story-highlight { background: rgba(212, 175, 55, 0.1); color: var(--gold-mid); padding: 2px 8px; border-radius: 4px; font-weight: bold; }
 
+        /* --- BENEFÍCIOS ÚNICOS SECTION (NOVA) --- */
+        .benefits-section { padding: 100px 0; background: #0a0a0a; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
+        .benefit-item { padding: 25px; background: var(--secondary-dark); border-radius: 10px; }
+        .benefit-item h3 { color: var(--gold-mid); margin-bottom: 10px; font-size: 1.6rem; }
+        .benefit-item p { color: var(--text-gray); }
+
+        /* --- MODELO DE RELATÓRIO SECTION (NOVA) --- */
+        .report-viewer-section { padding: 100px 0; background: #111111; border-top: 1px solid #333; }
+        .viewer-box { 
+            max-width: 1000px; margin: 0 auto; padding: 20px; 
+            background: var(--primary-dark); border: 2px solid var(--gold-mid); 
+            border-radius: 15px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.1);
+        }
+        .viewer-frame { 
+            width: 100%; height: 700px; 
+            border: none; border-radius: 10px; 
+            background: #222; 
+        }
+        .viewer-info { font-size: 1rem; color: #888; margin-top: 15px; text-align: center; }
+
+        /* --- DICAS PODEROSAS SECTION --- */
+        .dicas-section { padding: 100px 0; background: #1a1a1a; border-top: 1px solid #333; }
+        
         /* --- DEPOIMENTOS --- */
         .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 60px; }
         .testimonial-card {
@@ -249,7 +273,6 @@
         .footer-links a:hover { color: var(--gold-mid); }
 
         /* --- MEDIA QUERIES (MOBILE) --- */
-        /* Aqui redefinimos os tamanhos para celular, para não ficarem gigantes */
         @media (max-width: 900px) {
             h1 { font-size: 2.3rem; }
             h2 { font-size: 1.8rem; }
@@ -259,8 +282,9 @@
             .container { padding: 0 20px; }
             .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 50px; }
             
-            .phone-wrapper { margin: 0 auto; order: -1; transform: scale(0.95) rotate(0deg); width: 280px; height: 580px; }
-            .hero-text { order: 1; }
+            /* ORDEM MOBILE CORRIGIDA: Celular (1) -> Texto (2) */
+            .hero-text { order: 2; } 
+            .phone-wrapper { margin: 0 auto; order: 1; transform: scale(0.95) rotate(0deg); width: 280px; height: 580px; }
             .hero-section { padding-top: 40px; }
             
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
@@ -280,17 +304,17 @@
             
             <div class="hero-text">
                 <div style="text-transform: uppercase; color: var(--gold-mid); letter-spacing: 3px; font-size: 0.9rem; margin-bottom: 20px; font-weight: 700;">
-                    Ferramenta de Fechamento de Contratos
+                    A Máquina de Fechamento de Contratos
                 </div>
                 <h1 style="margin-bottom: 25px;">
-                    Seu cliente não fecha contrato porque não vê valor na sua <span class="highlight-gold">Consulta Inicial</span>.
+                    Seu maior risco não é o ChatGPT, é o cliente sair da sua consulta sem fechar.
                 </h1>
                 <p>
-                    Transforme sua conversa em um <strong>Dossiê Visual Estratégico</strong>. Sem mensalidades fixas: pague o relatório avulso apenas quando tiver um cliente real na sua frente.
+                    Transforme seu diagnóstico rápido em um <strong>Dossiê de Inteligência</strong> que ancorará o valor do seu honorário. Pague apenas <strong>R$ 44,90</strong> no seu primeiro relatório para comprovar a eficácia.
                 </p>
                 
-                <a href="validaprova.html" class="btn-luminous">GERAR DOSSIÊ AGORA</a>
-                <p style="font-size: 0.85rem; color: #666; margin-top: 20px;">✓ Pagamento Sob Demanda. ✓ Pacotes com Desconto.</p>
+                <a href="validaprova.html" class="btn-luminous">CRIAR MEU PRIMEIRO DOSSIÊ POR R$ 44,90</a>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 20px;">✓ Oferta de Boas-vindas. ✓ Sem mensalidade. ✓ Pacotes com até 55% OFF.</p>
             </div>
 
             <div class="phone-wrapper">
@@ -315,7 +339,7 @@
                             <div class="file-attach">
                                 <i class="fas fa-file-pdf file-icon"></i>
                                 <div class="file-info">
-                                    <span class="file-name">Orientacao_Preliminar.pdf</span>
+                                    <span class="file-name">Planejamento_Estrategico.pdf</span>
                                     <span class="file-meta">1.2 MB • Visual Law</span>
                                 </div>
                             </div>
@@ -356,7 +380,7 @@
 
     <section class="stats-section reveal">
         <div class="container">
-            <h2 class="text-center" style="font-size: 1.4rem; margin-bottom: 40px; opacity: 0.8; font-weight: 400; letter-spacing: 1px;">Impacto Real na Advocacia Brasileira</h2>
+            <h2 class="text-center" style="font-size: 1.4rem; margin-bottom: 40px; opacity: 0.8; font-weight: 400; letter-spacing: 1px;">A Ferramenta que Devolve Tempo ao Advogado de Elite</h2>
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number" data-target="1250">0</div>
@@ -384,9 +408,7 @@
             <div class="story-block">
                 <h3 style="color: #fff;">O Risco da Mensalidade</h3>
                 <p>
-                    A maioria das ferramentas te cobra todo mês, tendo cliente ou não. 
-                    Se você passa um mês sem fechar contratos, aquela mensalidade vira um prejuízo.
-                    Isso gera ansiedade e peso no caixa do escritório.
+                    A maioria das ferramentas te cobra todo mês, tendo cliente ou não. Se você passa um mês sem fechar contratos, aquela mensalidade vira um prejuízo. Isso gera ansiedade e peso no caixa do escritório.
                 </p>
             </div>
 
@@ -398,34 +420,103 @@
             </div>
 
             <div class="story-block" style="border-left-color: #fff;">
-                <h3 style="color: #fff;">Matemática Simples</h3>
+                <h3 style="color: #fff;">Matemática do Sócio Sênior</h3>
                 <p style="color: #e9edef; font-weight: 600;">
-                    Se o cliente fecha o contrato, o custo do relatório é irrelevante (menos de 5% do honorário).
-                    Se você não tem clientes na semana, seu custo é zero. 
-                    Isso é <strong>Inteligência Financeira</strong>.
+                    Se o cliente fecha o contrato, o custo do relatório é irrelevante (menos de 5% do honorário). Se você não tem clientes na semana, seu custo é zero. Isso é <strong>Inteligência Financeira</strong>.
                 </p>
             </div>
         </div>
     </section>
 
+    <section class="benefits-section reveal">
+        <div class="container story-content">
+            <h2 class="text-center" style="margin-bottom: 60px;">O Diferencial Padrão Pro: Por Que Somos Únicos?</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <h3>Tecnologia de Confiança (Vença o ChatGPT)</h3>
+                    <p>Enquanto o cliente busca informação genérica em IAs, o seu Dossiê é a prova de que a sua análise é <strong>exclusiva, revisada e profissional</strong>. O cliente compra a sua assinatura, não o conteúdo.</p>
+                </div>
+                <div class="benefit-item">
+                    <h3>Automação de Design (Acima dos Concorrentes)</h3>
+                    <p>Concorrentes tentam imitar no Canva ou Word, gastando horas e com risco de amadorismo. O Padrão Pro entrega um <strong>Visual Law industrial</strong>, padronizado e com cores de elite, em até 2 horas. Sua entrega será sempre superior.</p>
+                </div>
+                <div class="benefit-item">
+                    <h3>Foco no Fluxo de Caixa (Zero Prejuízo)</h3>
+                    <p>Grandes softwares jurídicos cobram mensalidades fixas. Nosso modelo <strong>Sob Demanda</strong> garante que seu investimento em marketing só ocorra quando há um cliente real na sua frente. Maximização do ROI do seu tempo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="report-viewer-section reveal">
+        <div class="container">
+            <h2 class="text-center" style="margin-bottom: 40px;">Veja o Dossiê na Prática</h2>
+            <p class="text-center" style="font-size: 1.15rem; color: var(--text-gray); margin-bottom: 40px;">
+                Para entender o poder de fechamento, explore o modelo do nosso Planejamento Estratégico.
+            </p>
+            
+            <div class="viewer-box">
+                <iframe 
+                    class="viewer-frame" 
+                    src="./relatorio.PDF"
+                    title="Modelo de Dossiê Padrão Pro">
+                </iframe>
+                <div class="viewer-info">
+                    <i class="fas fa-info-circle"></i> O layout foi projetado para ancorar a autoridade. Lembre-se de configurar o compartilhamento do seu PDF para "Qualquer pessoa com o link pode visualizar".
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dicas-section reveal">
+        <div class="container story-content">
+            <h2 class="text-center" style="margin-bottom: 25px; font-size: 2.8rem;">Estratégias de Elite: Aumente Seu Poder de Negociação</h2>
+            <p class="text-center" style="color: var(--text-gray); font-style: italic; margin-bottom: 70px; font-size: 1.3rem;">
+                O Dossiê Padrão Pro não é um anexo; é a sua arma mais poderosa para justificar honorários de elite e converter clientes céticos.
+            </p>
+
+            <div class="story-block">
+                <h3 style="color: #fff;">1. Ancoragem de Valor Imediata (Tire o Foco do Preço)</h3>
+                <p>
+                    Use o Dossiê para dar o primeiro preço. Ao mostrar o <strong>Potencial Econômico</strong> do caso (o valor que o cliente pode ganhar ou perder), você naturalmente ancora o seu honorário em uma faixa superior. O cliente passa a negociar a garantia de proteger aquele valor, e não a sua taxa.
+                </p>
+            </div>
+
+            <div class="story-block">
+                <h3 style="color: #fff;">2. O Efeito "Estrategista" (Multiplique a Autoridade)</h3>
+                <p>
+                    Não apenas descreva a sua tese. Entregue a tese em um formato visual e estruturado de <strong>Relatório de Inteligência</strong>. Isso transforma o seu 'conselho' em um método de trabalho. O cliente não negocia com um advogado comum; ele negocia com um estrategista que provou o seu método antes mesmo do contrato.
+                </p>
+            </div>
+
+            <div class="story-block" style="border-left-color: #fff;">
+                <h3 style="color: #fff;">3. Fechamento por Contraste (Crie Urgência)</h3>
+                <p style="color: #e9edef; font-weight: 600;">
+                    Finalize a reunião apresentando a seção <strong>'O Próximo Nível de Segurança'</strong>. Isso cria um contraste psicológico: o custo da inação (o problema) se torna muito maior do que o custo do seu honorário. Ao vender o fim da ansiedade, o seu poder de barganha se multiplica.
+                </p>
+            </div>
+        </div>
+    </section>
+    
     <section style="padding: 100px 0; background: var(--secondary-dark);" class="reveal">
         <div class="container">
             <h2 class="text-center" style="font-size: 2.5rem;">A Psicologia por trás do "Sim"</h2>
             <div class="testimonials-grid" style="margin-top: 60px;">
                 <div class="testimonial-card" style="text-align: center;">
                     <i class="fas fa-file-contract" style="font-size: 2.5rem; color: var(--gold-mid); margin-bottom: 25px;"></i>
-                    <h3 style="margin-bottom: 15px;">Tangibilização</h3>
-                    <p style="color: var(--text-gray);">Serviço jurídico é invisível. O relatório torna sua estratégia "pegável". O cliente sente que está pagando por algo concreto.</p>
+                    <h3 style="margin-bottom: 15px;">Tangibilização da Estratégia</h3>
+                    <p style="color: var(--text-gray);">Serviço jurídico é invisível. O relatório transforma sua tese em um "mapa" concreto. O cliente compra um produto, não uma promessa.</p>
                 </div>
                 <div class="testimonial-card" style="text-align: center;">
                     <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: var(--gold-mid); margin-bottom: 25px;"></i>
-                    <h3 style="margin-bottom: 15px;">Reciprocidade</h3>
-                    <p style="color: var(--text-gray);">Ao entregar um Dossiê completo <em>antes</em> do contrato, você gera uma dívida moral no cliente. Ele sente que "precisa" te contratar.</p>
+                    <h3 style="margin-bottom: 15px;">Blindagem contra o Ceticismo</h3>
+                    <p style="color: var(--text-gray);">Em um mundo de ChatGPT, o Dossiê Visual é a prova inegável de que você é um especialista, e não um robô. Gera confiança imediata.</p>
                 </div>
                 <div class="testimonial-card" style="text-align: center;">
                     <i class="fas fa-gem" style="font-size: 2.5rem; color: var(--gold-mid); margin-bottom: 25px;"></i>
-                    <h3 style="margin-bottom: 15px;">Ancoragem de Elite</h3>
-                    <p style="color: var(--text-gray);">O design sofisticado ancora o preço lá em cima. Se o documento parece coisa de banca cara, o seu honorário parece justo.</p>
+                    <h3 style="margin-bottom: 15px;">Justificativa de Honorários</h3>
+                    <p style="color: var(--text-gray);">O design sofisticado ancora o preço. Se o documento parece coisa de banca de R$ 50 mil, o seu honorário de R$ 10 mil parece justo e merecido.</p>
                 </div>
             </div>
         </div>
@@ -450,14 +541,14 @@
                             <td class="col-pro"><strong>PDF Estratégico Visual</strong></td>
                         </tr>
                         <tr>
-                            <td>Investimento</td>
-                            <td>R$ 0,00 (Mas perde o cliente)</td>
-                            <td class="col-pro"><strong>R$ 87,00 (E fecha o contrato)</strong></td>
+                            <td>ROI do Investimento</td>
+                            <td>R$ 0,00 (Perde o cliente)</td>
+                            <td class="col-pro"><strong>Alto (Investe R$ 44,90 para fechar R$ 5.000)</strong></td>
                         </tr>
                         <tr>
                             <td>Taxa de Fechamento</td>
-                            <td>Baixa (Cliente compara preço)</td>
-                            <td class="col-pro"><strong>Alta (Cliente vê valor)</strong></td>
+                            <td>Baixa (Cliente compara preço/ChatGPT)</td>
+                            <td class="col-pro"><strong>Alta (Cliente vê valor/confiança)</strong></td>
                         </tr>
                         <tr>
                             <td>Blindagem Ética</td>
@@ -520,7 +611,7 @@
 
             <details>
                 <summary>Preciso pagar mensalidade?</summary>
-                <div class="faq-answer">Não. Você pode comprar o relatório Avulso (R$ 87,00) apenas quando precisar. Se tiver volume, temos Pacotes de Crédito que reduzem drasticamente esse valor.</div>
+                <div class="faq-answer">Não. Você pode comprar o relatório Avulso (R$ 87,90) apenas quando precisar. Temos uma oferta de R$ 44,90 para o primeiro teste. Se tiver volume, temos Pacotes de Crédito que reduzem drasticamente esse valor.</div>
             </details>
 
             <details>
@@ -530,7 +621,7 @@
 
             <details>
                 <summary>Quanto tempo leva para gerar o relatório?</summary>
-                <div class="faq-answer">Cerca de 2 minutos. Você preenche os dados enquanto conversa com o cliente e, ao desligar o telefone, já pode enviar o PDF pronto.</div>
+                <div class="faq-answer">Você preenche os dados em minutos e enviamos o PDF pronto e revisado em até <strong>2 horas</strong>. Isso garante que você tenha um Dossiê de Inteligência para enviar ao cliente no mesmo dia.</div>
             </details>
 
             <details>
@@ -544,12 +635,11 @@
         <div class="container">
             <h2 style="font-size: 3rem; margin-bottom: 25px;">Quanto vale um contrato de R$ 5.000?</h2>
             <p style="font-size: 1.3rem; color: var(--text-gray); margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto;">
-                Invista <strong>R$ 87,00</strong> no Relatório Avulso e garanta o fechamento.<br>
-                Ou compre <strong>Pacotes de Créditos</strong> dentro da plataforma e pague ainda menos.
+                Invista apenas <strong>R$ 44,90</strong> no seu primeiro Dossiê Estratégico e transforme seu diagnóstico rápido na garantia de fechamento do contrato.
             </p>
             
             <a href="validaprova.html" class="btn-luminous" style="font-size: 1.3rem; padding: 25px 60px;">
-                CRIAR MEU PRIMEIRO RELATÓRIO
+                ATIVAR OFERTA DE R$ 44,90 AGORA
             </a>
             <p style="margin-top: 25px; color: #777; font-size: 0.95rem;">Sem fidelidade. Sem custo fixo.</p>
         </div>
