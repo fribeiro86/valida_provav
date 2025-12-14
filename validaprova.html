@@ -2,29 +2,54 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sistema Valida Prova</title>
+    
     <link rel="stylesheet" href="./style.css">
-
     <script src="./script.js"></script>
+
+    <style>
+        /* CSS Crítico para garantir Tela Cheia e Aparência Premium */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Remove barras de rolagem duplas */
+            background-color: #0a0a0a; /* Fundo escuro para não dar flash branco */
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-    
-        
-        <!-- Container do iframe -->
-        <div class="iframe-container">
-            <iframe src="https://script.google.com/macros/s/AKfycbxw1W5yQMmsVlD9CopXrevkyS4-_8R-VuRkcQjve6eGeQwam6Aem2aYCP-4kBF3ZRqb/exec"></iframe>
-        </div>
-        
-            
-       
+
+    <div class="iframe-container">
+        <iframe 
+            src="https://script.google.com/macros/s/AKfycbxw1W5yQMmsVlD9CopXrevkyS4-_8R-VuRkcQjve6eGeQwam6Aem2aYCP-4kBF3ZRqb/exec"
+            allow="camera; microphone; geolocation"
+            sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation allow-downloads">
+        </iframe>
     </div>
 
-   
 </body>
-
 </html>
+
 
 
 
