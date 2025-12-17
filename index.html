@@ -5,600 +5,345 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Padrão Pro | A Materialização da Sua Autoridade</title>
     <meta name="description" content="A ferramenta de Visual Law para advogados que cobram honorários de elite.">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- VARIÁVEIS & RESET --- */
+        /* --- CORE VARIABLES --- */
         :root {
-            --primary-dark: #050505;
-            --secondary-dark: #111111;
-            --card-bg: #161616;
-            --gold-light: #fceabb;
-            --gold-mid: #d4af37;
-            --text-light: #e9edef;
-            --text-gray: #b0b0b0; 
-            --whatsapp-green: #005c4b;
-            --whatsapp-incoming: #202c33;
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Inter', sans-serif;
+            --bg-body: #050505;
+            --bg-surface: #0f0f0f;
+            --bg-card: #141414;
+            --accent-gold: #D4AF37;
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 40%, #B38728 60%, #FBF5B7 100%);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --success-green: #00D668;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Manrope', sans-serif;
+            --ease-smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: var(--font-body);
-            background-color: var(--primary-dark);
-            color: var(--text-light);
-            line-height: 1.7;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; 
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- TIPOGRAFIA DE IMPACTO (DESKTOP) --- */
-        h1, h2, h3, h4 {
-            font-family: var(--font-heading);
-            color: #fff;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 9999; opacity: 0.6;
         }
 
-        h1 { font-size: 3.5rem; font-weight: 900; } 
-        h2 { font-size: 2.5rem; font-weight: 700; }
-        h3 { font-size: 1.5rem; font-weight: 600; }
-
-        p { font-size: 1.1rem; } 
-
-        .container {
-            max-width: 1280px; 
-            margin: 0 auto;
-            padding: 0 30px;
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; color: #fff; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 700; letter-spacing: -1px; }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; letter-spacing: -0.5px; }
+        
+        .text-gradient {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
-        .highlight-gold { color: var(--gold-mid); font-style: italic; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
         .text-center { text-align: center; }
 
-        /* --- ANIMAÇÕES (SCROLL REVEAL) --- */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        /* --- ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--ease-smooth); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- BOTÃO LUMINOSO (CTA) --- */
-        .btn-luminous {
-            position: relative;
-            background: linear-gradient(135deg, #eecda3 0%, #d4af37 100%);
-            color: #050505;
-            padding: 20px 45px; 
-            font-weight: 800;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            display: inline-block;
-            font-size: 1.1rem; 
-            text-decoration: none;
-            letter-spacing: 1px;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
-            transition: all 0.3s ease;
-            width: fit-content;
+        /* --- BUTTONS --- */
+        .btn-gold {
+            position: relative; background: var(--gold-gradient); color: #050505;
+            padding: 22px 50px; border-radius: 8px; font-size: 1.1rem; font-weight: 800;
+            text-transform: uppercase; text-decoration: none; display: inline-block;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.25); transition: transform 0.3s ease;
+            overflow: hidden; z-index: 10; cursor: pointer;
         }
+        .btn-gold:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4); }
 
-        .btn-luminous:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
-        }
+        /* --- SECTIONS --- */
+        .hero { padding: 140px 0 80px; min-height: 100vh; display: flex; align-items: center; background: radial-gradient(circle at 70% 20%, #1a1a1a 0%, #050505 70%); position: relative; }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 100px; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.2); color: var(--accent-gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 30px; }
 
-        /* --- HERO SECTION --- */
-        .hero-section {
-            padding: 80px 0;
-            background: radial-gradient(circle at 30% 30%, #1a1a1a 0%, #000 100%);
-            min-height: 95vh;
-            display: flex;
-            align-items: center;
-        }
-        
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr; 
-            gap: 80px;
-            align-items: center;
-        }
+        /* --- DEVICE --- */
+        .device-container { position: relative; width: 340px; height: 680px; margin: 0 auto; z-index: 10; }
+        .iphone-frame { width: 100%; height: 100%; background: #000; border-radius: 54px; padding: 12px; box-shadow: 0 0 0 1px #333, 0 0 0 5px #111, 0 40px 80px rgba(0,0,0,0.8); position: relative; }
+        .screen { background: #0b141a url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-blend-mode: soft-light; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+        .notch { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 100px; height: 30px; background: #000; border-radius: 20px; z-index: 20; }
+        .chat-header { padding: 50px 20px 15px; background: rgba(31, 44, 52, 0.95); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .chat-body { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 12px; }
+        .bubble { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 0.85rem; line-height: 1.45; position: relative; opacity: 0; animation: fadeInMsg 0.5s ease forwards; }
+        .bubble-in { background: #202c33; color: #fff; align-self: flex-start; border-top-left-radius: 0; }
+        .bubble-out { background: #005c4b; color: #e9edef; align-self: flex-end; border-top-right-radius: 0; }
+        .attachment { margin-top: 8px; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px; border-left: 3px solid #ff4b4b; }
+        .notif-pix { position: absolute; top: 110px; left: 12px; right: 12px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); color: #000; padding: 12px 16px; border-radius: 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: translateY(-40px); opacity: 0; animation: slidePix 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards 7s; z-index: 50; }
+        @keyframes fadeInMsg { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
+        @keyframes slidePix { to { opacity: 1; transform: translateY(0); } }
 
-        .hero-text p {
-            font-size: 1.25rem; 
-            color: var(--text-gray);
-            margin-bottom: 40px;
-            max-width: 90%;
-        }
-        
-        /* CELULAR ANIMADO WHATSAPP (VERTICAL) */
-        .phone-wrapper {
-            position: relative;
-            width: 300px; 
-            height: 620px;
-            background: #000;
-            border: 12px solid #222;
-            border-radius: 40px;
-            margin: 0 auto;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
-            overflow: hidden;
-        }
-
-        .phone-screen {
-            width: 100%; height: 100%;
-            background-color: #0b141a;
-            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); 
-            background-size: 300px; background-blend-mode: soft-light;
-            display: flex; flex-direction: column; position: relative;
-        }
-        
-        /* Header Zap */
-        .wa-header {
-            background: #202c33; padding: 40px 15px 15px;
-            display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2c3e50;
-        }
-        .wa-avatar { 
-            width: 45px; height: 45px; border-radius: 50%; 
-            background-image: url('https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80');
-            background-size: cover; background-position: center;
-        }
-        
-        /* Chat Area */
-        .chat-area { flex: 1; padding: 20px 15px; display: flex; flex-direction: column; gap: 15px; overflow-y: hidden; }
-        
-        .msg { 
-            max-width: 85%; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; 
-            position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.3); opacity: 0; 
-            line-height: 1.4; 
-        }
-        .msg-in { align-self: flex-start; background: var(--whatsapp-incoming); color: #fff; border-top-left-radius: 0; animation: popIn 0.5s ease forwards; }
-        .msg-out { align-self: flex-end; background: var(--whatsapp-green); color: #fff; border-top-right-radius: 0; animation: popIn 0.5s ease forwards; }
-        
-        .msg-meta { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-align: right; margin-top: 4px; display: block; }
-
-        /* ARQUIVO ANEXO */
-        .file-attach {
-            display: flex; align-items: center; gap: 12px;
-            background: rgba(0, 0, 0, 0.15); padding: 10px; border-radius: 6px;
-            margin-top: 6px; overflow: hidden;
-        }
-        .file-icon { font-size: 2rem; color: #ff5f5f; flex-shrink: 0; }
-        .file-info { display: flex; flex-direction: column; min-width: 0; }
-        .file-name { font-size: 0.8rem; font-weight: 700; color: #fff; line-height: 1.2; word-break: break-all; }
-        .file-meta { font-size: 0.7rem; color: rgba(255,255,255,0.7); }
-
-        /* Footer Zap */
-        .wa-footer {
-            background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; color: #8696a0; font-size: 1.3rem;
-        }
-        .wa-input {
-            flex: 1; background: #2a3942; height: 40px; border-radius: 20px; padding: 0 20px; display: flex; align-items: center; font-size: 0.95rem; color: #8696a0;
-        }
-
-        /* Notificação Pix (DELAY AJUSTADO) */
-        .pix-notification {
-            position: absolute; top: 90px; left: 15px; right: 15px;
-            background: rgba(255,255,255,0.95); border-radius: 12px; padding: 15px;
-            display: flex; align-items: center; gap: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.6);
-            opacity: 0; transform: translateY(-50px);
-            animation: slideDownPix 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: 6.5s; 
-            z-index: 10; 
-        }
-        .pix-icon { width: 40px; height: 40px; background: #32BCAD; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
-
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes slideDownPix { to { transform: translateY(0); opacity: 1; } }
-
-        /* --- STATS SECTION --- */
-        .stats-section { padding: 60px 0; background: #0a0a0a; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+        /* --- STATS --- */
+        .stats-section { padding: 60px 0; background: #000; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; }
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
-        .stat-number { font-family: var(--font-heading); font-size: 3.5rem; color: var(--gold-mid); font-weight: 900; line-height: 1; margin-bottom: 10px; }
-        .stat-label { font-size: 1rem; color: #888; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        .stat-number { font-size: 3.5rem; color: #fff; font-weight: 700; margin-bottom: 5px; font-family: var(--font-display); }
+        .stat-label { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* --- STORYTELLING SECTION --- */
-        .story-section { padding: 100px 0; background: #0F0F0F; border-bottom: 1px solid #222; }
-        .story-content { max-width: 900px; margin: 0 auto; } 
-        .story-block { border-left: 4px solid var(--gold-mid); padding-left: 35px; margin-bottom: 50px; }
-        .story-block h3 { font-size: 1.8rem; margin-bottom: 15px; }
-        .story-block p { font-size: 1.15rem; color: var(--text-gray); }
-        .story-highlight { background: rgba(212, 175, 55, 0.1); color: var(--gold-mid); padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+        /* --- SKEPTICISM --- */
+        .skeptic-section { padding: 100px 0; background: #080808; border-top: 1px solid #1a1a1a; }
+        .skeptic-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .skeptic-list li { margin-bottom: 25px; list-style: none; display: flex; gap: 15px; color: #ccc; font-size: 1.05rem; }
+        .skeptic-list i { color: var(--accent-gold); margin-top: 5px; }
 
-        /* --- BENEFÍCIOS ÚNICOS SECTION (NOVA) --- */
-        .benefits-section { padding: 100px 0; background: #0a0a0a; border-top: 1px solid #222; border-bottom: 1px solid #222; }
-        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
-        .benefit-item { padding: 25px; background: var(--secondary-dark); border-radius: 10px; }
-        .benefit-item h3 { color: var(--gold-mid); margin-bottom: 10px; font-size: 1.6rem; }
-        .benefit-item p { color: var(--text-gray); }
+        /* --- CONVICTION (AIDA) --- */
+        .conviction-section { padding: 120px 0; background: radial-gradient(circle at 50% 50%, #151515, #050505); border-top: 1px solid #222; }
+        .conviction-box { max-width: 1000px; margin: 0 auto; }
+        .conviction-title { font-size: clamp(2.2rem, 4vw, 3.5rem); margin-bottom: 50px; text-align: center; }
+        .manifesto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 60px; }
+        .manifesto-item h3 { color: var(--accent-gold); font-size: 1.4rem; margin-bottom: 15px; font-family: var(--font-body); font-weight: 800; text-transform: uppercase; }
+        .manifesto-item p { color: #aaa; font-size: 1.05rem; line-height: 1.8; }
+        .cta-manifesto { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); padding: 50px; border-radius: 20px; margin-top: 80px; text-align: center; }
 
-        /* --- MODELO DE RELATÓRIO SECTION (NOVA) --- */
-        .report-viewer-section { padding: 100px 0; background: #111111; border-top: 1px solid #333; }
-        .viewer-box { 
-            max-width: 1000px; margin: 0 auto; padding: 20px; 
-            background: var(--primary-dark); border: 2px solid var(--gold-mid); 
-            border-radius: 15px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.1);
-        }
-        .viewer-frame { 
-            width: 100%; height: 700px; 
-            border: none; border-radius: 10px; 
-            background: #222; 
-        }
-        .viewer-info { font-size: 1rem; color: #888; margin-top: 15px; text-align: center; }
+        /* --- MODEL VIEWER --- */
+        .model-viewer-section { padding: 100px 0; }
+        .viewer-box { max-width: 1000px; margin: 40px auto 0; background: #1a1a1a; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); border: 1px solid #333; overflow: hidden; }
+        .viewer-header { background: #2b2b2b; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .viewer-dots { display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f57; } .dot-yellow { background: #febc2e; } .dot-green { background: #28c840; }
+        .viewer-frame { width: 100%; height: 700px; border: none; background: #525659; }
 
-        /* --- DICAS PODEROSAS SECTION --- */
-        .dicas-section { padding: 100px 0; background: #1a1a1a; border-top: 1px solid #333; }
-        
-        /* --- DEPOIMENTOS --- */
-        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 60px; }
-        .testimonial-card {
-            background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid #333; position: relative;
-            transition: transform 0.3s ease;
-        }
-        .testimonial-card:hover { transform: translateY(-8px); border-color: var(--gold-mid); }
-        .stars { color: var(--gold-mid); margin-bottom: 20px; font-size: 1rem; }
-        .quote { color: #ccc; font-style: italic; font-size: 1.1rem; margin-bottom: 25px; line-height: 1.6; }
-        .client-info { display: flex; align-items: center; gap: 20px; }
-        .client-avatar { width: 50px; height: 50px; background: #444; border-radius: 50%; }
+        /* --- TABLE --- */
+        .table-section { padding: 100px 0; background: var(--bg-surface); }
+        .table-wrapper { background: rgba(255, 255, 255, 0.02); border-radius: 20px; padding: 40px; border: 1px solid rgba(255, 255, 255, 0.05); overflow-x: auto; }
+        .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 700px; }
+        .comparison-table th, .comparison-table td { padding: 25px; text-align: center; border-bottom: 1px solid #222; }
+        .col-highlight { background: linear-gradient(180deg, rgba(212, 175, 55, 0.06) 0%, rgba(0,0,0,0) 100%); border-left: 1px solid rgba(212, 175, 55, 0.2); border-right: 1px solid rgba(212, 175, 55, 0.2); color: #fff; }
+        .td-criteria { text-align: left; font-weight: 600; color: #fff; width: 35%; }
 
-        /* --- TABELA RESPONSIVA --- */
-        .table-container { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 50px; border: 1px solid #333; border-radius: 16px; }
-        .comparison-table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        .comparison-table th { background: #1a1a1a; padding: 30px; text-align: center; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; color: #fff; font-weight: 700; }
-        .comparison-table td { padding: 30px; text-align: center; border-bottom: 1px solid #222; background: #0a0a0a; color: var(--text-gray); font-size: 1.1rem; }
-        .col-pro { background: rgba(212, 175, 55, 0.03) !important; border-left: 2px solid var(--gold-mid); }
-        .check-gold { color: var(--gold-mid); font-weight: bold; font-size: 1.2rem; }
-        .cross-red { color: #666; text-decoration: line-through; }
+        /* --- TESTIMONIALS --- */
+        .testimonials-section { padding: 120px 0; background: #080808; }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 60px; }
+        .testimonial-card { background: #111; padding: 40px; border-radius: 20px; border: 1px solid #222; transition: 0.3s; position: relative; }
+        .testimonial-card:hover { border-color: var(--accent-gold); }
+        .stars { color: var(--accent-gold); font-size: 0.75rem; margin-bottom: 20px; }
+        .client-meta { display: flex; align-items: center; gap: 15px; }
+        .client-avatar { width: 50px; height: 50px; border-radius: 50%; background-size: cover; border: 2px solid #333; }
+        .client-name { color: #fff; font-weight: 700; }
+        .client-role { color: var(--accent-gold); font-size: 0.8rem; text-transform: uppercase; }
 
-        /* --- FAQ SECTION --- */
+        /* --- FAQ --- */
         .faq-section { padding: 100px 0; }
-        .faq-wrapper { max-width: 900px; margin: 0 auto; }
-        details { background: var(--secondary-dark); margin-bottom: 20px; border-radius: 10px; border: 1px solid #222; overflow: hidden; transition: all 0.3s ease; }
-        details[open] { border-color: var(--gold-mid); }
-        summary { padding: 25px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; list-style: none; font-size: 1.2rem; }
-        summary::-webkit-details-marker { display: none; }
-        summary::after { content: '+'; font-size: 2rem; color: var(--gold-mid); transition: 0.3s; font-weight: 300; }
+        details { background: #111; margin-bottom: 15px; border-radius: 8px; border: 1px solid #222; }
+        summary { padding: 25px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; color: #fff; }
+        summary::after { content: '+'; font-size: 1.5rem; color: var(--accent-gold); transition: 0.3s; }
         details[open] summary::after { transform: rotate(45deg); }
-        .faq-answer { padding: 0 25px 30px; color: var(--text-gray); line-height: 1.8; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; font-size: 1.1rem; }
+        .faq-answer { padding: 0 25px 25px; color: #999; border-top: 1px solid #222; padding-top: 20px; line-height: 1.7; }
 
-        /* --- GRAND FINALE --- */
-        .finale-section {
-            padding: 120px 0; background: linear-gradient(180deg, var(--primary-dark) 0%, #151000 100%); border-top: 1px solid #222;
-        }
-        
+        /* --- FINAL CTA SECTION (NEW) --- */
+        .final-cta-section { padding: 140px 0; background: linear-gradient(180deg, #050505 0%, #151515 50%, #0a0a00 100%); text-align: center; border-top: 1px solid #222; position: relative; overflow: hidden; }
+        .final-cta-section::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; height: 400px; background: var(--accent-gold); filter: blur(150px); opacity: 0.05; pointer-events: none; }
+        .final-cta-section h2 { font-size: clamp(2.5rem, 5vw, 3.8rem); margin-bottom: 30px; }
+        .final-cta-section p { color: #888; font-size: 1.3rem; max-width: 800px; margin: 0 auto 60px; }
+
         /* --- FOOTER --- */
-        .pro-footer { background: #000; padding: 80px 0 40px; border-top: 1px solid #222; font-size: 1rem; color: #777; }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
-        .footer-logo { font-family: var(--font-heading); font-size: 1.8rem; color: #fff; margin-bottom: 20px; display: block; letter-spacing: 1px; }
-        .footer-links ul { list-style: none; }
-        .footer-links li { margin-bottom: 15px; }
-        .footer-links a { color: #777; text-decoration: none; transition: 0.3s; font-size: 1.05rem; }
-        .footer-links a:hover { color: var(--gold-mid); }
+        .pro-footer { background: #000; padding: 100px 0 40px; border-top: 1px solid #1a1a1a; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 60px; }
+        .footer-logo { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 20px; }
+        .footer-col h4 { color: #fff; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+        .footer-col a { color: #666; text-decoration: none; transition: 0.3s; display: block; margin-bottom: 10px; }
+        .footer-col a:hover { color: var(--accent-gold); }
 
-        /* --- MEDIA QUERIES (MOBILE) --- */
+        /* Mobile Adjustments */
         @media (max-width: 900px) {
-            h1 { font-size: 2.3rem; }
-            h2 { font-size: 1.8rem; }
-            p { font-size: 1rem; }
-            .hero-text p { font-size: 1.1rem; }
-            
-            .container { padding: 0 20px; }
-            .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 50px; }
-            
-            /* ORDEM MOBILE CORRIGIDA: Celular (1) -> Texto (2) */
-            .hero-text { order: 2; } 
-            .phone-wrapper { margin: 0 auto; order: 1; transform: scale(0.95) rotate(0deg); width: 280px; height: 580px; }
-            .hero-section { padding-top: 40px; }
-            
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-            .btn-luminous { width: 100%; padding: 18px 20px; font-size: 1rem; }
-            .stats-grid { grid-template-columns: 1fr; gap: 40px; }
-            .stat-number { font-size: 3rem; }
-            
-            .story-content { width: 100%; }
-            .story-block { border-left: 3px solid var(--gold-mid); padding-left: 20px; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero-copy { order: 1; text-align: center; }
+            .device-container { order: 2; transform: scale(0.95); }
+            .skeptic-layout { grid-template-columns: 1fr; }
+            .manifesto-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <section class="hero-section reveal">
+    <section class="hero reveal active">
         <div class="container hero-grid">
-            
-            <div class="hero-text">
-                <div style="text-transform: uppercase; color: var(--gold-mid); letter-spacing: 3px; font-size: 0.9rem; margin-bottom: 20px; font-weight: 700;">
-                    A Máquina de Fechamento de Contratos
+            <div class="hero-copy">
+                <div class="hero-badge"><i class="fas fa-crown"></i> Método Anti-Commodity</div>
+                <h1>Pare de vender "Promessas". Venda a <span class="text-gradient">Certeza Visual</span> que justifica honorários de 5 Dígitos.</h1>
+                <p>O cliente não paga caro pelo que ele <em>ouve</em>, ele paga pelo que ele <em>vê</em>. Transforme a intangibilidade do Direito em um <strong>Dossiê de Inteligência</strong> que envergonha a concorrência.</p>
+                <div style="text-align: left;" class="mobile-center-cta">
+                    <a href="#" class="btn-gold">GERAR DOSSIÊ DE AUTORIDADE</a>
                 </div>
-                <h1 style="margin-bottom: 25px;">
-                    Seu maior risco não é o ChatGPT, é o cliente sair da sua consulta sem fechar.
-                </h1>
-                <p>
-                    Transforme seu diagnóstico rápido em um <strong>Dossiê de Inteligência</strong> que ancorará o valor do seu honorário. Pague apenas <strong>R$ 44,90</strong> no seu primeiro relatório para comprovar a eficácia.
-                </p>
-                
-                <a href="validaprova.html" class="btn-luminous">CRIAR MEU PRIMEIRO DOSSIÊ POR R$ 44,90</a>
-                <p style="font-size: 0.85rem; color: #666; margin-top: 20px;">✓ Oferta de Boas-vindas. ✓ Sem mensalidade. ✓ Pacotes com até 55% OFF.</p>
             </div>
 
-            <div class="phone-wrapper">
-                <div class="phone-screen">
-                    <div class="wa-header">
-                        <div class="wa-avatar"></div>
-                        <div style="color:white; font-size:0.95rem;">
-                            <strong>Cliente Empresarial</strong><br>
-                            <span style="font-size:0.75rem; color:#aaa;">Online</span>
+            <div class="device-container">
+                <div class="iphone-frame">
+                    <div class="notch"></div>
+                    <div class="screen">
+                        <div class="chat-header">
+                            <i class="fas fa-arrow-left" style="color: #00a884; font-size: 1.1rem;"></i>
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-image: url('https://ui-avatars.com/api/?name=Dr+Socio&background=random'); background-size: cover;"></div>
+                            <div style="flex: 1; color: white; line-height: 1.2; margin-left: 8px;">
+                                <strong style="font-size: 0.95rem;">Dr. Roberto (Sócio)</strong><br>
+                                <span style="font-size: 0.75rem; color: #aaa;">Online hoje às 14:18</span>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="chat-area">
-                        <div class="msg msg-in" style="animation-delay: 0.5s">
-                            Dr., vou ver com os sócios sobre o valor e te aviso.
-                            <span class="msg-meta">14:20</span>
-                        </div>
-                        
-                        <div class="msg msg-out" style="animation-delay: 2s">
-                            Entendo. Apresente este Dossiê Visual a eles. Resume nossa estratégia:
-                            
-                            <div class="file-attach">
-                                <i class="fas fa-file-pdf file-icon"></i>
-                                <div class="file-info">
-                                    <span class="file-name">Planejamento_Estrategico.pdf</span>
-                                    <span class="file-meta">1.2 MB • Visual Law</span>
+                        <div class="chat-body">
+                            <div class="bubble bubble-in" style="animation-delay: 0.5s">O valor está acima do aprovado...</div>
+                            <div class="bubble bubble-out" style="animation-delay: 2s">
+                                Vejam a <strong>Análise de Risco Visual</strong> que preparei:
+                                <div class="attachment">
+                                    <i class="fas fa-file-pdf" style="font-size: 1.8rem; color: #ff4b4b;"></i>
+                                    <div><div style="font-weight: bold; font-size: 0.75rem;">ESTRATEGIA_VISUAL.pdf</div><div style="font-size: 0.65rem;">Visual Law</div></div>
                                 </div>
                             </div>
-                            
-                            <span class="msg-meta">14:22 <i class="fas fa-check-double" style="color:#53bdeb;"></i></span>
+                            <div class="bubble bubble-in" style="animation-delay: 4.5s">Nunca recebemos algo tão detalhado.</div>
+                            <div class="bubble bubble-in" style="animation-delay: 5.5s">A diretoria quer essa segurança. <strong>Pode mandar o contrato.</strong></div>
                         </div>
-                        
-                        <div class="msg msg-in" style="animation-delay: 4.5s">
-                            Doutor... acabei de abrir o PDF. Nunca vi uma análise tão clara dos riscos.
-                            <span class="msg-meta">14:25</span>
+                        <div class="notif-pix">
+                            <div style="background: #820AD1; color: white; width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold;">Nu</div>
+                            <div style="flex: 1;"><div style="font-size: 0.75rem; color: #555;">Agora</div><div style="font-weight: bold; font-size: 0.85rem;">Pix recebido: R$ 5.000,00</div></div>
                         </div>
-
-                        <div class="msg msg-in" style="animation-delay: 5.5s">
-                            <strong>Pode minutar o contrato.</strong> Vamos fechar com o seu escritório agora.
-                            <span class="msg-meta">14:26</span>
-                        </div>
-                    </div>
-
-                    <div class="pix-notification">
-                        <div class="pix-icon">R$</div>
-                        <div>
-                            <div style="font-size:0.75rem; color:#555;">BANCO INTER</div>
-                            <div style="font-size:0.9rem; font-weight:bold; color:#000;">Pix recebido: R$ 5.000,00</div>
-                        </div>
-                    </div>
-
-                    <div class="wa-footer">
-                        <i class="fas fa-plus"></i>
-                        <div class="wa-input">Mensagem</div>
-                        <i class="fas fa-camera"></i>
-                        <i class="fas fa-microphone"></i>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
     <section class="stats-section reveal">
         <div class="container">
-            <h2 class="text-center" style="font-size: 1.4rem; margin-bottom: 40px; opacity: 0.8; font-weight: 400; letter-spacing: 1px;">A Ferramenta que Devolve Tempo ao Advogado de Elite</h2>
             <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number" data-target="1250">0</div>
-                    <div class="stat-label">Advogados Ativos</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-target="15000">0</div>
-                    <div class="stat-label">Dossiês Gerados</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" data-target="98">0</div>
-                    <div class="stat-label">% De Aprovação</div>
-                </div>
+                <div><div class="stat-number" data-target="15000">0</div><div class="stat-label">Dossiês Gerados</div></div>
+                <div><div class="stat-number" data-target="98">0</div><div class="stat-label">% Taxa de Aprovação</div></div>
+                <div><div class="stat-number" data-target="12">0</div><div class="stat-label">Minutos p/ Criar</div></div>
             </div>
         </div>
     </section>
 
-    <section class="story-section reveal">
-        <div class="container story-content">
-            <h2 class="text-center" style="margin-bottom: 25px; font-size: 2.8rem;">A Lógica do Lucro Imediato</h2>
-            <p class="text-center" style="color: var(--text-gray); font-style: italic; margin-bottom: 70px; font-size: 1.3rem;">
-                "Por que pagar mensalidade se você pode pagar apenas quando ganha?"
-            </p>
-
-            <div class="story-block">
-                <h3 style="color: #fff;">O Risco da Mensalidade</h3>
-                <p>
-                    A maioria das ferramentas te cobra todo mês, tendo cliente ou não. Se você passa um mês sem fechar contratos, aquela mensalidade vira um prejuízo. Isso gera ansiedade e peso no caixa do escritório.
-                </p>
-            </div>
-
-            <div class="story-block">
-                <h3 style="color: #fff;">A Liberdade do "Sob Demanda"</h3>
-                <p>
-                    O Padrão Pro inverte a lógica. Você investe <strong>R$ 87,00</strong> no relatório avulso APENAS quando está diante de uma oportunidade real de fechar um contrato de R$ 2.000, R$ 5.000 ou R$ 10.000.
-                </p>
-            </div>
-
-            <div class="story-block" style="border-left-color: #fff;">
-                <h3 style="color: #fff;">Matemática do Sócio Sênior</h3>
-                <p style="color: #e9edef; font-weight: 600;">
-                    Se o cliente fecha o contrato, o custo do relatório é irrelevante (menos de 5% do honorário). Se você não tem clientes na semana, seu custo é zero. Isso é <strong>Inteligência Financeira</strong>.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="benefits-section reveal">
-        <div class="container story-content">
-            <h2 class="text-center" style="margin-bottom: 60px;">O Diferencial Padrão Pro: Por Que Somos Únicos?</h2>
-            
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <h3>Tecnologia de Confiança (Vença o ChatGPT)</h3>
-                    <p>Enquanto o cliente busca informação genérica em IAs, o seu Dossiê é a prova de que a sua análise é <strong>exclusiva, revisada e profissional</strong>. O cliente compra a sua assinatura, não o conteúdo.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>Automação de Design (Acima dos Concorrentes)</h3>
-                    <p>Concorrentes tentam imitar no Canva ou Word, gastando horas e com risco de amadorismo. O Padrão Pro entrega um <strong>Visual Law industrial</strong>, padronizado e com cores de elite, em até 2 horas. Sua entrega será sempre superior.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>Foco no Fluxo de Caixa (Zero Prejuízo)</h3>
-                    <p>Grandes softwares jurídicos cobram mensalidades fixas. Nosso modelo <strong>Sob Demanda</strong> garante que seu investimento em marketing só ocorra quando há um cliente real na sua frente. Maximização do ROI do seu tempo.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="report-viewer-section reveal">
+    <section class="skeptic-section reveal">
         <div class="container">
-            <h2 class="text-center" style="margin-bottom: 40px;">Veja o Dossiê na Prática</h2>
-            <p class="text-center" style="font-size: 1.15rem; color: var(--text-gray); margin-bottom: 40px;">
-                Para entender o poder de fechamento, explore o modelo do nosso Planejamento Estratégico.
-            </p>
-            
+            <div class="skeptic-layout">
+                <div>
+                    <h2 style="margin-bottom: 25px;">Você vende Intelecto. <span style="color: #666;">Eles compram Clareza.</span></h2>
+                    <ul class="skeptic-list">
+                        <li><i class="fas fa-brain"></i><div><strong>Fluidez Cognitiva:</strong> O cérebro associa "fácil de entender" com "verdadeiro".</div></li>
+                        <li><i class="fas fa-clock"></i><div><strong>A Realidade dos Tribunais:</strong> Juízes escaneiam petições. Gráficos param o scrolling.</div></li>
+                        <li><i class="fas fa-gavel"></i><div><strong>Ancoragem:</strong> Design industrial sinaliza advocacia de elite instantaneamente.</div></li>
+                    </ul>
+                </div>
+                <div>
+                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 40px;">
+                        <div style="border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; color: #666;">Petição Tradicional <span style="float:right; color: #ff5f57;">Confuso</span></div>
+                        <div style="height: 10px; background: #333; width: 100%; border-radius: 4px; margin-bottom: 10px;"></div>
+                        <div style="height: 10px; background: #222; width: 80%; border-radius: 4px;"></div>
+                        <div style="border-bottom: 1px solid var(--accent-gold); padding-bottom: 20px; margin: 40px 0 20px; color: #fff;">Padrão Pro <span style="float:right; color: #28c840;">Cristalino</span></div>
+                        <div style="display: flex; gap: 15px;">
+                            <div style="flex: 1; height: 60px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--accent-gold); border-radius: 8px;"></div>
+                            <div style="flex: 2;"><div style="height: 10px; background: #555; width: 100%; margin-bottom: 10px;"></div><div style="height: 10px; background: #444; width: 60%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="conviction-section reveal">
+        <div class="container conviction-box">
+            <h2 class="conviction-title">Sua superioridade intelectual é <span class="text-gradient">inútil</span> se for invisível ao cérebro do cliente.</h2>
+            <div class="manifesto-grid">
+                <div class="manifesto-item">
+                    <h3>[A]tenção: O Abismo da Indiferença</h3>
+                    <p>O mercado jurídico está saturado de advogados tecnicamente brilhantes que vivem de migalhas. Se sua proposta parece "apenas mais uma petição", você é comparado pelo preço, não pelo valor.</p>
+                </div>
+                <div class="manifesto-item">
+                    <h3>[I]nteresse: A Psicologia do Fechamento</h3>
+                    <p>Ao apresentar um Dossiê Visual, você interrompe o padrão mental de "gasto" e ativa o de "investimento". O Padrão Pro utiliza Design Estratégico para guiar o olhar do cliente para o risco que ele corre sem você.</p>
+                </div>
+                <div class="manifesto-item">
+                    <h3>[D]esejo: Status e Honorários Elite</h3>
+                    <p>Imagine o cliente sentir <strong>urgência</strong> em assinar porque ele finalmente <em>entendeu</em> a gravidade do problema. O Dossiê é o objeto de desejo que separa o artesão do industrial.</p>
+                </div>
+                <div class="manifesto-item">
+                    <h3>[A]ção: O Custo da Inércia</h3>
+                    <p>Cada reunião sem suporte visual de impacto é um contrato que você deixa na mesa. O risco de testar o Padrão Pro é zero; o risco de ser ignorado pelo mercado é total.</p>
+                </div>
+            </div>
+            <div class="cta-manifesto">
+                <h2>O Direito é uma ciência de convencimento.<br><span style="color: var(--accent-gold);">Pare de falar e comece a provar.</span></h2>
+                <a href="#" class="btn-gold">MATERIALIZAR MINHA AUTORIDADE AGORA</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="model-viewer-section reveal">
+        <div class="container text-center">
+            <span style="color: var(--accent-gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem;">Visualização Real</span>
+            <h2 style="margin-bottom: 20px;">Abra a Caixa Preta do Visual Law Profissional</h2>
             <div class="viewer-box">
-                <iframe 
-                    class="viewer-frame" 
-                    src="./relatorio.PDF"
-                    title="Modelo de Dossiê Padrão Pro">
-                </iframe>
-                <div class="viewer-info">
-                    <i class="fas fa-info-circle"></i> O layout foi projetado para ancorar a autoridade. Lembre-se de configurar o compartilhamento do seu PDF para "Qualquer pessoa com o link pode visualizar".
+                <div class="viewer-header">
+                    <div class="viewer-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div style="color: #666; font-size: 0.75rem; font-weight: 600;">DOSSIE_ESTRATEGICO_DEMO.PDF</div>
+                    <div><i class="fas fa-lock" style="color: #444;"></i></div>
                 </div>
+                <iframe class="viewer-frame" src="./relatorio.PDF" title="Modelo de Dossiê"></iframe>
             </div>
         </div>
     </section>
 
-    <section class="dicas-section reveal">
-        <div class="container story-content">
-            <h2 class="text-center" style="margin-bottom: 25px; font-size: 2.8rem;">Estratégias de Elite: Aumente Seu Poder de Negociação</h2>
-            <p class="text-center" style="color: var(--text-gray); font-style: italic; margin-bottom: 70px; font-size: 1.3rem;">
-                O Dossiê Padrão Pro não é um anexo; é a sua arma mais poderosa para justificar honorários de elite e converter clientes céticos.
-            </p>
-
-            <div class="story-block">
-                <h3 style="color: #fff;">1. Ancoragem de Valor Imediata (Tire o Foco do Preço)</h3>
-                <p>
-                    Use o Dossiê para dar o primeiro preço. Ao mostrar o <strong>Potencial Econômico</strong> do caso (o valor que o cliente pode ganhar ou perder), você naturalmente ancora o seu honorário em uma faixa superior. O cliente passa a negociar a garantia de proteger aquele valor, e não a sua taxa.
-                </p>
-            </div>
-
-            <div class="story-block">
-                <h3 style="color: #fff;">2. O Efeito "Estrategista" (Multiplique a Autoridade)</h3>
-                <p>
-                    Não apenas descreva a sua tese. Entregue a tese em um formato visual e estruturado de <strong>Relatório de Inteligência</strong>. Isso transforma o seu 'conselho' em um método de trabalho. O cliente não negocia com um advogado comum; ele negocia com um estrategista que provou o seu método antes mesmo do contrato.
-                </p>
-            </div>
-
-            <div class="story-block" style="border-left-color: #fff;">
-                <h3 style="color: #fff;">3. Fechamento por Contraste (Crie Urgência)</h3>
-                <p style="color: #e9edef; font-weight: 600;">
-                    Finalize a reunião apresentando a seção <strong>'O Próximo Nível de Segurança'</strong>. Isso cria um contraste psicológico: o custo da inação (o problema) se torna muito maior do que o custo do seu honorário. Ao vender o fim da ansiedade, o seu poder de barganha se multiplica.
-                </p>
-            </div>
-        </div>
-    </section>
-    
-    <section style="padding: 100px 0; background: var(--secondary-dark);" class="reveal">
+    <section class="table-section reveal">
         <div class="container">
-            <h2 class="text-center" style="font-size: 2.5rem;">A Psicologia por trás do "Sim"</h2>
-            <div class="testimonials-grid" style="margin-top: 60px;">
-                <div class="testimonial-card" style="text-align: center;">
-                    <i class="fas fa-file-contract" style="font-size: 2.5rem; color: var(--gold-mid); margin-bottom: 25px;"></i>
-                    <h3 style="margin-bottom: 15px;">Tangibilização da Estratégia</h3>
-                    <p style="color: var(--text-gray);">Serviço jurídico é invisível. O relatório transforma sua tese em um "mapa" concreto. O cliente compra um produto, não uma promessa.</p>
-                </div>
-                <div class="testimonial-card" style="text-align: center;">
-                    <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: var(--gold-mid); margin-bottom: 25px;"></i>
-                    <h3 style="margin-bottom: 15px;">Blindagem contra o Ceticismo</h3>
-                    <p style="color: var(--text-gray);">Em um mundo de ChatGPT, o Dossiê Visual é a prova inegável de que você é um especialista, e não um robô. Gera confiança imediata.</p>
-                </div>
-                <div class="testimonial-card" style="text-align: center;">
-                    <i class="fas fa-gem" style="font-size: 2.5rem; color: var(--gold-mid); margin-bottom: 25px;"></i>
-                    <h3 style="margin-bottom: 15px;">Justificativa de Honorários</h3>
-                    <p style="color: var(--text-gray);">O design sofisticado ancora o preço. Se o documento parece coisa de banca de R$ 50 mil, o seu honorário de R$ 10 mil parece justo e merecido.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section style="padding: 100px 0;" class="reveal">
-        <div class="container">
-            <h2 class="text-center" style="margin-bottom: 50px;">O Custo da "Consulta Amadora"</h2>
-            <div class="table-container">
+            <h2 class="text-center" style="margin-bottom: 60px;">A Disparidade é Brutal</h2>
+            <div class="table-wrapper">
                 <table class="comparison-table">
                     <thead>
-                        <tr>
-                            <th>Critério</th>
-                            <th>Advogado Comum</th>
-                            <th style="color: var(--gold-mid);">Advogado Padrão Pro</th>
-                        </tr>
+                        <tr><th></th><th>Advogado "Genérico"</th><th class="col-highlight">Padrão Pro</th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Material de Apoio</td>
-                            <td>Nenhum (ou áudio no Zap)</td>
-                            <td class="col-pro"><strong>PDF Estratégico Visual</strong></td>
-                        </tr>
-                        <tr>
-                            <td>ROI do Investimento</td>
-                            <td>R$ 0,00 (Perde o cliente)</td>
-                            <td class="col-pro"><strong>Alto (Investe R$ 44,90 para fechar R$ 5.000)</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Taxa de Fechamento</td>
-                            <td>Baixa (Cliente compara preço/ChatGPT)</td>
-                            <td class="col-pro"><strong>Alta (Cliente vê valor/confiança)</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Blindagem Ética</td>
-                            <td><span class="cross-red">Nenhuma</span></td>
-                            <td class="col-pro"><span class="check-gold">Obrigação de Meio</span></td>
-                        </tr>
+                        <tr><td class="td-criteria">Apresentação</td><td>Conversa Verbal</td><td class="col-highlight"><strong>Dossiê Visual</strong></td></tr>
+                        <tr><td class="td-criteria">Percepção de Valor</td><td>Custo / Despesa</td><td class="col-highlight"><strong>Investimento</strong></td></tr>
+                        <tr><td class="td-criteria">Modelo de Custo</td><td>Mensalidade</td><td class="col-highlight"><span style="color: var(--success-green); font-weight:800;">Pay-per-use</span></td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <section style="padding: 100px 0; background: var(--secondary-dark); border-top: 1px solid #222;" class="reveal">
+    <section class="testimonials-section reveal">
         <div class="container">
-            <h2 class="text-center" style="margin-bottom: 60px;">Quem parou de perder contratos</h2>
-            
-            <div class="testimonials-grid">
+            <h2 class="text-center">Quem já mudou de patamar</h2>
+            <div class="testimonial-grid">
                 <div class="testimonial-card">
                     <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="quote">"Eu compro o pacote de créditos. Sai ainda mais barato que o avulso. Cada relatório de 60 reais me traz um contrato de 3 mil. É matemática básica."</p>
-                    <div class="client-info">
-                        <div class="client-avatar" style="background-image: url('https://ui-avatars.com/api/?name=Dr+Ricardo&background=random'); background-size: cover;"></div>
-                        <div>
-                            <strong style="color: #fff; display: block; font-size: 1rem;">Dr. Ricardo Matos</strong>
-                            <span style="font-size: 0.85rem; color: var(--gold-mid);">Tributarista</span>
-                        </div>
+                    <p>"Fechei por R$ 12k sem choro ao mostrar os gráficos no iPad."</p>
+                    <div class="client-meta">
+                        <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100');"></div>
+                        <div class="client-info"><span class="client-name">Dr. Ricardo M.</span><br><span class="client-role">Tributário</span></div>
                     </div>
                 </div>
-
                 <div class="testimonial-card">
                     <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="quote">"O cliente precisa 'ver' para crer. Paguei o avulso na primeira vez para testar e fechei na hora. Agora só uso os créditos."</p>
-                    <div class="client-info">
-                        <div class="client-avatar" style="background-image: url('https://ui-avatars.com/api/?name=Dra+Ana&background=random'); background-size: cover;"></div>
-                        <div>
-                            <strong style="color: #fff; display: block; font-size: 1rem;">Dra. Ana Paula</strong>
-                            <span style="font-size: 0.85rem; color: var(--gold-mid);">Empresarial</span>
-                        </div>
+                    <p>"O cliente paga rindo a consulta porque vê o produto final."</p>
+                    <div class="client-meta">
+                        <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100');"></div>
+                        <div class="client-info"><span class="client-name">Dra. Carla S.</span><br><span class="client-role">Família</span></div>
                     </div>
                 </div>
-
                 <div class="testimonial-card">
                     <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="quote">"Não ter mensalidade foi o que me atraiu. Eu só gasto quando tenho cliente. Isso me dá paz de espírito e lucro garantido."</p>
-                    <div class="client-info">
-                        <div class="client-avatar" style="background-image: url('https://ui-avatars.com/api/?name=Dr+Carlos&background=random'); background-size: cover;"></div>
-                        <div>
-                            <strong style="color: #fff; display: block; font-size: 1rem;">Dr. Carlos Filho</strong>
-                            <span style="font-size: 0.85rem; color: var(--gold-mid);">Trabalhista</span>
-                        </div>
+                    <p>"No Criminal, a família entendeu a estratégia em 5 minutos."</p>
+                    <div class="client-meta">
+                        <div class="client-avatar" style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100');"></div>
+                        <div class="client-info"><span class="client-name">Dr. Augusto B.</span><br><span class="client-role">Criminal</span></div>
                     </div>
                 </div>
             </div>
@@ -606,81 +351,63 @@
     </section>
 
     <section class="faq-section reveal">
-        <div class="container faq-wrapper">
-            <h2 class="text-center" style="margin-bottom: 60px;">Dúvidas Frequentes</h2>
-
+        <div class="container" style="max-width: 800px;">
+            <h2 class="text-center" style="margin-bottom: 50px;">Perguntas Frequentes & Objeções</h2>
             <details>
-                <summary>Preciso pagar mensalidade?</summary>
-                <div class="faq-answer">Não. Você pode comprar o relatório Avulso (R$ 87,90) apenas quando precisar. Temos uma oferta de R$ 44,90 para o primeiro teste. Se tiver volume, temos Pacotes de Crédito que reduzem drasticamente esse valor.</div>
+                <summary>Visual Law não é "infantil" ou "enfeite"?</summary>
+                <div class="faq-answer">O Padrão Pro utiliza Design Industrial Sóbrio focado em <strong>Cognição Jurídica</strong>. É feito para convencer Magistrados e CEOs, não para decorar papel.</div>
             </details>
-
             <details>
-                <summary>Os créditos expiram?</summary>
-                <div class="faq-answer">Não. Se você comprar um pacote de créditos, eles ficam na sua conta para sempre. Use quando aparecer o cliente.</div>
+                <summary>Como funciona o sistema de créditos?</summary>
+                <div class="faq-answer">Zero mensalidade. Você compra créditos (R$ 44,90 por dossiê) e usa quando tiver uma oportunidade. Se fechar um contrato de R$ 5k, seu investimento foi de menos de 1%.</div>
             </details>
-
             <details>
-                <summary>Quanto tempo leva para gerar o relatório?</summary>
-                <div class="faq-answer">Você preenche os dados em minutos e enviamos o PDF pronto e revisado em até <strong>2 horas</strong>. Isso garante que você tenha um Dossiê de Inteligência para enviar ao cliente no mesmo dia.</div>
-            </details>
-
-            <details>
-                <summary>Serve para fechar contratos de qualquer área?</summary>
-                <div class="faq-answer">Sim. A estrutura é focada em "Análise de Risco e Estratégia", universal para qualquer área do Direito.</div>
+                <summary>Meus dados estão protegidos?</summary>
+                <div class="faq-answer">Criptografia de nível bancário e conformidade com a LGPD. Não armazenamos os dados sensíveis dos seus processos após a geração.</div>
             </details>
         </div>
     </section>
 
-    <section class="finale-section text-center reveal">
+    <section class="final-cta-section reveal">
         <div class="container">
-            <h2 style="font-size: 3rem; margin-bottom: 25px;">Quanto vale um contrato de R$ 5.000?</h2>
-            <p style="font-size: 1.3rem; color: var(--text-gray); margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto;">
-                Invista apenas <strong>R$ 44,90</strong> no seu primeiro Dossiê Estratégico e transforme seu diagnóstico rápido na garantia de fechamento do contrato.
-            </p>
-            
-            <a href="validaprova.html" class="btn-luminous" style="font-size: 1.3rem; padding: 25px 60px;">
-                ATIVAR OFERTA DE R$ 44,90 AGORA
-            </a>
-            <p style="margin-top: 25px; color: #777; font-size: 0.95rem;">Sem fidelidade. Sem custo fixo.</p>
+            <h2>Quanto custa perder o próximo cliente?</h2>
+            <p>Não deixe R$ 5.000,00 ou R$ 10.000,00 na mesa por falta de uma apresentação à altura da sua inteligência. Garanta seu fechamento hoje.</p>
+            <a href="#" class="btn-gold">CRIAR MEU PRIMEIRO DOSSIÊ AGORA</a>
+            <div style="margin-top: 30px; color: #555; font-size: 0.9rem;">
+                <i class="fas fa-shield-alt"></i> Pagamento 100% Seguro | Sem Mensalidade
+            </div>
         </div>
     </section>
 
     <footer class="pro-footer">
         <div class="container">
             <div class="footer-grid">
-                <div>
-                    <span class="footer-logo">PADRÃO PRO</span>
-                    <p style="margin-top: 20px;">Tecnologia jurídica para advogados de alta performance.</p>
+                <div class="footer-col">
+                    <div class="footer-logo">PADRÃO PRO</div>
+                    <p style="color: #666;">Materializamos sua autoridade intelectual em ativos de fechamento high-ticket.</p>
                 </div>
-                <div class="footer-links">
-                    <h4>Navegação</h4>
-                    <ul><li><a href="#">Início</a></li><li><a href="#">Como Funciona</a></li><li><a href="#">Planos</a></li></ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Suporte</h4>
-                    <ul><li><a href="#">Termos de Uso</a></li><li><a href="#">suporte@padraopro.com.br</a></li><li><i class="fab fa-whatsapp"></i> (11) 99999-9999</li></ul>
-                </div>
+                <div class="footer-col"><h4>Navegação</h4><a href="#">Gerar Dossiê</a><a href="#">Exemplos Reais</a></div>
+                <div class="footer-col"><h4>Suporte</h4><a href="#">WhatsApp Business</a><a href="#">Email Suporte</a></div>
+                <div class="footer-col"><h4>Legal</h4><a href="#">Termos</a><a href="#">Privacidade</a></div>
             </div>
-            <div class="text-center" style="border-top: 1px solid #222; padding-top: 30px;">
+            <div style="border-top: 1px solid #111; padding-top: 40px; text-align: center; color: #444; font-size: 0.85rem;">
                 <p>&copy; 2025 Padrão Pro. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Animação Scroll
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 150) reveals[i].classList.add("active");
+                if (elementTop < windowHeight - 100) reveals[i].classList.add("active");
             }
         }
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // Animação Números
         const stats = document.querySelectorAll('.stat-number');
         let hasAnimated = false;
         let observer = new IntersectionObserver((entries) => {
@@ -688,15 +415,13 @@
                 if(entry.isIntersecting && !hasAnimated) {
                     stats.forEach(stat => {
                         const target = +stat.getAttribute('data-target');
-                        const increment = target / 100;
+                        let current = 0;
                         const updateCount = () => {
-                            const count = +stat.innerText.replace('+','').replace('%','');
-                            if(count < target) {
-                                stat.innerText = Math.ceil(count + increment) + (stat.getAttribute('data-target')==='98'?'%':'+');
-                                setTimeout(updateCount, 20);
-                            } else {
-                                stat.innerText = target + (stat.getAttribute('data-target')==='98'?'%':'+');
-                            }
+                            current += target / 100;
+                            if(current < target) {
+                                stat.innerText = Math.ceil(current) + (stat.getAttribute('data-target')==='98'?'%':'+');
+                                requestAnimationFrame(updateCount);
+                            } else { stat.innerText = target + (stat.getAttribute('data-target')==='98'?'%':'+'); }
                         };
                         updateCount();
                     });
@@ -704,8 +429,7 @@
                 }
             });
         }, { threshold: 0.5 });
-        const statsSection = document.querySelector('.stats-section');
-        if(statsSection) observer.observe(statsSection);
+        observer.observe(document.querySelector('.stats-section'));
     </script>
 </body>
 </html>
