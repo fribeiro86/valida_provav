@@ -3,335 +3,1465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Padrão Pro | O Fim da Consulta Grátis e a Ascensão da Autoridade</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>HONORARIOSPRO | Materialize sua Inteligência Jurídica e Cobre 3x Mais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --bg-body: #050505;
-            --bg-surface: #0f0f0f;
-            --bg-card: #111111;
+            --bg-surface: #0a0a0a;
             --accent-gold: #D4AF37;
-            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 40%, #B38728 60%, #FBF5B7 100%);
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 70%, #FBF5B7 100%);
+            --gold-light: rgba(212, 175, 55, 0.1);
             --text-primary: #FFFFFF;
-            --text-secondary: #A0A0A0;
+            --text-secondary: #8E8E93;
             --font-display: 'Playfair Display', serif;
             --font-body: 'Manrope', sans-serif;
-            --ease-smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
+            --card-bg: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
+            --shadow-gold: 0 10px 30px rgba(212, 175, 55, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: var(--font-body); background-color: var(--bg-body); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            scroll-behavior: smooth; 
+        }
         
-        body::after {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none; z-index: 9999; opacity: 0.5;
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-body); 
+            color: var(--text-primary); 
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; text-align: center; }
-        h1, h2, h3 { font-family: var(--font-display); }
-        .text-gradient { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        /* --- ANIMAÇÕES PERSONALIZADAS --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
         
-        /* --- CTAs --- */
-        .cta-wrapper { display: flex; justify-content: center; width: 100%; margin: 40px 0; }
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: all 0.8s ease-out; 
+        }
+        
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        
+        .float-animation { animation: float 6s ease-in-out infinite; }
+        .pulse-gold { animation: pulse-gold 2s infinite; }
+        
+        .text-gradient { 
+            background: var(--gold-gradient); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            font-weight: 900; 
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            transition: var(--transition);
+        }
+        
+        .main-header.scrolled {
+            padding: 12px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+        
+        .header-cta {
+            background: var(--gold-gradient);
+            color: #000;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-gold);
+        }
+        
+        .header-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-parallax {
+            position: relative; 
+            min-height: 100vh; 
+            width: 100%;
+            background-image: linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.92)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-attachment: fixed; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-size: cover;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            padding: 140px 20px 80px;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--accent-gold);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 25px; 
+            width: 100%; 
+        }
+        
         .btn-gold {
-            position: relative; background: var(--gold-gradient); color: #050505;
-            padding: 22px 50px; border-radius: 8px; font-size: 1.1rem; font-weight: 800;
-            text-transform: uppercase; text-decoration: none; box-shadow: 0 10px 40px rgba(212, 175, 55, 0.25);
-            transition: transform 0.3s var(--ease-smooth); overflow: hidden; border: none; cursor: pointer; display: inline-block;
+            background: var(--gold-gradient); 
+            color: #000; 
+            padding: 20px 42px; 
+            border-radius: 12px;
+            font-size: 1.05rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            text-decoration: none;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3); 
+            transition: var(--transition); 
+            display: inline-block;
+            border: none; 
+            cursor: pointer;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
-        .btn-gold:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(212, 175, 55, 0.4); }
+        
+        .btn-gold::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-gold:hover::after {
+            left: 100%;
+        }
+        
+        .btn-gold:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-outline-gold {
+            background: transparent;
+            color: var(--accent-gold);
+            padding: 18px 35px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: 2px solid var(--accent-gold);
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .btn-outline-gold:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-3px);
+        }
 
-        /* --- HERO --- */
-        .hero { padding: 140px 0 80px; background: radial-gradient(circle at 50% 20%, #1a1a1a 0%, #050505 70%); }
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 100px; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.2); color: var(--accent-gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 30px; }
-        .hero h1 { font-size: clamp(2.8rem, 6vw, 4.5rem); margin-bottom: 25px; line-height: 1.1; font-weight: 900; }
-        .hero p { font-size: 1.4rem; color: var(--text-secondary); max-width: 900px; margin: 0 auto; }
+        /* --- SEÇÕES GERAIS --- */
+        section { 
+            padding: 100px 0; 
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+        
+        .section-subtitle {
+            display: block;
+            color: var(--accent-gold);
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .section-heading {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-family: var(--font-display);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .section-desc {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
 
-        /* --- IPHONE 16 PRO MAX UI --- */
-        .device-container { width: 350px; height: 710px; margin: 80px auto 0; position: relative; z-index: 10; }
-        .iphone-frame { width: 100%; height: 100%; background: #000; border-radius: 54px; padding: 10px; box-shadow: 0 0 0 1px #333, 0 0 0 4px #1a1a1a, 0 50px 100px rgba(0,0,0,0.9); position: relative; }
-        .screen { background: #0b141a url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-blend-mode: soft-light; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
-        .notch { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); width: 110px; height: 32px; background: #000; border-radius: 20px; z-index: 20; }
-        .chat-header { padding: 55px 20px 15px; background: rgba(31, 44, 52, 0.98); display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #2a3942; }
-        .chat-body { flex: 1; padding: 25px 15px; display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
-        .bubble { max-width: 85%; padding: 12px 16px; border-radius: 14px; font-size: 0.88rem; opacity: 0; transform: translateY(10px); animation: fadeInMsg 0.6s ease forwards; text-align: left; line-height: 1.4; word-wrap: break-word; overflow-wrap: anywhere; }
-        .bubble-in { background: #202c33; color: #fff; align-self: flex-start; border-top-left-radius: 0; }
-        .bubble-out { background: #005c4b; color: #e9edef; align-self: flex-end; border-top-right-radius: 0; }
-        .chat-footer { padding: 10px; background: #0b141a; display: flex; align-items: center; gap: 8px; padding-bottom: 25px; }
-        .input-pill { background: #202c33; flex: 1; border-radius: 24px; padding: 10px 15px; display: flex; align-items: center; gap: 12px; color: #8696a0; }
-        .mic-button { background: #00a884; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
-        .attachment-card { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 10px; margin-top: 10px; display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,0.1); width: 100%; box-sizing: border-box; }
-        .attachment-card i { font-size: 1.4rem; color: #ff4b4b; }
-        .notif-pix { position: absolute; top: 115px; left: 15px; right: 15px; background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); color: #000; padding: 14px 20px; border-radius: 20px; display: flex; align-items: center; gap: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); transform: translateY(-50px); opacity: 0; animation: slideIn 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards 7s; z-index: 100; }
-        @keyframes fadeInMsg { to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
+        /* --- STATS SECTION --- */
+        .stats-section {
+            background: linear-gradient(180deg, #070707 0%, #0a0a0a 100%);
+            padding: 80px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 30px;
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* --- SHOWCASE CARROSSEL --- */
-        .showcase-section { padding: 120px 0; background: #050505; }
-        .carousel-container { display: flex; gap: 30px; overflow-x: auto; padding: 40px 24px; scroll-snap-type: x mandatory; scrollbar-width: none; }
-        .carousel-container::-webkit-scrollbar { display: none; }
-        .mockup-card { flex: 0 0 350px; height: 500px; background: #111; border-radius: 20px; border: 1px solid #222; scroll-snap-align: center; position: relative; overflow: hidden; transition: 0.4s; }
-        .mockup-card:hover { border-color: var(--accent-gold); transform: scale(1.02); }
-        .mockup-img { width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.8; }
-        .mockup-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(to top, #000, transparent); text-align: left; }
-        .mockup-label h4 { color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 5px; }
+        /* --- PROBLEM SECTION --- */
+        .problem-section { 
+            background: linear-gradient(180deg, #050505 0%, #080808 100%); 
+            position: relative; 
+        }
+        
+        .problem-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 35px; 
+            margin-top: 50px; 
+        }
+        
+        .problem-card { 
+            background: var(--card-bg); 
+            padding: 40px 35px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            position: relative; 
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212, 175, 55, 0.1);
+        }
+        
+        .problem-card i { 
+            font-size: 2.8rem; 
+            color: var(--accent-gold); 
+            margin-bottom: 25px; 
+        }
+        
+        .problem-number { 
+            position: absolute; 
+            top: -15px; 
+            right: 15px; 
+            font-size: 5rem; 
+            font-weight: 900; 
+            opacity: 0.05; 
+            color: var(--accent-gold); 
+            font-family: var(--font-display);
+        }
+        
+        .problem-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-        /* --- MANIFESTO --- */
-        .manifesto-section { padding: 120px 0; background: #080808; text-align: left; }
-        .manifesto-content { max-width: 900px; margin: 0 auto; }
-        .manifesto-content h2 { font-size: 3rem; margin-bottom: 40px; color: var(--accent-gold); }
-        .manifesto-content p { font-size: 1.15rem; color: #ccc; margin-bottom: 25px; line-height: 1.8; }
+        /* --- NEUROCIÊNCIA --- */
+        .neuro-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 35px; 
+            margin-top: 50px; 
+        }
+        
+        .neuro-card { 
+            background: var(--card-bg); 
+            padding: 40px 35px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .neuro-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        .neuro-card i { 
+            font-size: 3rem; 
+            color: var(--accent-gold); 
+            margin-bottom: 25px; 
+            background: rgba(212, 175, 55, 0.1);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+        }
+        
+        .neuro-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-        /* --- PSICOLOGIA --- */
-        .psychology-section { padding: 100px 0; background: var(--bg-body); text-align: left; }
-        .psy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 60px; }
-        .psy-card { background: #111; padding: 50px; border-radius: 20px; border-left: 4px solid var(--accent-gold); }
-        .psy-card h3 { color: var(--accent-gold); margin-bottom: 20px; font-size: 1.6rem; }
-        .psy-card p { color: #aaa; font-size: 1.05rem; }
+        /* --- MOCKUP SIDE --- */
+        .side-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 60px; 
+            align-items: center; 
+        }
+        
+        .side-image img { 
+            width: 100%; 
+            border-radius: 15px; 
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: var(--transition);
+        }
+        
+        .side-image img:hover {
+            transform: scale(1.02);
+        }
 
-        /* --- PROTOCOLO DIA A DIA --- */
-        .daily-use-section { padding: 120px 0; background: #080808; text-align: left; }
-        .daily-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 60px; }
-        .daily-card { background: linear-gradient(145deg, #151515, #0a0a0a); padding: 50px 40px; border-radius: 24px; border: 1px solid #1f1f1f; transition: 0.3s; }
-        .daily-card:hover { border-color: var(--accent-gold); transform: translateY(-5px); }
-        .daily-card h3 { font-size: 1.5rem; margin-bottom: 20px; color: #fff; }
+        /* --- ARSENAL SECTION --- */
+        .arsenal-section {
+            background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+        }
+        
+        .arsenal-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+            margin-top: 50px; 
+        }
+        
+        .arsenal-card { 
+            background: var(--card-bg); 
+            padding: 40px 35px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(212, 175, 55, 0.1); 
+            position: relative; 
+            overflow: hidden; 
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .arsenal-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-10px);
+        }
+        
+        .arsenal-icon {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            width: 90px;
+            height: 90px;
+            line-height: 90px;
+            border-radius: 50%;
+        }
+        
+        .arsenal-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
 
-        /* --- TABELA DE COMPARAÇÃO --- */
-        .table-section { padding: 120px 0; background: var(--bg-surface); }
-        .table-wrapper { overflow-x: auto; margin-top: 60px; background: #111; border-radius: 24px; padding: 50px; border: 1px solid #1a1a1a; }
-        .comparison-table { width: 100%; border-collapse: collapse; min-width: 850px; }
-        .comparison-table td, .comparison-table th { padding: 25px; border-bottom: 1px solid #1a1a1a; text-align: center; }
-        .td-criteria { text-align: left; color: #888; font-weight: 600; width: 30%; }
-        .col-highlight { background: rgba(212, 175, 55, 0.05); color: #fff; border-left: 1px solid var(--accent-gold); border-right: 1px solid var(--accent-gold); font-weight: 800; }
+        /* --- TESTIMONIALS --- */
+        .testimonials-section {
+            background: linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+        }
+        
+        .testimonial-slider {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .testimonial-item {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            margin: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 900;
+            font-size: 1.3rem;
+        }
+        
+        .author-info h4 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+        }
 
-        /* --- DEPOIMENTOS --- */
-        .testimonials-section { padding: 120px 0; background: var(--bg-body); }
-        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 60px; }
-        .testimonial-card { background: #111; padding: 45px; border-radius: 20px; border: 1px solid #1a1a1a; text-align: left; }
-        .author { display: flex; align-items: center; gap: 15px; margin-top: 25px; }
-        .author-img { width: 55px; height: 55px; border-radius: 50%; background: #333; }
+        /* --- TABELA RESPONSIVA --- */
+        .table-wrapper { 
+            overflow-x: auto; 
+            margin-top: 40px; 
+            border-radius: 15px; 
+            -webkit-overflow-scrolling: touch;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .comp-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 700px; 
+            background: #111; 
+        }
+        
+        .comp-table th, .comp-table td { 
+            padding: 25px 20px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+            text-align: center; 
+            font-size: 1rem;
+        }
+        
+        .comp-table th {
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .gold-col { 
+            background: rgba(212, 175, 55, 0.07); 
+            color: var(--accent-gold); 
+            font-weight: 800; 
+            border-left: 3px solid var(--accent-gold);
+            border-right: 3px solid var(--accent-gold);
+        }
+        
+        .comp-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
 
-        /* --- FAQ (10 QUESTIONS) --- */
-        .faq { padding: 120px 0; max-width: 900px; margin: 0 auto; text-align: left; }
-        details { background: #111; padding: 25px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #222; cursor: pointer; }
-        summary { font-weight: 800; color: #fff; list-style: none; display: flex; justify-content: space-between; font-size: 1.2rem; }
-        summary::after { content: '+'; color: var(--accent-gold); font-size: 1.5rem; transition: 0.3s; }
-        details[open] summary::after { transform: rotate(45deg); }
-        .faq-answer { padding-top: 20px; color: #aaa; border-top: 1px solid #222; margin-top: 15px; line-height: 1.8; }
+        /* --- PREÇO --- */
+        .pricing-section {
+            background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--gold-gradient);
+            color: #000;
+            padding: 10px 40px;
+            transform: rotate(45deg);
+            font-weight: 900;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        
+        .price-tag { 
+            font-size: clamp(3rem, 10vw, 5rem); 
+            font-weight: 900; 
+            margin: 20px 0; 
+            font-family: var(--font-display);
+        }
+        
+        .price-period {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .price-bonus { 
+            background: rgba(212, 175, 55, 0.08); 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            border-radius: 15px; 
+            padding: 30px; 
+            margin: 40px auto; 
+            max-width: 700px; 
+            text-align: left; 
+        }
+        
+        .bonus-list {
+            list-style: none;
+        }
+        
+        .bonus-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .bonus-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-weight: 900;
+        }
 
-        /* --- FOOTER PROFISSIONAL --- */
-        .pro-footer { background: #000; padding: 120px 0 40px; border-top: 1px solid #1a1a1a; text-align: left; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 80px; margin-bottom: 80px; }
-        .footer-logo { font-family: var(--font-display); font-size: 2.5rem; font-weight: 900; color: #fff; margin-bottom: 25px; display: block; }
-        .footer-heading { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; margin-bottom: 30px; display: block; }
-        .footer-links li { list-style: none; margin-bottom: 15px; }
-        .footer-links a { color: #666; text-decoration: none; font-size: 1rem; transition: 0.3s; }
-        .footer-links a:hover { color: var(--accent-gold); }
-        .footer-bottom { border-top: 1px solid #111; padding-top: 40px; display: flex; justify-content: space-between; align-items: center; color: #444; font-size: 0.85rem; }
+        /* --- GUARANTEE SECTION --- */
+        .guarantee-section {
+            background: linear-gradient(180deg, #070707 0%, #0a0a0a 100%);
+            text-align: center;
+        }
+        
+        .guarantee-box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 50px 40px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        
+        .guarantee-icon {
+            font-size: 4rem;
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+        }
 
-        @media (max-width: 900px) {
-            .footer-grid { grid-template-columns: 1fr; text-align: center; }
-            .footer-bottom { flex-direction: column; gap: 20px; }
-            h1 { font-size: 2.5rem; }
+        /* --- FAQ --- */
+        .faq-item { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            margin-bottom: 15px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .faq-item:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+        
+        .faq-question { 
+            padding: 25px 30px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-size: 1.1rem;
+            background: rgba(0,0,0,0.2);
+        }
+        
+        .faq-question span {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .faq-item.active .faq-question span {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer { 
+            padding: 0 30px; 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: 0.5s; 
+            color: var(--text-secondary); 
+            line-height: 1.7;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 30px 30px;
+            max-height: 1000px;
+        }
+
+        /* --- CTA FINAL --- */
+        .final-cta {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(5,5,5,0.9) 100%);
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .final-cta:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1589391886085-8b6b0ac72a1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .final-cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- FOOTER --- */
+        footer { 
+            padding: 80px 0 40px; 
+            border-top: 1px solid rgba(212, 175, 55, 0.1); 
+            text-align: center; 
+            background: #050505;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+        
+        .footer-links { 
+            display: flex; 
+            justify-content: center; 
+            gap: 30px; 
+            flex-wrap: wrap; 
+            list-style: none; 
+            margin-bottom: 40px; 
+        }
+        
+        .footer-links a { 
+            color: #666; 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .social-icon:hover {
+            background: var(--gold-light);
+            color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 992px) {
+            section { padding: 80px 0; }
+            .section-heading { font-size: 2.5rem; }
+            .hero-parallax h1 { font-size: 2.5rem !important; }
+            .price-card { padding: 40px 25px; }
+        }
+        
+        @media (max-width: 768px) {
+            section { padding: 70px 0; }
+            .header-cta { display: none; }
+            .logo { font-size: 1.3rem; }
+            .hero-parallax { 
+                padding-top: 120px; 
+                padding-bottom: 60px;
+            }
+            .hero-parallax h1 { 
+                font-size: 2.2rem !important; 
+                line-height: 1.2;
+            }
+            .hero-parallax p { 
+                font-size: 1.1rem !important; 
+                padding: 0 10px;
+            }
+            .btn-gold, .btn-outline-gold {
+                padding: 18px 30px;
+                font-size: 0.95rem;
+                width: 100%;
+                max-width: 350px;
+                margin: 10px auto;
+                display: block;
+            }
+            .side-grid { gap: 40px; }
+            .side-text { text-align: center; }
+            .price-tag { font-size: 3.5rem; }
+            .comp-table th, .comp-table td { padding: 18px 15px; }
+            .testimonial-item { padding: 30px 25px; }
+            .footer-links { gap: 20px; }
+            .footer-links a { font-size: 0.85rem; }
+            .faq-question { padding: 20px 25px; font-size: 1rem; }
+            .faq-answer { padding: 0 25px; }
+            .faq-item.active .faq-answer { padding: 0 25px 25px; }
+        }
+        
+        @media (max-width: 480px) {
+            section { padding: 60px 0; }
+            .hero-parallax { padding-top: 100px; }
+            .hero-badge { font-size: 0.75rem; padding: 6px 15px; }
+            .section-heading { font-size: 2rem; }
+            .problem-grid, .neuro-grid, .arsenal-grid { 
+                grid-template-columns: 1fr; 
+                gap: 25px; 
+            }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-number { font-size: 2.8rem; }
+            .footer-links { flex-direction: column; gap: 15px; }
+            .price-badge { font-size: 0.7rem; padding: 8px 30px; right: -35px; }
+            .guarantee-box { padding: 40px 25px; }
         }
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <div class="container text-center">
-            <div class="hero-badge"><i class="fas fa-crown"></i> O Fim da Consulta Gratuita</div>
-            <h1>A Maldição do <span class="text-gradient">Conhecimento Invisível</span> Acaba Hoje.</h1>
-            <p>Sua inteligência é invisível aos olhos do cliente até que você a materialize. Transforme teses abstratas em <strong>Dossiês de Autoridade</strong> e domine o fechamento high-ticket.</p>
-            <div class="cta-wrapper"><a href="validaprova.html" class="btn-gold">Materializar Minha Inteligência</a></div>
+    <header class="main-header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-gavel logo-icon"></i>
+                HONORARIOSPRO
+            </a>
+            <a href="#precos" class="header-cta pulse-gold">QUERO MINHA SOBERANIA</a>
+        </div>
+    </header>
 
-            <div class="device-container">
-                <div class="iphone-frame">
-                    <div class="notch"></div>
-                    <div class="screen">
-                        <div class="chat-header">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background: #333 url('https://ui-avatars.com/api/?name=CEO+Holding&background=random') center/cover;"></div>
-                            <div style="text-align: left;"><div style="color: #fff; font-size: 0.9rem; font-weight: 800;">CEO - Holding S/A</div><div style="color: #00a884; font-size: 0.75rem;">Online</div></div>
-                        </div>
-                        <div class="chat-body">
-                            <div class="bubble bubble-in" style="animation-delay: 1s">Dr., o valor dessa consulta está bem acima do que costumamos pagar...</div>
-                            <div class="bubble bubble-out" style="animation-delay: 2.5s">Entendo. Mas não vendo "bate-papo". Veja o seu <strong>Diagnóstico de Viabilidade</strong>:</div>
-                            <div class="bubble bubble-out" style="animation-delay: 4s">
-                                <div class="attachment-card">
-                                    <i class="fas fa-file-pdf"></i>
-                                    <div class="attachment-info"><div style="font-weight: 800;">DIAGNOSTICO_ESTRATEGICO.pdf</div><div style="color: #aaa;">4.2 MB • Material Padrão Pro</div></div>
-                                </div>
-                            </div>
-                            <div class="bubble bubble-in" style="animation-delay: 6s">Caramba. Nunca vi uma análise deste nível. Agora o valor faz sentido. Vamos fechar.</div>
-                        </div>
-                        <div class="chat-footer">
-                            <div class="input-pill"><i class="far fa-smile"></i><div style="flex:1; font-size:0.9rem;">Mensagem</div><i class="fas fa-paperclip"></i><i class="fas fa-camera"></i></div>
-                            <div class="mic-button"><i class="fas fa-microphone"></i></div>
-                        </div>
-                        <div class="notif-pix">
-                            <div style="background: #820AD1; color: white; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800;">Nu</div>
-                            <div style="text-align: left;"><div style="font-size: 0.7rem; color: #666;">Agora</div><div style="font-weight: 800; font-size: 0.85rem;">Pix recebido: R$ 5.000,00</div></div>
-                        </div>
+    <section class="hero-parallax">
+        <div class="hero-content">
+            <div class="animate__animated animate__fadeIn">
+                <div class="hero-badge">
+                    <i class="fas fa-crown"></i> MÉTODO VALIDADO POR 347 ADVOGADOS DE ALTA PERFORMANCE
+                </div>
+                <h1 style="margin: 25px 0; font-size: clamp(2.5rem, 8vw, 4.2rem); line-height: 1.1; font-family: var(--font-display);">
+                    Pare de Vender <span style="color:#888;">"Conversas"</span>.<br>
+                    Comece a Vender <span class="text-gradient">Resultados Materializados.</span>
+                </h1>
+                <p style="font-size:1.25rem; color:#ccc; max-width:900px; margin: 0 auto 50px; line-height: 1.7;">
+                    Transforme sua consulta jurídica em um <b>Dossiê Estratégico Premium</b> que justifica honorários 3x maiores e converte 78% mais clientes. A ciência por trás da percepção de valor no Direito.
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#precos" class="btn-gold pulse-gold">
+                        <i class="fas fa-bolt"></i> ACESSAR O ARSENAL COMPLETO
+                    </a>
+                    <a href="#arsenal" class="btn-outline-gold">
+                        <i class="fas fa-play-circle"></i> VER DEMONSTRAÇÃO
+                    </a>
+                </div>
+                <div style="margin-top: 50px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: var(--accent-gold); font-weight: 900;">78%</div>
+                        <div style="color: #888; font-size: 0.9rem;">Mais Conversões</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: var(--accent-gold); font-weight: 900;">3x</div>
+                        <div style="color: #888; font-size: 0.9rem;">Valor por Consulta</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; color: var(--accent-gold); font-weight: 900;">8min</div>
+                        <div style="color: #888; font-size: 0.9rem;">Para Gerar o Dossiê</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="showcase-section">
+    <section class="stats-section">
         <div class="container">
-            <span style="color: var(--accent-gold); font-weight: 800; letter-spacing: 2px;">POR DENTRO DO MÉTODO</span>
-            <h2 style="margin: 20px 0 60px;">A Materialização da sua Inteligência</h2>
-            <div class="carousel-container">
-                <div class="mockup-card">
-                    <div class="mockup-img" style="background-image: url('https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400');"></div>
-                    <div class="mockup-label"><h4>Termômetro de Risco</h4><p style="font-size:0.8rem; color:#888;">Ancoragem visual do perigo da inação.</p></div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">94%</div>
+                    <div class="stat-label">Cliente Assina Contrato</div>
                 </div>
-                <div class="mockup-card">
-                    <div class="mockup-img" style="background-image: url('https://images.unsplash.com/photo-1554224155-1696413565d3?w=400');"></div>
-                    <div class="mockup-label"><h4>Mapa da Mina</h4><p style="font-size:0.8rem; color:#888;">Linha do tempo tática para alívio de ansiedade.</p></div>
+                <div class="stat-item">
+                    <div class="stat-number">R$ 2.400+</div>
+                    <div class="stat-label">Ticket Médio da Consulta</div>
                 </div>
-                <div class="mockup-card">
-                    <div class="mockup-img" style="background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400');"></div>
-                    <div class="mockup-label"><h4>Matriz de Retorno</h4><p style="font-size:0.8rem; color:#888;">Transformação de honorários em investimento.</p></div>
+                <div class="stat-item">
+                    <div class="stat-number">347</div>
+                    <div class="stat-label">Advogados no Método</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8min</div>
+                    <div class="stat-label">Para Gerar o Dossiê</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="manifesto-section">
-        <div class="container manifesto-content">
-            <h2>O Manifesto da Nova Advocacia</h2>
-            <p>Existe uma mentira que contaram a você na faculdade: disseram que ser tecnicamente brilhante seria o suficiente para o sucesso financeiro. Mas o mercado mudou as regras sem te avisar. Hoje, a competência técnica é o <strong>mínimo existencial</strong>.</p>
-            <p>O cliente de alta renda não paga por horas de trabalho; ele paga por <strong>segurança e clareza</strong>. O problema é que sua inteligência é invisível aos olhos dele. Enquanto você entregar apenas "conselhos verbais", ele continuará comparando seu preço com o do colega ao lado.</p>
-            <p><strong>A Transmutação da Venda</strong> ocorre quando você materializa seu intelecto. Ao transformar sua tese em um Dossiê Visual, você ativa o cérebro reptiliano do decisor. Você assume o trono de <strong>Estrategista Incontestável</strong>.</p>
-        </div>
-    </section>
-
-    <section class="psychology-section">
-        <div class="container">
-            <span style="color: var(--accent-gold); font-weight: 800; letter-spacing: 2px;">PSICOLOGIA DO CONSUMO</span>
-            <h2 style="margin: 20px 0;">Por que o cérebro dele diz "SIM" ao Dossiê?</h2>
-            <div class="psy-grid">
-                <div class="psy-card">
-                    <h3>Tangibilização do Valor</h3>
-                    <p>O cérebro reptiliano não entende conceitos abstratos. Ao entregar um Dossiê, você transmuta sua inteligência em um objeto físico/digital que ele pode "tocar". O valor torna-se real e inquestionável.</p>
+    <section class="problem-section">
+        <div class="container reveal">
+            <div class="section-title">
+                <span class="section-subtitle">O GAP DA PERCEPÇÃO DE VALOR</span>
+                <h2 class="section-heading">Por que <span class="text-gradient">87% dos Advogados</span> não Consegue Cobrar o que Realmente Vale?</h2>
+                <p class="section-desc">A neurociência explica: o cérebro humano valoriza o tangível. Palavras são esquecidas, mas um artefato físico permanece.</p>
+            </div>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-number">01</div>
+                    <i class="fas fa-ghost"></i>
+                    <h3>O Fantasma do Intangível</h3>
+                    <p>O cliente sai da sua sala sem provas do seu trabalho. Em 24h, 80% do que você disse é esquecido. Sem algo para tocar, seu valor evapora.</p>
                 </div>
-                <div class="psy-card">
-                    <h3>Alívio da Ansiedade</h3>
-                    <p>Clientes de elite têm pavor da incerteza. O Dossiê oferece um "Mapa da Mina". Ao ver a jornada tática desenhada, o nível de cortisol cai e a confiança no seu trabalho explode.</p>
+                
+                <div class="problem-card">
+                    <div class="problem-number">02</div>
+                    <i class="fas fa-balance-scale-right"></i>
+                    <h3>Comparação por Preço</h3>
+                    <p>Se você entrega apenas "conselhos", automaticamente é comparado com o advogado mais barato. Sem tangibilidade, você é uma commodity.</p>
                 </div>
-                <div class="psy-card">
-                    <h3>Ancoragem de Status</h3>
-                    <p>Visual Law não é enfeite; é sinalização de elite. Documentos de alto padrão visual comunicam instantaneamente que você opera no topo da pirâmide jurídica.</p>
+                
+                <div class="problem-card">
+                    <div class="problem-number">03</div>
+                    <i class="fas fa-brain"></i>
+                    <h3>O Paradoxo da Insegurança</h3>
+                    <p>Quanto mais complexo o caso, mais o cliente duvida. Sem um plano materializado, a ansiedade vence a confiança e ele "vai pensar".</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="daily-use-section">
-        <div class="container">
-            <span style="color: var(--accent-gold); font-weight: 800; letter-spacing: 2px;">IMPLEMENTAÇÃO TÁTICA</span>
-            <h2 style="margin: 20px 0;">O Dossiê na Linha de Frente</h2>
-            <div class="daily-grid">
-                <div class="daily-card">
-                    <h3>01. Triagem Estratégica</h3>
-                    <p>Realize o diagnóstico inicial em minutos antes da reunião. Você já chega sabendo o Termômetro de Risco, posicionando-se como o médico especialista.</p>
+    <section style="background: #070707;">
+        <div class="container reveal">
+            <div class="section-title">
+                <span class="section-subtitle">NEUROCIÊNCIA APLICADA AO DIREITO</span>
+                <h2 class="section-heading">Os <span class="text-gradient">3 Gatilhos Mentais</span> que Convertem Clientes em Contratos</h2>
+                <p class="section-desc">Aplicando princípios de psicologia comportamental para fechar mais e melhor.</p>
+            </div>
+            
+            <div class="neuro-grid">
+                <div class="neuro-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Gatilho da Autoridade</h3>
+                    <p>O Dossiê Premium com Visual Law ativa o respeito automático. O cliente percebe que está lidando com um especialista, não um generalista.</p>
+                    <div style="margin-top: 20px; padding: 10px; background: rgba(212, 175, 55, 0.05); border-radius: 8px; font-size: 0.9rem;">
+                        <i class="fas fa-lightbulb" style="color: var(--accent-gold);"></i> <strong>Resultado:</strong> Honorários 42% maiores.
+                    </div>
                 </div>
-                <div class="daily-card">
-                    <h3>02. O Fim da Objeção</h3>
-                    <p>Na hora de passar honorários, o Dossiê já fez 80% do trabalho. O cliente já viu a complexidade e a solução materializada à sua frente.</p>
+                
+                <div class="neuro-card">
+                    <i class="fas fa-headphones-alt"></i>
+                    <h3>Gatilho da Familiaridade</h3>
+                    <p>O Podcast Estratégico cria uma conexão emocional única. O cliente ouve sua voz no carro, criando confiança subconsciente 24 horas por dia.</p>
+                    <div style="margin-top: 20px; padding: 10px; background: rgba(212, 175, 55, 0.05); border-radius: 8px; font-size: 0.9rem;">
+                        <i class="fas fa-lightbulb" style="color: var(--accent-gold);"></i> <strong>Resultado:</strong> 67% menos desistências.
+                    </div>
                 </div>
-                <div class="daily-card">
-                    <h3>03. Blindagem Pós-Venda</h3>
-                    <p>O Dossiê é o vendedor que fica com o cliente. Quando ele for "pensar", ele terá em mãos o mapa da autoridade que você construiu.</p>
+                
+                <div class="neuro-card">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h3>Gatilho da Reciprocidade</h3>
+                    <p>Ao entregar valor imediato (Dossiê + Podcast), você ativa a necessidade psicológica de retribuir. O cliente sente que "já ganhou algo" e quer fechar.</p>
+                    <div style="margin-top: 20px; padding: 10px; background: rgba(212, 175, 55, 0.05); border-radius: 8px; font-size: 0.9rem;">
+                        <i class="fas fa-lightbulb" style="color: var(--accent-gold);"></i> <strong>Resultado:</strong> Fechamento em 72 horas.
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="table-section">
-        <div class="container">
-            <span style="color: var(--accent-gold); font-weight: 800; letter-spacing: 2px;">DIFERENCIAL COMPETITIVO</span>
-            <h2 style="margin: 20px 0 60px;">Grife Jurídica vs. Advogado Médio</h2>
+    <section id="arsenal">
+        <div class="container reveal">
+            <div class="side-grid">
+                <div class="side-image float-animation">
+                    <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Exemplo de Dossiê HonorariosPro">
+                </div>
+                <div class="side-text">
+                    <span class="section-subtitle">AUTOMAÇÃO DE ELITE</span>
+                    <h2 style="font-size: 2.5rem; margin: 15px 0 25px;">O Dossiê que <span class="text-gradient">Trabalha por Você</span>, 24 Horas por Dia</h2>
+                    <p style="margin-bottom: 25px; font-size: 1.1rem; line-height: 1.7; color: #ccc;">Nosso sistema gera em 8 minutos o material que levaria 6 horas. Visual Law industrial, gráficos de risco, análise estratégica personalizada e design de luxo que transmite autoridade instantânea.</p>
+                    <ul style="list-style: none; color: #ccc; margin-bottom: 30px;">
+                        <li style="margin-bottom: 15px; padding-left: 30px; position: relative;">
+                            <i class="fas fa-check-circle" style="color:var(--accent-gold); position: absolute; left: 0; top: 3px;"></i> 
+                            <strong>Geração Expressa:</strong> Dossiê completo em menos de 8 minutos
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 30px; position: relative;">
+                            <i class="fas fa-check-circle" style="color:var(--accent-gold); position: absolute; left: 0; top: 3px;"></i> 
+                            <strong>White Label Total:</strong> Sua marca, seu logo, sua identidade
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 30px; position: relative;">
+                            <i class="fas fa-check-circle" style="color:var(--accent-gold); position: absolute; left: 0; top: 3px;"></i> 
+                            <strong>Scripts de Fechamento:</strong> Frases exatas para justificar honorários altos
+                        </li>
+                        <li style="margin-bottom: 15px; padding-left: 30px; position: relative;">
+                            <i class="fas fa-check-circle" style="color:var(--accent-gold); position: absolute; left: 0; top: 3px;"></i> 
+                            <strong>Podcast Automático:</strong> Converta sua análise em áudio profissional
+                        </li>
+                    </ul>
+                    <a href="#precos" class="btn-gold" style="display: inline-block;">
+                        <i class="fas fa-rocket"></i> VER O SISTEMA EM AÇÃO
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="arsenal-section">
+        <div class="container reveal">
+            <div class="section-title">
+                <span class="section-subtitle">O ARSENAL COMPLETO</span>
+                <h2 class="section-heading">Tudo que Você Precisa para <span class="text-gradient">Dominar o Mercado</span></h2>
+                <p class="section-desc">Ferramentas projetadas para advogados que não aceitam ser commodities.</p>
+            </div>
+            
+            <div class="arsenal-grid">
+                <div class="arsenal-card">
+                    <div class="arsenal-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Gerador de Dossiês</h3>
+                    <p>Mais de 50 templates de Visual Law para todas as áreas do Direito. Personalização completa em minutos.</p>
+                </div>
+                
+                <div class="arsenal-card">
+                    <div class="arsenal-icon">
+                        <i class="fas fa-podcast"></i>
+                    </div>
+                    <h3>Studio de Podcast</h3>
+                    <p>Converta sua análise em áudio profissional. Interface que simula um estúdio real de gravação.</p>
+                </div>
+                
+                <div class="arsenal-card">
+                    <div class="arsenal-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Calculadora de Honorários</h3>
+                    <p>Determine o valor exato com base em complexidade, urgência e potencial econômico do caso.</p>
+                </div>
+                
+                <div class="arsenal-card">
+                    <div class="arsenal-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3>Modelos de Contratos</h3>
+                    <p>Contratos adaptáveis que protegem você e justificam seu valor perante o cliente.</p>
+                </div>
+                
+                <div class="arsenal-card">
+                    <div class="arsenal-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Treinamento de Fechamento</h3>
+                    <p>Módulos em vídeo ensinando as frases exatas para superar objeções de preço.</p>
+                </div>
+                
+                <div class="arsenal-card">
+                    <div class="arsenal-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Comunidade Elite</h3>
+                    <p>Acesso a grupo secreto com os maiores nomes do Direito discutindo estratégias avançadas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: #050505;">
+        <div class="container reveal">
+            <div class="section-title">
+                <h2 class="section-heading">Compare e <span class="text-gradient">Decida por Resultados</span></h2>
+                <p class="section-desc">A diferença entre ser um profissional comum e um advogado de elite.</p>
+            </div>
+            
             <div class="table-wrapper">
-                <table class="comparison-table">
+                <table class="comp-table">
                     <thead>
-                        <tr><th>Critério</th><th>Método Antigo (Commodity)</th><th class="col-highlight">Estrategista Padrão Pro</th></tr>
+                        <tr>
+                            <th style="text-align: left;">Experiência do Cliente</th>
+                            <th>Advogado Comum</th>
+                            <th class="gold-col">Advogado HonorariosPro</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr><td class="td-criteria">Valor da Consulta</td><td>Zero (Bate-papo grátis)</td><td class="col-highlight">Diagnóstico de Inteligência Paga</td></tr>
-                        <tr><td class="td-criteria">Entrega de Valor</td><td>Conselhos Verbais Soltos</td><td class="col-highlight">Dossiê Estratégico Tangível</td></tr>
-                        <tr><td class="td-criteria">Posicionamento</td><td>Fornecedor de Mão de Obra</td><td class="col-highlight">Conselheiro de Elite</td></tr>
-                        <tr><td class="td-criteria">Fechamento</td><td>Briga por Preço</td><td class="col-highlight">Valor Inquestionável</td></tr>
+                        <tr>
+                            <td style="text-align: left;"><i class="fas fa-box-open" style="margin-right: 10px; color: #666;"></i> Entrega Final</td>
+                            <td>Apenas conselhos verbais (intangível)</td>
+                            <td class="gold-col"><strong>Dossiê Físico/Digital + Podcast</strong> (tangível)</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;"><i class="fas fa-star" style="margin-right: 10px; color: #666;"></i> Percepção de Valor</td>
+                            <td>Baixa (commodity, comparado por preço)</td>
+                            <td class="gold-col"><strong>Altíssima</strong> (especialista, comparado por resultado)</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;"><i class="fas fa-percentage" style="margin-right: 10px; color: #666;"></i> Taxa de Fechamento</td>
+                            <td>20% a 30% (depende da sorte)</td>
+                            <td class="gold-col"><strong>78% a 94%</strong> (processo científico)</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;"><i class="fas fa-money-bill-wave" style="margin-right: 10px; color: #666;"></i> Honorário por Consulta</td>
+                            <td>R$ 300 - R$ 800 (mercado saturado)</td>
+                            <td class="gold-col"><strong>R$ 1.200 - R$ 3.500+</strong> (mercado premium)</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;"><i class="fas fa-comments" style="margin-right: 10px; color: #666;"></i> Objeção Mais Comum</td>
+                            <td>"Está caro", "Vou pensar", "Preciso conversar com..."</td>
+                            <td class="gold-col"><strong>"Como eu pago?"</strong>, "Quando podemos começar?"</td>
+                        </tr>
                     </tbody>
                 </table>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="color: #888; font-size: 1.1rem;">A escolha é clara: continuar competindo por preço ou dominar pelo valor percebido.</p>
             </div>
         </div>
     </section>
 
     <section class="testimonials-section">
-        <div class="container">
-            <span style="color: var(--accent-gold); font-weight: 800; letter-spacing: 2px;">RESULTADOS REAIS</span>
-            <h2 style="margin: 20px 0;">Vozes da Autoridade Incontestável</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <p>"Eu tinha medo de cobrar consulta. Com o Padrão Pro, o Dossiê faz o fechamento por mim. Hoje cobro R$ 1.500 pela reunião e o cliente paga sorrindo."</p>
-                    <div class="author">
-                        <div class="author-img" style="background: url('https://ui-avatars.com/api/?name=Dr+Ricardo') center/cover;"></div>
-                        <div class="author-info"><strong>Dr. Ricardo M.</strong><span>Tributário High-Ticket</span></div>
+        <div class="container reveal">
+            <div class="section-title">
+                <span class="section-subtitle">QUEM JÁ TRANSFORMOU</span>
+                <h2 class="section-heading"><span class="text-gradient">Advogados Reais, Resultados Reais</span></h2>
+                <p class="section-desc">Depoimentos de profissionais que multiplicaram seus honorários com o método.</p>
+            </div>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial-item">
+                    <div class="testimonial-text">
+                        "Antes do HonorariosPro, minhas consultas eram R$ 500 e eu fechava 1 a cada 5 clientes. Hoje cobro R$ 2.400 pelo Diagnóstico Premium e fecho 4 a cada 5. O Dossiê materializado eliminou a objeção de preço."
                     </div>
-                </div>
-                <div class="testimonial-card">
-                    <p>"A Regra das 3 Horas mudou meu faturamento. Enquanto os outros pedem dias, eu entrego o diagnóstico em horas. O cliente se sente exclusivo."</p>
-                    <div class="author">
-                        <div class="author-img" style="background: url('https://ui-avatars.com/api/?name=Dra+Helena') center/cover;"></div>
-                        <div class="author-info"><strong>Dra. Helena S.</strong><span>Família Boutique</span></div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p>"Parecia impossível cobrar consulta. Com a materialização do Dossiê, o cliente agora agradece por pagar. Inverteu o jogo do poder jurídico."</p>
-                    <div class="author">
-                        <div class="author-img" style="background: url('https://ui-avatars.com/api/?name=Dr+Thiago') center/cover;"></div>
-                        <div class="author-info"><strong>Dr. Thiago V.</strong><span>Advocacia Criminalista</span></div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">DR</div>
+                        <div class="author-info">
+                            <h4>Dra. Renata Mendes</h4>
+                            <p>Advogada de Família | São Paulo/SP</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="cta-wrapper"><a href="validaprova.html" class="btn-gold">Garantir Meu Acesso à Elite</a></div>
-        </div>
-    </section>
-
-    <section class="faq">
-        <div class="container">
-            <h2 style="margin-bottom: 50px;">Blindagem de Objeções</h2>
-            <details><summary>O cliente realmente paga a consulta?</summary><div class="faq-answer">Sim. Você muda o framing: ele paga pelo Diagnóstico Estratégico (um ativo tangível), não por uma conversa. O cérebro humano valoriza o objeto, não o tempo.</div></details>
-            <details><summary>Isso serve para qualquer área do Direito?</summary><div class="faq-answer">Absolutamente. Onde houver incerteza e necessidade de autoridade, o Dossiê funciona. Do Criminal ao Tributário.</div></details>
-            <details><summary>É demorado gerar o dossiê?</summary><div class="faq-answer">Não. O sistema sistematiza 80% do processo. Você foca sua inteligência nos 20% estratégicos. 12 minutos é o tempo médio.</div></details>
-            <details><summary>O design é profissional mesmo?</summary><div class="faq-answer">Design industrial sóbrio, com tipografia e cores focado em Cognição Jurídica e Autoridade.</div></details>
-            <details><summary>Meus dados processuais estão seguros?</summary><div class="faq-answer">Criptografia de nível bancário e conformidade integral com a LGPD. Não armazenamos seus dossiês permanentemente.</div></details>
-            <details><summary>Como o dossiê ajuda a fechar honorários altos?</summary><div class="faq-answer">Ele ancora o valor no topo. O cliente vê o risco e o benefício claramente, tornando seu honorário um investimento irrisório.</div></details>
-            <details><summary>Posso usar no presencial ou online?</summary><div class="faq-answer">Ambos. No presencial, o dossiê impresso é fatal para a conversão. No online, o compartilhamento de tela gera impacto imediato.</div></details>
-            <details><summary>Preciso de uma equipe de marketing?</summary><div class="faq-answer">Não. O Padrão Pro foi desenhado para ser usado pelo próprio advogado sênior de forma autônoma e ágil.</div></details>
-            <details><summary>E se eu não souber Visual Law?</summary><div class="faq-answer">Você não precisa saber. O sistema aplica as melhores práticas de Visual Law e Psicologia automaticamente.</div></details>
-            <details><summary>Qual o risco de eu testar?</summary><div class="faq-answer">Garantia incondicional no primeiro crédito. Se o seu dossiê não elevar o nível da sua reunião, devolvemos o valor.</div></details>
-        </div>
-    </section>
-
-    <footer class="pro-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand"><span class="footer-logo">PADRÃOPRO</span><p>Tecnologia e Neurociência aplicada para transformar advogados seniores em grifes jurídicas incontestáveis através da materialização da inteligência.</p></div>
-                <div><span class="footer-heading">Metodologia</span><ul class="footer-links"><li><a href="#">Dossiê Estratégico</a></li><li><a href="#">Protocolo 3 Horas</a></li><li><a href="#">Engenharia do Sim</a></li></ul></div>
-                <div><span class="footer-heading">Institucional</span><ul class="footer-links"><li><a href="#">Área do Cliente</a></li><li><a href="#">Termos e Condições</a></li><li><a href="#">Política de Privacidade</a></li></ul></div>
-                <div><span class="footer-heading">Contato</span><p style="color:#666; font-size:0.95rem; margin-bottom:15px;"><i class="fab fa-whatsapp" style="color:var(--accent-gold); margin-right:10px;"></i> +55 (11) 99999-9999</p><p style="color:#666; font-size:0.95rem;"><i class="far fa-envelope" style="color:var(--accent-gold); margin-right:10px;"></i> suporte@padraopro.com</p></div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <div style="display: inline-flex; gap: 10px;">
+                    <div style="width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%;"></div>
+                    <div style="width: 12px; height: 12px; background: rgba(212, 175, 55, 0.3); border-radius: 50%;"></div>
+                    <div style="width: 12px; height: 12px; background: rgba(212, 175, 55, 0.3); border-radius: 50%;"></div>
+                </div>
             </div>
-            <div class="footer-bottom"><div>&copy; 2025 PADRÃOPRO. Inteligência para o Topo da Pirâmide.</div><div style="display:flex; gap:20px;"><a href="#" style="color:#444; text-decoration:none;">LGPD</a> | <a href="#" style="color:#444; text-decoration:none;">GDPR</a></div></div>
+        </div>
+    </section>
+
+    <section id="precos" class="pricing-section">
+        <div class="container reveal">
+            <div class="section-title">
+                <span class="section-subtitle">INVESTIMENTO E RETORNO</span>
+                <h2 class="section-heading">Acesso Imediato ao <span class="text-gradient">Arsenal Completo</span></h2>
+                <p class="section-desc">Menos que 1 consulta pelo método que vai multiplicar seu faturamento.</p>
+            </div>
+            
+            <div class="price-card">
+                <div class="price-badge">MAIS POPULAR</div>
+                
+                <div class="price-tag">R$ 497<span style="font-size: 2rem;">,00</span></div>
+                <div class="price-period">À vista ou 12x de R$ 49,90 | Acesso vitalício</div>
+                
+                <div style="margin: 30px 0;">
+                    <a href="#" class="btn-gold pulse-gold" style="font-size: 1.1rem; padding: 22px 50px;">
+                        <i class="fas fa-gem"></i> QUERO MINHA SOBERANIA JURÍDICA
+                    </a>
+                </div>
+                
+                <div class="price-bonus">
+                    <h3 style="color: var(--accent-gold); margin-bottom: 20px; font-size: 1.3rem;">
+                        <i class="fas fa-gift"></i> BÔNUS ESPECIAIS (Limitados):
+                    </h3>
+                    <ul class="bonus-list">
+                        <li><strong>Playbook de Fechamento:</strong> As 27 frases exatas para justificar honorários altos (R$ 297)</li>
+                        <li><strong>50 Templates de Visual Law:</strong> Para todas as áreas do Direito (R$ 497)</li>
+                        <li><strong>Mentoria Coletiva:</strong> 4 encontros ao vivo com especialistas (R$ 997)</li>
+                        <li><strong>Calculadora de Honorários:</strong> Software exclusivo de precificação (R$ 197)</li>
+                    </ul>
+                    <div style="margin-top: 25px; padding: 15px; background: rgba(212, 175, 55, 0.05); border-radius: 10px; text-align: center;">
+                        <strong>TOTAL EM BÔNUS: <span style="color: var(--accent-gold);">R$ 1.988,00</span></strong>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; font-size: 0.9rem; color: #666; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                    <div><i class="fas fa-lock"></i> Pagamento 100% Seguro</div>
+                    <div><i class="fas fa-shield-alt"></i> Garantia Incondicional de 7 Dias</div>
+                    <div><i class="fas fa-infinity"></i> Acesso Vitalício e Atualizações</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="guarantee-section">
+        <div class="container reveal">
+            <div class="guarantee-box">
+                <div class="guarantee-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h2 style="font-size: 2.2rem; margin-bottom: 20px;">Garantia Incondicional de 7 Dias</h2>
+                <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: 0 auto 30px; line-height: 1.7;">
+                    Teste o HonorariosPro por 7 dias. Se você não gerar pelo menos <strong>um Dossiê que justifique honorários 3x maiores</strong>, devolvemos 100% do seu investimento. Sem perguntas, sem burocracia.
+                </p>
+                <p style="color: var(--accent-gold); font-weight: 700; font-size: 1.1rem;">
+                    <i class="fas fa-check-circle"></i> Risco Zero | Decisão Consciente
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: #070707;">
+        <div class="container reveal">
+            <div class="section-title">
+                <h2 class="section-heading">Perguntas <span class="text-gradient">Frequentes</span></h2>
+                <p class="section-desc">Tudo o que você precisa saber antes de dar o próximo passo na sua carreira.</p>
+            </div>
+            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div class="faq-item">
+                    <div class="faq-question">Qual a diferença real entre entregar um dossiê e fazer uma consulta tradicional? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>A consulta tradicional é volátil; 80% do que você fala é esquecido pelo cliente em 24 horas. O <strong>Dossiê Materializado</strong> é um artefato físico ou digital que o cliente "leva para casa". Ele transforma o seu serviço em um produto tangível, eliminando a sensação de que o cliente "pagou apenas por uma conversa".</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Eu já estou sobrecarregado. Quanto tempo realmente levo para gerar esse material? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>O sistema foi desenhado para a rotina exaustiva do advogado. Com nossos modelos pré-configurados, você leva <strong>menos de 8 minutos</strong> para preencher os dados estratégicos e gerar um material com Visual Law de altíssimo nível. É menos tempo do que você gasta escrevendo um e-mail de resumo.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Posso vender o Dossiê como um produto separado da consulta? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Com certeza. Muitos de nossos usuários criaram uma nova fonte de receita: o <strong>Diagnóstico Jurídico Premium</strong>. Em vez de cobrar R$ 300 por uma consulta, eles cobram R$ 1.200 pelo Diagnóstico + Dossiê. O cliente aceita pagar mais porque ele está "comprando" um documento, não apenas o seu tempo.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">O sistema funciona para qualquer área do Direito? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Sim. Temos templates específicos para mais de 15 áreas: Família, Cível, Trabalhista, Empresarial, Tributário, Criminal, Digital, Imobiliário e outras. Cada template tem linguagem e estrutura adequadas à respectiva área, criados por especialistas.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Como funciona o "Podcast Estratégico" na prática? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Após a consulta, você grava um áudio curto (3 a 5 min) resumindo os próximos passos. Nossa ferramenta processa esse áudio e o entrega em uma interface de podcast personalizada para o cliente. Isso gera um impacto psicológico absurdo, pois o cliente ouve sua autoridade no trajeto para casa, reforçando a decisão de contratar você.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">E se o cliente levar o Dossiê e decidir não fechar o processo comigo? <span>+</span></div>
+                    <div class="faq-answer">
+                        <p>Nesse caso, ele já pagou pelo Dossiê (o Diagnóstico). Você foi remunerado pela sua inteligência e ele saiu satisfeito com um material de valor. No entanto, as estatísticas mostram que a entrega do Dossiê <strong>aumenta em até 75%</strong> a retenção, pois o cliente sente que você é o único profissional capaz de executar o plano que você mesmo materializou.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta">
+        <div class="container">
+            <div class="final-cta-content reveal">
+                <h2 style="font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 25px; font-family: var(--font-display);">
+                    Chegou a Hora de Decidir: <span class="text-gradient">Commodity ou Autoridade?</span>
+                </h2>
+                <p style="font-size: 1.2rem; color: #ccc; max-width: 700px; margin: 0 auto 40px; line-height: 1.7;">
+                    Amanhã, você terá mais uma consulta. Será que vai ouvir "vou pensar" novamente? Ou vai entregar um Dossiê que justifica R$ 2.400 e ouvir "como eu pago?".
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                    <a href="#precos" class="btn-gold pulse-gold" style="font-size: 1.1rem; padding: 22px 50px;">
+                        <i class="fas fa-crown"></i> QUERO SER AUTORIDADE NO DIREITO
+                    </a>
+                    <p style="color: #888; font-size: 0.9rem;">
+                        <i class="fas fa-clock"></i> Oferta especial com bônus termina em: <span id="countdown" style="color: var(--accent-gold); font-weight: 700;">02:59:59</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <a href="#" class="logo" style="margin-bottom: 30px; display: inline-block;">
+                <i class="fas fa-gavel logo-icon"></i>
+                HONORARIOSPRO
+            </a>
+            
+            <div class="social-icons">
+                <a href="#" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            
+            <ul class="footer-links">
+                <li><a href="#">Privacidade</a></li>
+                <li><a href="#">Termos de Uso</a></li>
+                <li><a href="#">Suporte</a></li>
+                <li><a href="#">Afiliados</a></li>
+                <li><a href="#">Blog Jurídico</a></li>
+            </ul>
+            
+            <p style="font-size: 0.8rem; color: #444; margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <i class="fas fa-exclamation-circle"></i> Este site não é afiliado ao Facebook ou a qualquer entidade do Facebook. Depois que você sair do Facebook, a responsabilidade não é deles e sim do nosso site. Fazemos todos os esforços para indicar claramente e mostrar todas as provas do produto e usamos resultados reais.
+            </p>
+            
+            <p style="font-size: 0.7rem; color: #333; margin-top: 40px;">
+                &copy; 2025 HonorariosPro. A ciência de materializar a inteligência jurídica. CNPJ: 00.000.000/0000-00
+            </p>
         </div>
     </footer>
 
-</body>
+    <script>
+        // Reveal animation on scroll
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.onload = reveal;
 
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', event => {
+                let parent = item.parentElement;
+                parent.classList.toggle('active');
+                
+                let answer = item.nextElementSibling;
+                if (parent.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                } else {
+                    answer.style.maxHeight = null;
+                }
+            });
+        });
+
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(23, 59, 59, 999);
+            
+            const diff = tomorrow - now;
+            
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add hover effects to cards
+        document.querySelectorAll('.problem-card, .neuro-card, .arsenal-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+    </script>
+</body>
 </html>
